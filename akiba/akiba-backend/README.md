@@ -1,0 +1,1 @@
+Czesc BE systemu
