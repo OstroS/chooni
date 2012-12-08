@@ -8,7 +8,8 @@ Tworzysz katalog na projekt. Nastepnie:
 >
 >git config --global user.email "your_email@youremail.com"
 >
-> git remote add origin https://github.com/username/chooni.git 
+> git remote add origin git@github.com:OstroS/chooni.git
+>
 
 # Utworzenie klucza ssh
 
