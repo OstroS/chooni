@@ -20,6 +20,9 @@ import pl.akiba.model.entities.User;
 public class addExpenseController extends HttpServlet {
 
     private final String viewUrl = "/jsp/expenses/addExpense.jsp";
+    public static final String KINDS_REF = "kinds";
+    public static final String PROFILES_REF = "profiles";
+    public static final String ERR_REF = "errMsg";
     
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -36,7 +39,7 @@ public class addExpenseController extends HttpServlet {
             throws ServletException, IOException {
         
         // set error msg
-        request.setAttribute("errMsg", "Not yet implemented");
+        request.setAttribute(ERR_REF, "Not yet implemented");
         
         prepareAndBindCommonData( request);
         
@@ -86,7 +89,7 @@ public class addExpenseController extends HttpServlet {
         List<Profile> profiles = prepareProfilesForUser(user);
         
         // bind data into request
-        request.setAttribute("kinds", kinds);
-        request.setAttribute("profiles", profiles);
+        request.setAttribute(KINDS_REF, kinds);
+        request.setAttribute(PROFILES_REF, profiles);
     }
 }

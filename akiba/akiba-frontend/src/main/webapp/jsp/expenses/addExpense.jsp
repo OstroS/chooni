@@ -1,3 +1,4 @@
+<%@page import="pl.akiba.frontend.expenses.controller.addExpenseController"%>
 <%@page import="pl.akiba.model.entities.Profile"%>
 <%@page import="java.util.List"%>
 <%@page import="pl.akiba.model.entities.Kind"%>
@@ -18,7 +19,7 @@
                 Kind: 
                 <select name="kind">
                     <%
-                        List<Kind> kinds = (List<Kind>) request.getAttribute("kinds");
+                        List<Kind> kinds = (List<Kind>) request.getAttribute(addExpenseController.KINDS_REF);
                         for (Kind kind : kinds) {
                             out.print("<option value=\"" + kind.getId() + "\">" + kind.getName() + "</option>");
                         }
@@ -30,7 +31,7 @@
                 Profile: 
                 <select name="profile">
                     <%
-                        List<Profile> profiles = (List<Profile>) request.getAttribute("profiles");
+                        List<Profile> profiles = (List<Profile>) request.getAttribute(addExpenseController.PROFILES_REF);
                         for (Profile profile : profiles) {
                             out.print("<option value=\"" + profile.getId() + "\">" + profile.getName() + "</option>");
                         }
