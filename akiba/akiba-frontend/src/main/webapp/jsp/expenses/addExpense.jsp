@@ -14,7 +14,7 @@
         <h1>Add expense</h1>
         <p>${errMsg}</p>
         <form action="./add" method = "POST">
-            <p>Amount: <input type="text" name="amount"/></p>
+            <p>Amount: <input type="text" name="amount" /></p>
             <p>
                 Kind: 
                 <select name="kind">

@@ -20,9 +20,13 @@ import pl.akiba.model.entities.User;
 public class addExpenseController extends HttpServlet {
 
     private final String viewUrl = "/jsp/expenses/addExpense.jsp";
+    
+    public static final String AMOUNT_REF = "amount";
     public static final String KINDS_REF = "kinds";
     public static final String PROFILES_REF = "profiles";
     public static final String ERR_REF = "errMsg";
+    
+    
     
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -38,8 +42,12 @@ public class addExpenseController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        Integer amount = Integer.parseInt(request.getParameter("amount"));
+        Integer kindId = Integer.parseInt(request.getParameter("kind"));
+        Integer profileId = Integer.parseInt(request.getParameter("profile"));
+        
         // set error msg
-        request.setAttribute(ERR_REF, "Not yet implemented");
+        request.setAttribute(ERR_REF, "Not yet implemented {amount=" + amount + ", kindId=" + kindId + ", profileId" + profileId + "]");
         
         prepareAndBindCommonData( request);
         
