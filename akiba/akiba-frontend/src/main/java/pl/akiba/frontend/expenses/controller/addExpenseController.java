@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
+import pl.akiba.frontend.expenses.service.KindsService;
+import pl.akiba.frontend.expenses.service.ProfilesService;
 import pl.akiba.model.entities.Expense;
 import pl.akiba.model.entities.Kind;
 import pl.akiba.model.entities.Profile;
@@ -28,8 +30,11 @@ public class addExpenseController {
         ModelAndView model = new ModelAndView();
         model.setViewName("/expenses/addExpense");
         
-        model.addObject("kinds", prepareKindsforUser(new User()));
-        model.addObject("profiles", prepareProfilesForUser(new User()));
+        KindsService ks = new KindsService();
+        model.addObject("kinds", ks.prepareKindsforUser(new User()));
+        
+        ProfilesService ps = new ProfilesService();
+        model.addObject("profiles", ps.prepareProfilesForUser(new User()));
         
         model.addObject("command", new Expense());
         return model;
@@ -44,29 +49,7 @@ public class addExpenseController {
          
         return model;
     }
-    /**
-     * TODO mock method
-     * @param user Current user
-     * @return List of kinds of expense for given user
-     */
-    private List<Kind> prepareKindsforUser(User user) {
-        return Lists.newArrayList(new Kind(0, "Alkohol"),
-                                  new Kind(1, "Zywnosc"),
-                                  new Kind(2, "Prasa"),
-                                  new Kind(3, "Ksiazki"),
-                                  new Kind(4, "Squash"),
-                                  new Kind(5, "Biegowki"));
-    }
 
-    /**
-     * TODO Mock method
-     * 
-     * @param user Current user
-     * @return List of profiles for given user
-     */
-    private List<Profile> prepareProfilesForUser(User user) {
-        return Lists.newArrayList(new Profile(0, "Prywanty"),
-                                  new Profile(1, "Biznes"),
-                                  new Profile(2, "Rodzinny"));
-    }
+
+
 }
