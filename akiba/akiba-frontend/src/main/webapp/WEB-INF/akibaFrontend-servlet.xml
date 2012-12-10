@@ -9,6 +9,8 @@
 
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<annotation-driven />
+        
+        <context:component-scan base-package="pl.akiba.frontend.expenses.controller" />
 
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/jsp/" />

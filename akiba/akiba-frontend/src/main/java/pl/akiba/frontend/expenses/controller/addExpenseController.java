@@ -1,13 +1,15 @@
 package pl.akiba.frontend.expenses.controller;
 
 import com.google.common.collect.Lists;
-import java.io.IOException;
 import java.util.List;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.ModelAndView;
+import pl.akiba.model.entities.Expense;
 import pl.akiba.model.entities.Kind;
 import pl.akiba.model.entities.Profile;
 import pl.akiba.model.entities.User;
@@ -16,45 +18,32 @@ import pl.akiba.model.entities.User;
  * Controller that implements adding new expense logic
  * @author OstroS
  */
-@WebServlet(name = "addExpenseController", urlPatterns = {"/expence/add"})
-public class addExpenseController extends HttpServlet {
-
-    private final String viewUrl = "/jsp/expenses/addExpense.jsp";
+@Controller
+@RequestMapping("/expence/add")
+@SessionAttributes
+public class addExpenseController {
     
-    public static final String AMOUNT_REF = "amount";
-    public static final String KINDS_REF = "kinds";
-    public static final String PROFILES_REF = "profiles";
-    public static final String ERR_REF = "errMsg";
-    
-    
-    
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    @RequestMapping(method= RequestMethod.GET)
+    public ModelAndView showExpenses() {
+        ModelAndView model = new ModelAndView();
+        model.setViewName("/expenses/addExpense");
         
-        prepareAndBindCommonData( request);
+        model.addObject("kinds", prepareKindsforUser(new User()));
+        model.addObject("profiles", prepareProfilesForUser(new User()));
         
-        // forward to jsp
-        request.getRequestDispatcher(viewUrl).forward(request, response);
+        model.addObject("command", new Expense());
+        return model;
     }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        
-        Integer amount = Integer.parseInt(request.getParameter("amount"));
-        Integer kindId = Integer.parseInt(request.getParameter("kind"));
-        Integer profileId = Integer.parseInt(request.getParameter("profile"));
-        
-        // set error msg
-        request.setAttribute(ERR_REF, "Not yet implemented {amount=" + amount + ", kindId=" + kindId + ", profileId" + profileId + "]");
-        
-        prepareAndBindCommonData( request);
-        
-        // forward to jsp
-        request.getRequestDispatcher(viewUrl).forward(request, response);
+    
+    @RequestMapping(method = RequestMethod.POST)
+    public ModelAndView addExpenses(@ModelAttribute("expense") Expense expense, BindingResult result) {
+        ModelAndView model = new ModelAndView();
+        model.setViewName("/expenses/addExpense");
+        model.addObject("command", expense);
+        System.out.println(expense.getAmount() + " " + expense.getKind());
+         
+        return model;
     }
-
     /**
      * TODO mock method
      * @param user Current user
@@ -79,25 +68,5 @@ public class addExpenseController extends HttpServlet {
         return Lists.newArrayList(new Profile(0, "Prywanty"),
                                   new Profile(1, "Biznes"),
                                   new Profile(2, "Rodzinny"));
-    }
-
-    /**
-     * TODO Mock method
-     * @param request
-     * @return Returns current user
-     */
-    private User getUser(HttpServletRequest request) {
-        return new User();
-    }
-
-    private void prepareAndBindCommonData(HttpServletRequest request) {
-        // prepare data
-        User user = getUser(request);
-        List<Kind> kinds = prepareKindsforUser(user);
-        List<Profile> profiles = prepareProfilesForUser(user);
-        
-        // bind data into request
-        request.setAttribute(KINDS_REF, kinds);
-        request.setAttribute(PROFILES_REF, profiles);
     }
 }
