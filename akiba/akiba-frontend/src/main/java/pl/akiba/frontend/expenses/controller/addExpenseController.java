@@ -19,7 +19,7 @@ import pl.akiba.model.entities.User;
  * @author OstroS
  */
 @Controller
-@RequestMapping("/expence/add")
+@RequestMapping("/expense/add")
 @SessionAttributes
 public class addExpenseController {
     
