@@ -12,22 +12,22 @@ import java.math.BigDecimal;
  */
 public class Expense {
     private BigDecimal amount;
-    private String kind;
-    private String profile;
+    private Kind kind;
+    private Profile profile;
 
-    public String getProfile() {
+    public Profile getProfile() {
         return profile;
     }
 
-    public void setProfile(String profile) {
+    public void setProfile(Profile profile) {
         this.profile = profile;
     }
 
-    public String getKind() {
+    public Kind getKind() {
         return kind;
     }
 
-    public void setKind(String kind) {
+    public void setKind(Kind kind) {
         this.kind = kind;
     }
 
@@ -38,6 +38,10 @@ public class Expense {
     public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
-    
+
+    @Override
+    public String toString() {
+        return "Expense{" + "amount=" + amount + ", kind=" + kind + ", profile=" + profile + '}';
+    }
     
 }

@@ -28,4 +28,9 @@ public class Kind {
         this.id = id;
         this.name = name;
     }   
+
+    @Override
+    public String toString() {
+        return "Kind{" + "id=" + id + ", name=" + name + '}';
+    }
 }

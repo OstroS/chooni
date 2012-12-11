@@ -30,5 +30,9 @@ public class Profile {
         this.id = id;
         this.name = name;
     }
-    
+
+    @Override
+    public String toString() {
+        return "Profile{" + "id=" + id + ", name=" + name + '}';
+    }
 }
