@@ -1,5 +1,6 @@
 package pl.akiba.frontend.expenses.service;
 
+import org.springframework.stereotype.Component;
 import pl.akiba.model.entities.Expense;
 import pl.akiba.model.entities.User;
 
@@ -8,7 +9,7 @@ import pl.akiba.model.entities.User;
  *
  * @author OstroS
  */
-
+@Component("expensesService")
 public class ExpensesService {
     
     /**

@@ -2,6 +2,7 @@ package pl.akiba.frontend.expenses.service;
 
 import com.google.common.collect.Lists;
 import java.util.List;
+import org.springframework.stereotype.Component;
 import pl.akiba.model.entities.Kind;
 import pl.akiba.model.entities.User;
 
@@ -9,6 +10,7 @@ import pl.akiba.model.entities.User;
  *
  * @author OstroS
  */
+@Component("kindsService")
 public class KindsService {
     private final static List<Kind> kinds;
     

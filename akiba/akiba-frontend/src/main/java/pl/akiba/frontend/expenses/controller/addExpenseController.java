@@ -1,5 +1,6 @@
 package pl.akiba.frontend.expenses.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -22,6 +23,15 @@ import pl.akiba.model.entities.User;
 @SessionAttributes
 public class addExpenseController {
     
+    @Autowired
+    private ExpensesService es;
+    
+    @Autowired
+    private KindsService kindsService;
+    
+    @Autowired
+    private ProfilesService profilesService;
+    
     @RequestMapping(method= RequestMethod.GET)
     public ModelAndView showExpenses() {
         ModelAndView model = prepareModelAndView();
@@ -31,7 +41,6 @@ public class addExpenseController {
     @RequestMapping(method = RequestMethod.POST)
     public ModelAndView addExpenses(@ModelAttribute("expense") Expense expense, BindingResult result) {
         
-        ExpensesService es = new ExpensesService();
         es.addExpense(expense, new User());
         
         ModelAndView model = prepareModelAndView();
@@ -43,11 +52,8 @@ public class addExpenseController {
         ModelAndView model = new ModelAndView();
         model.setViewName("/expenses/addExpense");
         
-        KindsService ks = new KindsService();
-        model.addObject("kinds", ks.prepareKindsforUser(new User()));
-        
-        ProfilesService ps = new ProfilesService();
-        model.addObject("profiles", ps.prepareProfilesForUser(new User()));
+        model.addObject("kinds", kindsService.prepareKindsforUser(new User()));
+        model.addObject("profiles", profilesService.prepareProfilesForUser(new User()));
         
         model.addObject("command", new Expense());
         
