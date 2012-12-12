@@ -101,6 +101,20 @@
             <artifactId>spring-social-facebook</artifactId>
             <version>1.0.2.RELEASE</version>
         </dependency>
+        
+        <!-- potrzebne do adnotacji @Configure uzywanej do konfiguracji spring-social-facebook -->
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib</artifactId>
+            <version>2.2.2</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.2.1</version>
+        </dependency>
+            
     </dependencies>
 
     <build>

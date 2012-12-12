@@ -13,6 +13,7 @@
             <beans:set>
                 <beans:ref bean="kindFormatter"/>
                 <beans:ref bean="profileFormatter" />
+                <beans:ref bean="facebookProfileFormatter" />
             </beans:set>
         </beans:property>
     </beans:bean>
@@ -22,7 +23,9 @@
      
     <context:component-scan base-package="pl.akiba.frontend.expenses.controller" />
     <context:component-scan base-package="pl.akiba.frontend.expenses.service" />
- 
+    <context:component-scan base-package="pl.akiba.frontend.facebook.controller" />
+    <context:component-scan base-package="pl.akiba.frontend.facebook.service" />
+  
     <beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <beans:property name="prefix" value="/jsp/" />
         <beans:property name="suffix" value=".jsp" />
