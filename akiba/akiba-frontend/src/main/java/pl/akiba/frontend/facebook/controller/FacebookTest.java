@@ -13,6 +13,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.api.FacebookProfile;
 import org.springframework.social.facebook.api.impl.FacebookTemplate;
@@ -32,11 +33,11 @@ import pl.akiba.frontend.expenses.controller.exceptions.InternalServerErrorExcep
 @RequestMapping("/fb")
 public class FacebookTest {
 
-    /**
-     * @TODO Facebook configuration constans should be moved to properties files
-     */
-    private final static String CLIENT_ID = "142100775940517";
-    private final static String CLIENT_SECRET = "c7b1cef987324e69b9ad9fe6ebf05633";
+    @Value("${conf.facebook.clientId}")
+    private String CLIENT_ID;
+    
+    @Value("${conf.facebook.clientSecret}")
+    private String CLIENT_SECRET;
     /**
      * Should be obtained dinamically from users context
      */
