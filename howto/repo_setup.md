@@ -22,3 +22,11 @@ Tworzysz katalog na projekt. Nastepnie:
 Wklejasz w konfiguracji githuba zawartosc id_rsa.pub i weryfikujesz:
 
 > ssh -T git@github.com
+
+# Tworzenie brancha
+>git branch $branchname
+>
+>git checkout $branchname // przelacza na nowego brancha
+
+Aby wyslac do zdalnego repo brancha nowego nalezy:
+>git config push.default [nothing | matching | tracking | current]
