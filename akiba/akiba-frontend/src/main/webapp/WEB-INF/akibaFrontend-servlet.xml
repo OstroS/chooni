@@ -36,13 +36,39 @@
         <beans:property name="prefix" value="/jsp/" />
         <beans:property name="suffix" value=".jsp" />
     </beans:bean>	
- 
-    <security:http auto-config="true" use-expressions="true">
-        <security:form-login login-page="/fb/login" />
-        <security:intercept-url pattern="/expense/*" access="isAuthenticated()"/>
+    
+    <beans:bean class="pl.akiba.frontend.facebook.controller.FacebookAuthenticationFilter" id="facebookAuthenticationFilter">
+        <beans:property name="authenticationManager" ref="authenticationManager" />
+        <beans:property name="authenticationFailureHandler" ref="failureHandler" />
+        <beans:property name="authenticationSuccessHandler" ref="successHandler" />
+        
+        <!-- here user is redirected after validation of his facebook credentials -->
+        <beans:property name="filterProcessesUrl" value="/j_spring_security_check"/>
+        <beans:property name="facebookLoginService" ref="FacebookLoginService" />
+    </beans:bean>
+
+    <beans:bean id="successHandler" class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler">
+        <beans:property name="defaultTargetUrl" value="/" />
+    </beans:bean>
+    
+    <beans:bean id="failureHandler" class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler" >
+        <beans:property name="defaultFailureUrl" value="/login?login_error=true" />
+    </beans:bean>
+    
+    <!-- URL where login process is started -->
+    <beans:bean id="loginUrlAuthenticationEntryPoint"
+        class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
+        <beans:property name="loginFormUrl" value="/fb/login" />
+    </beans:bean>
+    
+    <!-- access list with priviligies and login filters configuration -->
+    <security:http auto-config="false" use-expressions="true" entry-point-ref="loginUrlAuthenticationEntryPoint">
+        <security:custom-filter position="FORM_LOGIN_FILTER" ref="facebookAuthenticationFilter" />
+        <security:intercept-url pattern="/expense/*" access="hasRole('ROLE_USER')" /> 
     </security:http>
     
-    <security:authentication-manager>
+    <!-- authentication manager - TODO! -->
+    <security:authentication-manager alias="authenticationManager">
         <security:authentication-provider>
             <security:user-service id="userDetailsService">
                 <security:user password="password" name="username" authorities="ROLE_USER" />
