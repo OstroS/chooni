@@ -31,7 +31,8 @@
     <context:component-scan base-package="pl.akiba.frontend.expenses.service" />
     <context:component-scan base-package="pl.akiba.frontend.facebook.controller" />
     <context:component-scan base-package="pl.akiba.frontend.facebook.service" />
-  
+    <context:component-scan base-package="pl.akiba.frontend.users" />
+    
     <beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <beans:property name="prefix" value="/jsp/" />
         <beans:property name="suffix" value=".jsp" />
@@ -67,12 +68,8 @@
         <security:intercept-url pattern="/expense/*" access="hasRole('ROLE_USER')" /> 
     </security:http>
     
-    <!-- authentication manager - TODO! -->
-    <security:authentication-manager alias="authenticationManager">
-        <security:authentication-provider>
-            <security:user-service id="userDetailsService">
-                <security:user password="password" name="username" authorities="ROLE_USER" />
-            </security:user-service>
-        </security:authentication-provider>
+  
+    <security:authentication-manager  alias="authenticationManager">
+        <security:authentication-provider ref="FacebookAuthenticationProvider"/>
     </security:authentication-manager>
 </beans:beans>

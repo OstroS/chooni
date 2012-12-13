@@ -14,9 +14,11 @@ import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.api.FacebookProfile;
 import org.springframework.social.facebook.api.impl.FacebookTemplate;
 import pl.akiba.frontend.facebook.service.FacebookLoginService;
+import pl.akiba.frontend.facebook.service.FacebookUserDTO;
 
 /**
  * Filter that perform action pointed by j_spring_security
+ *
  * @author OstroS
  */
 public class FacebookAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
@@ -45,16 +47,13 @@ public class FacebookAuthenticationFilter extends UsernamePasswordAuthentication
 
             // fetch profile of logged user
             FacebookProfile userProfile = facebook.userOperations().getUserProfile();
-            System.out.println("User logged in: " + userProfile.getName());
 
-            /** FiXME - przekazac prawidziwego uzytkownika!!! **/
-            List<GrantedAuthority> authorities = new ArrayList<>();
-            authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-            
-            Authentication a;
-            a = new UsernamePasswordAuthenticationToken("password", "username", authorities);
+            FacebookUserDTO fud = new FacebookUserDTO();
+            fud.setFacebookProfileId(userProfile.getId());
+            fud.setAccessToken(facebookAccessToken);
 
-            return a;
+            return new UsernamePasswordAuthenticationToken(fud, "cred");
+
         } else {
             throw new AuthenticationException("Cannot find _code_ parameter") {
             };
