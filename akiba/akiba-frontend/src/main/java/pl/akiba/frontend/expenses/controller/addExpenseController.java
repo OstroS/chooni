@@ -56,7 +56,7 @@ public class addExpenseController {
         model.addObject("profiles", profilesService.prepareProfilesForUser(new User()));
         
         model.addObject("command", new Expense());
-        
+             
         return model;
     }
 

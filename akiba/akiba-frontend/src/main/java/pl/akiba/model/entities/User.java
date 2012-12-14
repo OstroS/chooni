@@ -7,6 +7,24 @@ package pl.akiba.model.entities;
  */
 public class User {
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+    Long id;
+    String name;
+
     public boolean isLocked() {
         return false;
     }
