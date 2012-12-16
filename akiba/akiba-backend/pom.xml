@@ -6,6 +6,7 @@
 		<groupId>pl.akiba</groupId>
 		<artifactId>akiba-parent</artifactId>
 		<version>1.0-SNAPSHOT</version>
+		<relativePath>../akiba-parent/</relativePath>
 	</parent>
 	<artifactId>akiba-backend</artifactId>
 	<packaging>war</packaging>
