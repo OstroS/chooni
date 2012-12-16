@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import pl.akiba.model.entities.Expense;
 
 /**
+ * Provides REST services for CRUD operations on {@link Expense} entity.
  * 
  * @author sobczakt
  */
@@ -23,30 +24,43 @@ import pl.akiba.model.entities.Expense;
 public class ExpenseController {
 
 	/**
+	 * Gets user expense by id.
 	 * 
+	 * @param userId
+	 * @param expenseId
+	 * @return expense entity
 	 */
 	@RequestMapping(value = "/{userId}/get/{expenseId}", method = RequestMethod.GET)
 	@ResponseBody
-	public Expense get(@PathVariable String userId, @PathVariable int expenseId) {
-		return new Expense(expenseId);
+	public ResponseEntity<Expense> get(@PathVariable String userId,
+			@PathVariable int expenseId) {
+		return new ResponseEntity<Expense>(new Expense(expenseId),
+				HttpStatus.OK);
 	}
 
 	/**
+	 * Gets user expenses.
 	 * 
+	 * @param userId
+	 * @return expense entities collection
 	 */
 	@RequestMapping(value = "/{userId}/get/all", method = RequestMethod.GET)
 	@ResponseBody
-	public List<Expense> getAll(@PathVariable String userId) {
+	public ResponseEntity<List<Expense>> getAll(@PathVariable String userId) {
 		List<Expense> expenses = new ArrayList<Expense>();
 		expenses.add(new Expense(1));
 		expenses.add(new Expense(2));
 		expenses.add(new Expense(3));
 
-		return expenses;
+		return new ResponseEntity<List<Expense>>(expenses, HttpStatus.OK);
 	}
 
 	/**
+	 * Creates new user expense.
 	 * 
+	 * @param userId
+	 * @param expense
+	 * @return created expense
 	 */
 	@RequestMapping(value = "/{userId}/create", method = RequestMethod.POST)
 	@ResponseBody
@@ -58,7 +72,11 @@ public class ExpenseController {
 	}
 
 	/**
+	 * Updates user expense data.
 	 * 
+	 * @param userId
+	 * @param expense
+	 * @return updated expense
 	 */
 	@RequestMapping(value = "/{userId}/update", method = RequestMethod.PUT)
 	public ResponseEntity<Expense> update(@PathVariable String userId,
@@ -68,7 +86,11 @@ public class ExpenseController {
 	}
 
 	/**
+	 * Deleted user expense by id.
 	 * 
+	 * @param userId
+	 * @param expenseId
+	 * @return deleted expense
 	 */
 	@RequestMapping(value = "/{userId}/delete/{expenseId}", method = RequestMethod.DELETE)
 	public ResponseEntity<String> delete(@PathVariable String userId,

@@ -4,17 +4,15 @@
  */
 package pl.akiba.model.entities;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
+ * Entity represents user expense.
  * 
  * @author kostrows
  * @author sobczakt
  */
-public class Expense implements Serializable {
-
-	public static final long serialVersionUID = 6339363496614396735L;
+public class Expense {
 
 	private int id;
 	private BigDecimal amount;
