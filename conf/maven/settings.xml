@@ -116,12 +116,13 @@ under the License.
      | NOTE: You should either specify username/password OR privateKey/passphrase, since these pairings are 
      |       used together.
      |
-    <server>
-      <id>deploymentRepo</id>
-      <username>repouser</username>
-      <password>repopwd</password>
-    </server>
     -->
+
+    <server>  
+      <id>local_tomcat</id>  
+      <username>admin</username>  
+      <password>admin</password>  
+    </server>
     
     <!-- Another sample, using keys to authenticate.
     <server>

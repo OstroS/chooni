@@ -29,6 +29,18 @@
 
 	<dependencyManagement>
 		<dependencies>
+			<!-- Akiba -->
+			<dependency>
+				<groupId>pl.akiba</groupId>
+				<artifactId>akiba-model</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>pl.akiba</groupId>
+				<artifactId>akiba-wsclient</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
 			<!-- Test -->
 			<dependency>
 				<groupId>junit</groupId>
@@ -42,6 +54,11 @@
 				<groupId>javax</groupId>
 				<artifactId>javaee-web-api</artifactId>
 				<version>6.0</version>
+			</dependency>
+			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>servlet-api</artifactId>
+				<version>2.4</version>
 			</dependency>
 
 			<!-- Spring -->
@@ -97,10 +114,26 @@
 				<artifactId>guava</artifactId>
 				<version>13.0.1</version>
 			</dependency>
+			<dependency>
+				<groupId>cglib</groupId>
+				<artifactId>cglib</artifactId>
+				<version>2.2.2</version>
+			</dependency>
+			<dependency>
+				<groupId>org.codehaus.jackson</groupId>
+				<artifactId>jackson-mapper-asl</artifactId>
+				<version>1.9.11</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
 	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 		<pluginManagement>
 			<plugins>
 				<plugin>
