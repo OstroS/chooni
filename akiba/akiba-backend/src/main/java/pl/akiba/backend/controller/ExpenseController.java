@@ -20,7 +20,7 @@ import pl.akiba.model.entities.Expense;
  * @author sobczakt
  */
 @Controller
-@RequestMapping("/expense")
+@RequestMapping("/{userId}/expense")
 public class ExpenseController {
 
 	/**
@@ -30,7 +30,7 @@ public class ExpenseController {
 	 * @param expenseId
 	 * @return expense entity
 	 */
-	@RequestMapping(value = "/{userId}/get/{expenseId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{expenseId}", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity<Expense> get(@PathVariable String userId,
 			@PathVariable int expenseId) {
@@ -44,7 +44,7 @@ public class ExpenseController {
 	 * @param userId
 	 * @return expense entities collection
 	 */
-	@RequestMapping(value = "/{userId}/get/all", method = RequestMethod.GET)
+	@RequestMapping(value = "", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity<List<Expense>> getAll(@PathVariable String userId) {
 		List<Expense> expenses = new ArrayList<Expense>();
@@ -62,7 +62,7 @@ public class ExpenseController {
 	 * @param expense
 	 * @return created expense
 	 */
-	@RequestMapping(value = "/{userId}/create", method = RequestMethod.POST)
+	@RequestMapping(value = "", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<Expense> create(@PathVariable String userId,
 			@RequestBody Expense expense) {
@@ -72,15 +72,29 @@ public class ExpenseController {
 	}
 
 	/**
-	 * Updates user expense data.
+	 * Updates user expense data (whole collection)
 	 * 
 	 * @param userId
 	 * @param expense
 	 * @return updated expense
 	 */
-	@RequestMapping(value = "/{userId}/update", method = RequestMethod.PUT)
+	@RequestMapping(value = "", method = RequestMethod.PUT)
 	public ResponseEntity<Expense> update(@PathVariable String userId,
 			@RequestBody Expense expense) {
+
+		return new ResponseEntity<Expense>(expense, HttpStatus.CREATED);
+	}
+        
+        /**
+	 * Updates user expense data (one particular)
+	 * 
+	 * @param userId
+	 * @param expense
+	 * @return updated expense
+	 */
+	@RequestMapping(value = "/{expenseId}", method = RequestMethod.PUT)
+	public ResponseEntity<Expense> updateExpense(@PathVariable String userId,
+			@PathVariable Integer expenseId, @RequestBody Expense expense) {
 
 		return new ResponseEntity<Expense>(expense, HttpStatus.CREATED);
 	}
@@ -92,7 +106,7 @@ public class ExpenseController {
 	 * @param expenseId
 	 * @return deleted expense
 	 */
-	@RequestMapping(value = "/{userId}/delete/{expenseId}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/{expenseId}", method = RequestMethod.DELETE)
 	public ResponseEntity<String> delete(@PathVariable String userId,
 			@PathVariable int expenseId) {
 
