@@ -1,5 +1,6 @@
 package pl.akiba.backend.controller;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,10 +48,27 @@ public class ExpenseController {
 	@RequestMapping(value = "/{userId}/get/all", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity<List<Expense>> getAll(@PathVariable String userId) {
-		List<Expense> expenses = new ArrayList<Expense>();
-		expenses.add(new Expense(1));
-		expenses.add(new Expense(2));
+                List<Expense> expenses = new ArrayList();
+                
+                // wzbogacone dane testowe
+                Expense ex = new Expense();
+                ex.setId(0);
+                ex.setAmount(new BigDecimal(12323));
+                expenses.add(ex);
+                
+                ex = new Expense();
+                ex.setId(1);
+                ex.setAmount(new BigDecimal(13212312));
+                expenses.add(ex);
+                
+                ex = new Expense();
+                ex.setId(2);
+                ex.setAmount(new BigDecimal(23992123));
+                expenses.add(ex);
+		
 		expenses.add(new Expense(3));
+		expenses.add(new Expense(4));
+		expenses.add(new Expense(5));
 
 		return new ResponseEntity<List<Expense>>(expenses, HttpStatus.OK);
 	}
