@@ -6,44 +6,44 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-import pl.akiba.model.entities.Expense;
+import pl.akiba.model.entities.Kind;
 import pl.akiba.model.entities.User;
 import pl.akiba.wsclient.api.CrudApi;
 
 /**
- * Expense api based on json restful web service
+ *
  * @author OstroS
  */
-@Component("expenseApi")
-public class ExpenseApi implements CrudApi<Expense> {
+@Component("kindApi")
+public class KindApi implements CrudApi<Kind> {
 
     @Autowired
     RestTemplate rest;
 
-    public void add(Expense expense, User user) {
+    @Override
+    public void add(Kind entity, User user) {
         throw new UnsupportedOperationException("Not supported yet.");
-        //
     }
 
     @Override
-    public List<Expense> getAll(User user) {
-        ResponseEntity<Expense[]> entity = rest.getForEntity("http://localhost:8080/akiba-backend/0/expense/", Expense[].class);
-        System.out.println("GetAllExpenses status code: " + entity.getStatusCode());
+    public List<Kind> getAll(User user) {
+        ResponseEntity<Kind[]> entity = rest.getForEntity("http://localhost:8080/akiba-backend/0/kind", Kind[].class);
         return Lists.newArrayList(entity.getBody());
     }
 
     @Override
-    public Expense get(Long entityId) {
+    public Kind get(Long entityId) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public Expense update(Expense entity) {
+    public Kind update(Kind entity) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public void delete(Expense entity) {
+    public void delete(Kind entity) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+    
 }

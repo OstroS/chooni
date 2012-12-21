@@ -1,6 +1,7 @@
 package pl.akiba.wsclient.api;
 
 import pl.akiba.model.entities.Expense;
+import pl.akiba.model.entities.Kind;
 
 /**
  * Akiba Api
@@ -12,4 +13,5 @@ import pl.akiba.model.entities.Expense;
 
 public interface AkibaApi {
     public CrudApi<Expense> getExpenseApi();
+    public CrudApi<Kind> getKindApi();
 }
