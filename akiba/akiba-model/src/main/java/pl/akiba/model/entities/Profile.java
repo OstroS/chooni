@@ -10,6 +10,8 @@ public class Profile {
     private Integer id;
     private String name;
 
+    // default constructor muss sein
+    public Profile() {}
     public Integer getId() {
         return id;
     }
