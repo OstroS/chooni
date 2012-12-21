@@ -1,5 +1,6 @@
 package pl.akiba.frontend.expenses.controller;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -16,51 +17,55 @@ import pl.akiba.model.entities.User;
 
 /**
  * Controller that implements adding new expense logic
+ *
  * @author OstroS
  */
 @Controller
-@RequestMapping("/expense/add")
+@RequestMapping("/expense")
 @SessionAttributes
-public class addExpenseController {
-    
+public class ExpenseController {
+
     @Autowired
     private ExpensesService es;
-    
     @Autowired
     private KindsService kindsService;
-    
     @Autowired
     private ProfilesService profilesService;
-    
-    @RequestMapping(method= RequestMethod.GET)
+
+    @RequestMapping(method = RequestMethod.GET)
     public ModelAndView showExpenses() {
-        System.out.println("ShowExpenses method called");
+        ModelAndView model = new ModelAndView();
+        List<Expense> allExpenses = es.getAllExpenses(new User());
+        model.addObject("expenses", allExpenses);
+        model.setViewName("expenses/expenseList");
+        return model;
+    }
+
+    @RequestMapping(value = "/add", method = RequestMethod.GET)
+    public ModelAndView addExpenseForm() {      
         ModelAndView model = prepareModelAndView();
         return model;
     }
-    
-    @RequestMapping(method = RequestMethod.POST)
-    public ModelAndView addExpenses(@ModelAttribute("expense") Expense expense, BindingResult result) {
-        
+
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    public ModelAndView handleAddExpenseForm(@ModelAttribute("expense") Expense expense, BindingResult result) {
+  
         es.addExpense(expense, new User());
-        
+
         ModelAndView model = prepareModelAndView();
-         
+
         return model;
     }
 
     private ModelAndView prepareModelAndView() {
         ModelAndView model = new ModelAndView();
         model.setViewName("/expenses/addExpense");
-        
+
         model.addObject("kinds", kindsService.prepareKindsforUser(new User()));
         model.addObject("profiles", profilesService.prepareProfilesForUser(new User()));
-        
+
         model.addObject("command", new Expense());
-        
+
         return model;
     }
-
-
-
 }

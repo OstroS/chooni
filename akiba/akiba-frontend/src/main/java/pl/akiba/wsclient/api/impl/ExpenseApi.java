@@ -19,7 +19,7 @@ public class ExpenseApi implements CrudApi<Expense> {
 
     @Autowired
     RestTemplate rest;
-
+    
     public void add(Expense expense, User user) {
         throw new UnsupportedOperationException("Not supported yet.");
         //
