@@ -21,7 +21,7 @@ public class KindFormatter implements Formatter<Kind> {
     @Override
     public Kind parse(String kindId, Locale locale) throws ParseException {
         KindsService ks = new KindsService();
-        return ks.getKind(Integer.parseInt(kindId));
+        return ks.getKind(Long.parseLong(kindId));
     }
     
 }

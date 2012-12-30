@@ -10,6 +10,10 @@ public class Kind {
 	private Integer id;
 	private String name;
 
+        // default constructor muss sein
+        public Kind() {
+            
+        }
 	public Integer getId() {
 		return id;
 	}

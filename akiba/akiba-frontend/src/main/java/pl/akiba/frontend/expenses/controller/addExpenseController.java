@@ -34,6 +34,7 @@ public class addExpenseController {
     
     @RequestMapping(method= RequestMethod.GET)
     public ModelAndView showExpenses() {
+        System.out.println("ShowExpenses method called");
         ModelAndView model = prepareModelAndView();
         return model;
     }

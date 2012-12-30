@@ -22,9 +22,23 @@
      
     <context:component-scan base-package="pl.akiba.frontend.expenses.controller" />
     <context:component-scan base-package="pl.akiba.frontend.expenses.service" />
- 
+    <context:component-scan base-package="pl.akiba.wsclient.api.impl" />
+    
     <beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <beans:property name="prefix" value="/jsp/" />
         <beans:property name="suffix" value=".jsp" />
     </beans:bean>	
+
+    <beans:bean id="jsonConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+        <beans:property name="supportedMediaTypes" value="application/json" />
+    </beans:bean>
+    
+    <beans:bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
+        <beans:property name="messageConverters">
+            <beans:list>
+                <beans:ref bean="jsonConverter" />
+            </beans:list>
+        </beans:property>
+    </beans:bean>
+
 </beans:beans>
