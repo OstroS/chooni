@@ -1,42 +1,41 @@
 package pl.akiba.model.entities;
 
 /**
- * Do zastapienia przez model danych
  * 
  * @author OstroS
  */
 public class Kind {
 
-	private Integer id;
-	private String name;
+    private int id;
+    private String name;
 
-        // default constructor muss sein
-        public Kind() {
-            
-        }
-	public Integer getId() {
-		return id;
-	}
+    public Kind(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public Kind() {
+    }
 
-	public String getName() {
-		return name;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public Kind(Integer id, String name) {
-		this.id = id;
-		this.name = name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	@Override
-	public String toString() {
-		return "Kind{" + "id=" + id + ", name=" + name + '}';
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Kind{" + "id=" + id + ", name=" + name + '}';
+    }
+
 }

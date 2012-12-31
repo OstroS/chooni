@@ -2,21 +2,26 @@ package pl.akiba.model.entities;
 
 /**
  * 
- * Do zastapienia przez model danych
  * @author OstroS
  */
 public class Profile {
 
-    private Integer id;
+    private int id;
     private String name;
 
-    // default constructor muss sein
-    public Profile() {}
-    public Integer getId() {
+    public Profile(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public Profile() {
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -25,11 +30,6 @@ public class Profile {
     }
 
     public void setName(String name) {
-        this.name = name;
-    }
-
-    public Profile(Integer id, String name) {
-        this.id = id;
         this.name = name;
     }
 
