@@ -32,4 +32,6 @@
     <Valve className="org.apache.catalina.valves.CometConnectionManagerValve" />
     -->
 
+    <ResourceLink name="jdbc/akibadb" global="jdbc/akibadb" type="javax.sql.DataSource"/>
+
 </Context>
