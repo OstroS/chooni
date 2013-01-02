@@ -1,0 +1,23 @@
+insert into expense values
+	(1,'user1',1,1,10),
+	(2,'user1',1,1,10),
+	(3,'user1',1,2,30),
+	(4,'user1',1,3,800),
+	(5,'user2',3,4,15),
+	(6,'user3',2,5,50)
+;
+
+insert into kind values
+	(5,'hotel'),
+	(4,'kawa'),
+	(3,'hotel'),
+	(2,'obiad'),
+	(1,'piwo')
+;
+
+insert into profile values
+	(3,'biezace'),
+	(2,'wyjazd sluzbowy'),
+	(1,'wczasy')
+;
+

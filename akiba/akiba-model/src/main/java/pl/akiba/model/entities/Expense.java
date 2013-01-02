@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package pl.akiba.model.entities;
 
 import java.math.BigDecimal;
@@ -14,55 +10,61 @@ import java.math.BigDecimal;
  */
 public class Expense {
 
-	private int id;
-	private BigDecimal amount;
-	private Kind kind;
-	private Profile profile;
+    private int id;
+    private BigDecimal amount;
+    private Kind kind;
+    private Profile profile;
 
-	// only for test
-	public Expense(int id) {
-		this.id = id;
-	}
+    public Expense(int id, BigDecimal amount, Kind kind, Profile profile) {
+        this.id = id;
+        this.amount = amount;
+        this.kind = kind;
+        this.profile = profile;
+    }
 
-	public Expense() {
-	}
+    public Expense() {
+    }
 
-	public int getId() {
-		return id;
-	}
+    //only for test
+    public Expense(int id) {
+        this.id = id;
+    }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public Profile getProfile() {
-		return profile;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public void setProfile(Profile profile) {
-		this.profile = profile;
-	}
+    public Profile getProfile() {
+        return profile;
+    }
 
-	public Kind getKind() {
-		return kind;
-	}
+    public void setProfile(Profile profile) {
+        this.profile = profile;
+    }
 
-	public void setKind(Kind kind) {
-		this.kind = kind;
-	}
+    public Kind getKind() {
+        return kind;
+    }
 
-	public BigDecimal getAmount() {
-		return amount;
-	}
+    public void setKind(Kind kind) {
+        this.kind = kind;
+    }
 
-	public void setAmount(BigDecimal amount) {
-		this.amount = amount;
-	}
+    public BigDecimal getAmount() {
+        return amount;
+    }
 
-	@Override
-	public String toString() {
-		return "Expense [id=" + id + ", amount=" + amount + ", kind=" + kind
-				+ ", profile=" + profile + "]";
-	}
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
+    }
+
+    @Override
+    public String toString() {
+        return "Expense [id=" + id + ", amount=" + amount + ", kind=" + kind + ", profile=" + profile + "]";
+    }
 
 }
