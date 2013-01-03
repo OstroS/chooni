@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import pl.akiba.model.entities.Expense;
 import pl.akiba.model.entities.Kind;
+import pl.akiba.model.entities.Profile;
 import pl.akiba.wsclient.api.AkibaApi;
 import pl.akiba.wsclient.api.CrudApi;
 
@@ -23,6 +24,10 @@ public class AkibaApiRestTemplateImpl implements AkibaApi {
     @Autowired()
     @Qualifier("kindApi")
     private CrudApi<Kind> kindApi;
+    
+    @Autowired
+    @Qualifier("profileApi")
+    private CrudApi<Profile> profileApi;
 
     @Override
     public CrudApi<Expense> getExpenseApi() {
@@ -40,6 +45,15 @@ public class AkibaApiRestTemplateImpl implements AkibaApi {
 
     public void setKindApi(CrudApi<Kind> kindApi) {
         this.kindApi = kindApi;
+    }
+
+    @Override
+    public CrudApi<Profile> getProfileApi() {
+        return this.profileApi;
+    }
+    
+    public void setProfileApi(CrudApi<Profile> profileApi) {
+        this.profileApi = profileApi;
     }
 
 }

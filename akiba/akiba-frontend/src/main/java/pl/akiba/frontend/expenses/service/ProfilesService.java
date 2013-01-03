@@ -2,9 +2,12 @@ package pl.akiba.frontend.expenses.service;
 
 import com.google.common.collect.Lists;
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.akiba.model.entities.Profile;
 import pl.akiba.model.entities.User;
+import pl.akiba.wsclient.api.AkibaApi;
 
 /**
  * 
@@ -13,12 +16,8 @@ import pl.akiba.model.entities.User;
 @Component("profilesService")
 public class ProfilesService {
 
-    private final static List<Profile> profiles;
-
-    static {
-
-        profiles = Lists.newArrayList(new Profile(0, "Prywanty"), new Profile(1, "Biznes"), new Profile(2, "Rodzinny"));
-    }
+    @Autowired
+    AkibaApi akibaApi;
 
     /**
      * TODO Mock method
@@ -28,10 +27,10 @@ public class ProfilesService {
      * @return List of profiles for given user
      */
     public List<Profile> prepareProfilesForUser(User user) {
-        return Lists.newArrayList(new Profile(0, "Prywanty"), new Profile(1, "Biznes"), new Profile(2, "Rodzinny"));
+        return akibaApi.getProfileApi().getAll(user);
     }
 
-    Profile getProfile(int profileId) {
-        return profiles.get(profileId);
+    Profile getProfile(long profileId) {
+        return akibaApi.getProfileApi().get(profileId);
     }
 }

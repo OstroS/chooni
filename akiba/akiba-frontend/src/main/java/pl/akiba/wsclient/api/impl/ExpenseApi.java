@@ -25,6 +25,8 @@ public class ExpenseApi implements CrudApi<Expense> {
     private static final String GET_ALL_EXPENSES_FOR_USER_SUFFIX = "/expense/{userId}/get/all";
 
     public void add(Expense expense, User user) {
+        System.out.println(expense);
+        System.out.println(user);
         throw new UnsupportedOperationException("Not supported yet.");
         //
     }
