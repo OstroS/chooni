@@ -35,7 +35,7 @@ public class ExpenseController {
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView showExpenses() {
         ModelAndView model = new ModelAndView();
-        List<Expense> allExpenses = es.getAllExpenses(new User());
+        List<Expense> allExpenses = es.getAllExpenses(getCurrentUser());
         model.addObject("expenses", allExpenses);
         model.setViewName("expenses/expenseList");
         return model;
@@ -51,7 +51,7 @@ public class ExpenseController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public ModelAndView handleAddExpenseForm(@ModelAttribute("expense") Expense expense, BindingResult result) {
 
-        es.addExpense(expense, new User());
+        es.addExpense(expense, getCurrentUser());
 
         ModelAndView model = prepareModelAndView();
 
@@ -62,11 +62,18 @@ public class ExpenseController {
         ModelAndView model = new ModelAndView();
         model.setViewName("/expenses/addExpense");
 
-        model.addObject("kinds", kindsService.prepareKindsforUser(new User()));
-        model.addObject("profiles", profilesService.prepareProfilesForUser(new User()));
+        model.addObject("kinds", kindsService.prepareKindsforUser(getCurrentUser()));
+        model.addObject("profiles", profilesService.prepareProfilesForUser(getCurrentUser()));
 
         model.addObject("command", new Expense());
 
         return model;
+    }
+    
+    private User getCurrentUser() {
+        User user = new User();
+        user.setId(0L);
+        user.setName("Użyszkodnik testowy");
+        return user;
     }
 }

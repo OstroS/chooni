@@ -21,6 +21,9 @@ public class ExpenseApi implements CrudApi<Expense> {
     @Autowired
     RestTemplate rest;
 
+    private static final String AKIBA_BACKEND_LOCATION = "http://localhost:8080/akiba-backend";
+    private static final String GET_ALL_EXPENSES_FOR_USER_SUFFIX = "/expense/{userId}/get/all";
+
     public void add(Expense expense, User user) {
         throw new UnsupportedOperationException("Not supported yet.");
         //
@@ -28,8 +31,8 @@ public class ExpenseApi implements CrudApi<Expense> {
 
     @Override
     public List<Expense> getAll(User user) {
-        ResponseEntity<Expense[]> entity = rest.getForEntity("http://localhost:8080/akiba-backend/0/expense/",
-                Expense[].class);
+        ResponseEntity<Expense[]> entity = rest.getForEntity(AKIBA_BACKEND_LOCATION + GET_ALL_EXPENSES_FOR_USER_SUFFIX,
+                Expense[].class, user.getId());
         System.out.println("GetAllExpenses status code: " + entity.getStatusCode());
         return Lists.newArrayList(entity.getBody());
     }
