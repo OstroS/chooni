@@ -11,7 +11,7 @@ import pl.akiba.model.entities.User;
 import pl.akiba.wsclient.api.CrudApi;
 
 /**
- *
+ * 
  * @author OstroS
  */
 @Component("kindApi")
@@ -45,5 +45,5 @@ public class KindApi implements CrudApi<Kind> {
     public void delete(Kind entity) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-    
+
 }

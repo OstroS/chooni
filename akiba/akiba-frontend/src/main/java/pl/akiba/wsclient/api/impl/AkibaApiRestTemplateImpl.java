@@ -10,6 +10,7 @@ import pl.akiba.wsclient.api.CrudApi;
 
 /**
  * Implementation of Akiba API base on json restful webservice
+ * 
  * @author OstroS
  */
 @Component("akibaApi")
@@ -18,16 +19,16 @@ public class AkibaApiRestTemplateImpl implements AkibaApi {
     @Autowired()
     @Qualifier("expenseApi")
     private CrudApi<Expense> expenseApi;
-    
+
     @Autowired()
     @Qualifier("kindApi")
     private CrudApi<Kind> kindApi;
-    
+
     @Override
     public CrudApi<Expense> getExpenseApi() {
         return expenseApi;
     }
-    
+
     public void setExpenseApi(CrudApi<Expense> expenseApi) {
         this.expenseApi = expenseApi;
     }
@@ -36,9 +37,9 @@ public class AkibaApiRestTemplateImpl implements AkibaApi {
     public CrudApi<Kind> getKindApi() {
         return this.kindApi;
     }
-    
+
     public void setKindApi(CrudApi<Kind> kindApi) {
         this.kindApi = kindApi;
     }
-    
+
 }

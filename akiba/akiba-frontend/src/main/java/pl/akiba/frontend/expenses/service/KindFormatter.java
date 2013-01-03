@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import pl.akiba.model.entities.Kind;
 
 /**
- *
+ * 
  * @author OstroS
  */
 @Component("kindFormatter")
@@ -23,5 +23,5 @@ public class KindFormatter implements Formatter<Kind> {
         KindsService ks = new KindsService();
         return ks.getKind(Long.parseLong(kindId));
     }
-    
+
 }

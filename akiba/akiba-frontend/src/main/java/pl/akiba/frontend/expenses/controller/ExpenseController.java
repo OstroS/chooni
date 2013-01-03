@@ -17,7 +17,7 @@ import pl.akiba.model.entities.User;
 
 /**
  * Controller that implements adding new expense logic
- *
+ * 
  * @author OstroS
  */
 @Controller
@@ -40,16 +40,17 @@ public class ExpenseController {
         model.setViewName("expenses/expenseList");
         return model;
     }
+  
 
     @RequestMapping(value = "/add", method = RequestMethod.GET)
-    public ModelAndView addExpenseForm() {      
+    public ModelAndView addExpenseForm() {
         ModelAndView model = prepareModelAndView();
         return model;
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public ModelAndView handleAddExpenseForm(@ModelAttribute("expense") Expense expense, BindingResult result) {
-  
+
         es.addExpense(expense, new User());
 
         ModelAndView model = prepareModelAndView();

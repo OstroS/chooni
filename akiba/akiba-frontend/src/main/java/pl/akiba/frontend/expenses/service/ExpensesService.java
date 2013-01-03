@@ -7,26 +7,25 @@ import pl.akiba.model.entities.Expense;
 import pl.akiba.model.entities.User;
 import pl.akiba.wsclient.api.AkibaApi;
 
-
 /**
- *
+ * 
  * @author OstroS
  */
 @Component("expensesService")
 public class ExpensesService {
-    
+
     @Autowired
     AkibaApi akibaApi;
 
     /**
      * @TODO
      * @param expense
-     * @param user 
+     * @param user
      */
     public void addExpense(Expense expense, User user) {
         akibaApi.getExpenseApi().add(expense, user);
     }
-    
+
     public List<Expense> getAllExpenses(User user) {
         return akibaApi.getExpenseApi().getAll(user);
     }
@@ -38,7 +37,5 @@ public class ExpensesService {
     public void setAkibaApi(AkibaApi akibaApi) {
         this.akibaApi = akibaApi;
     }
-       
-    
-    
+
 }

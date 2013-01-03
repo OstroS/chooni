@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import pl.akiba.model.entities.Profile;
 
 /**
- *
+ * 
  * @author OstroS
  */
 @Component("profileFormatter")
@@ -23,5 +23,5 @@ public class ProfileFormatter implements Formatter<Profile> {
         ProfilesService ps = new ProfilesService();
         return ps.getProfile(Integer.parseInt(profileId));
     }
-    
+
 }
