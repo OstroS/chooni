@@ -1,3 +1,5 @@
+CREATE DATABASE akibadb;
+
 CREATE TABLE `expense` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` varchar(50) NOT NULL,
