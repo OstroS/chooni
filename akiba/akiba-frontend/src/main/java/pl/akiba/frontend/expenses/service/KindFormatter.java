@@ -2,6 +2,8 @@ package pl.akiba.frontend.expenses.service;
 
 import java.text.ParseException;
 import java.util.Locale;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.Formatter;
 import org.springframework.stereotype.Component;
 import pl.akiba.model.entities.Kind;
@@ -13,6 +15,9 @@ import pl.akiba.model.entities.Kind;
 @Component("kindFormatter")
 public class KindFormatter implements Formatter<Kind> {
 
+    @Autowired
+    KindsService kindsService;
+
     @Override
     public String print(Kind t, Locale locale) {
         return t.toString();
@@ -20,8 +25,10 @@ public class KindFormatter implements Formatter<Kind> {
 
     @Override
     public Kind parse(String kindId, Locale locale) throws ParseException {
-        KindsService ks = new KindsService();
-        return ks.getKind(Long.parseLong(kindId));
+        return kindsService.getKind(Long.parseLong(kindId));
     }
 
+    public void setKindsService(KindsService ks) {
+        this.kindsService = ks;
+    }
 }
