@@ -1,9 +1,9 @@
 package pl.akiba.frontend.expenses.service;
 
-import com.google.common.collect.Lists;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import pl.akiba.model.entities.Profile;
 import pl.akiba.model.entities.User;
@@ -17,6 +17,7 @@ import pl.akiba.wsclient.api.AkibaApi;
 public class ProfilesService {
 
     @Autowired
+    @Qualifier(value="akibaApiMock")
     AkibaApi akibaApi;
 
     /**

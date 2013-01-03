@@ -2,6 +2,7 @@ package pl.akiba.frontend.expenses.service;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import pl.akiba.model.entities.Kind;
 import pl.akiba.model.entities.User;
@@ -14,10 +15,10 @@ import pl.akiba.wsclient.api.AkibaApi;
 @Component("kindsService")
 public class KindsService {
     @Autowired
+    @Qualifier(value="akibaApiMock")
     AkibaApi akibaApi;
 
     public List<Kind> prepareKindsforUser(User user) {
-        System.out.println("prepareKindsForUser");
         return akibaApi.getKindApi().getAll(user);
     }
 

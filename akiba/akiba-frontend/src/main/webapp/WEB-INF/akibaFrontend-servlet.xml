@@ -23,6 +23,7 @@
     <context:component-scan base-package="pl.akiba.frontend.expenses.controller" />
     <context:component-scan base-package="pl.akiba.frontend.expenses.service" />
     <context:component-scan base-package="pl.akiba.wsclient.api.impl" />
+    <context:component-scan base-package="pl.akiba.wsclient.api.mock" />
     
     <beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <beans:property name="prefix" value="/jsp/" />
