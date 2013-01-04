@@ -79,6 +79,7 @@ public class AkibaApiMock implements AkibaApi {
 
             @Override
             public void add(Kind entity, User user) {
+                entity.setId(kinds.size());
                 System.out.println("AkibaApiMock: AddKind " + entity);
                 kinds.add(entity);
 

@@ -15,7 +15,7 @@ import pl.akiba.wsclient.api.AkibaApi;
 @Component("kindsService")
 public class KindsService {
     @Autowired
-    @Qualifier(value="akibaApiMock")
+    @Qualifier(value = "akibaApiMock")
     AkibaApi akibaApi;
 
     public List<Kind> prepareKindsforUser(User user) {
@@ -24,6 +24,10 @@ public class KindsService {
 
     Kind getKind(Long kindId) {
         return akibaApi.getKindApi().get(kindId);
+    }
+
+    public void addKind(Kind kind, User user) {
+        this.akibaApi.getKindApi().add(kind, user);
     }
 
     public AkibaApi getAkibaApi() {

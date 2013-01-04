@@ -46,6 +46,7 @@
             <ul class="nav">
               <li class="active"><a href="#">Home</a></li>
               <li><a href="/akiba-frontend/expense/add">Add expense</a></li>
+              <li><a href="/akiba-frontend/kind/add">Add kind</a></li>
               <li><a href="#about">About</a></li>
               <li><a href="#contact">Contact</a></li>
             </ul>
