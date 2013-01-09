@@ -2,24 +2,37 @@ CREATE DATABASE akibadb;
 
 CREATE TABLE `expense` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` varchar(50) NOT NULL,
-  `profile_id` int(11) NOT NULL,
-  `kind_id` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `id_profile` int(11) NOT NULL,
+  `id_kind` int(11) NOT NULL,
   `amount` double NOT NULL,
+  `add_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='utf8_general_ci'
 ;
 
 CREATE TABLE `kind` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
+  `id_user` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='utf8_general_ci'
 ;
 
 CREATE TABLE `profile` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
+  `id_user` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='utf8_general_ci'
 ;
+
+CREATE TABLE `user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_facebook` int(11) DEFAULT NULL,
+  `id_google` int(11) DEFAULT NULL,
+  `role` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='latin1_swedish_ci'
+;
+
