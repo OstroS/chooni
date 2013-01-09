@@ -38,12 +38,24 @@ public class JdbcExpenseDao implements ExpenseDao, InitializingBean {
     }
 
     @Override
-    public Expense get(String userId, int expenseId) {
-        return null;
+    public Expense get(int userId, int expenseId) {
+        MapSqlParameterSource parameterMap = new MapSqlParameterSource();
+        parameterMap.addValue("userId", userId);
+        parameterMap.addValue("expenseId", expenseId);
+
+        return jdbcTemplate.queryForObject(Sql.SELECT_EXPENSE, parameterMap, new RowMapper<Expense>() {
+
+            @Override
+            public Expense mapRow(ResultSet rs, int rowNum) throws SQLException {
+                return new Expense(rs.getInt("id"), rs.getBigDecimal("amount"), new Kind(rs.getInt("kindId"), rs
+                        .getString("kindName")), new Profile(rs.getInt("profileId"), rs.getString("profileName")));
+            }
+
+        });
     }
 
     @Override
-    public List<Expense> getAll(String userId) {
+    public List<Expense> getAll(int userId) {
         return jdbcTemplate.query(Sql.SELECT_EXPENSES, new MapSqlParameterSource("userId", userId),
                 new RowMapper<Expense>() {
 
@@ -58,18 +70,21 @@ public class JdbcExpenseDao implements ExpenseDao, InitializingBean {
     }
 
     @Override
-    public void create(String userId, Expense expense) {
+    public void create(int userId, Expense expense) {
+    }
+
+    @Override
+    public void update(int userId, Expense expense) {
         // TODO Auto-generated method stub
     }
 
     @Override
-    public void update(String userId, Expense expense) {
-        // TODO Auto-generated method stub
-    }
+    public void delete(int userId, int expenseId) {
+        MapSqlParameterSource parameterMap = new MapSqlParameterSource();
+        parameterMap.addValue("userId", userId);
+        parameterMap.addValue("expenseId", expenseId);
 
-    @Override
-    public void delete(String userId, int expenseId) {
-        // TODO Auto-generated method stub
+        jdbcTemplate.update(Sql.DELETE_EXPENSE, parameterMap);
     }
 
 }
