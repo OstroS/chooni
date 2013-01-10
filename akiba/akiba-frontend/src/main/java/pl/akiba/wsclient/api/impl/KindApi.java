@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+
+import pl.akiba.model.entities.Expense;
 import pl.akiba.model.entities.Kind;
 import pl.akiba.model.entities.User;
 import pl.akiba.wsclient.api.Criteria;
@@ -48,7 +50,7 @@ public class KindApi implements CrudApi<Kind> {
     }
 
     @Override
-    public Kind get(User user, Criteria criteria) {
+    public List<Kind> get(User user, Criteria criteria) {
         // TODO Auto-generated method stub
         return null;
     }

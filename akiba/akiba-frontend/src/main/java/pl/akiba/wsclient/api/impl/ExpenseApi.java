@@ -56,7 +56,7 @@ public class ExpenseApi implements CrudApi<Expense> {
     }
 
      @Override
-    public Expense get(User user, Criteria criteria) {
+    public List<Expense> get(User user, Criteria criteria) {
         // TODO Auto-generated method stub
         return null;
     }

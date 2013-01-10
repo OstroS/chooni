@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import pl.akiba.model.entities.Expense;
 import pl.akiba.model.entities.Profile;
 import pl.akiba.model.entities.User;
 import pl.akiba.wsclient.api.Criteria;
@@ -48,7 +49,7 @@ public class ProfileApi implements CrudApi<Profile> {
     }
 
     @Override
-    public Profile get(User user, Criteria criteria) {
+    public List<Profile> get(User user, Criteria criteria) {
         // TODO Auto-generated method stub
         return null;
     }
