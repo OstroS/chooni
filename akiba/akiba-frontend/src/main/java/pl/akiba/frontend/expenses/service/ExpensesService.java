@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component;
 import pl.akiba.model.entities.Expense;
 import pl.akiba.model.entities.User;
 import pl.akiba.wsclient.api.AkibaApi;
+import pl.akiba.wsclient.api.Criteria;
+import pl.akiba.wsclient.api.CriteriaBuilder;
 
 /**
  * 
@@ -16,8 +18,13 @@ import pl.akiba.wsclient.api.AkibaApi;
 public class ExpensesService {
 
     @Autowired
-    @Qualifier(value="akibaApiMock")
+    @Qualifier(value = "akibaApiMock")
     AkibaApi akibaApi;
+
+    /**
+     * Amount of last expenses of user which are apparent on main site
+     */
+    private final Long amountOfLastExpenses = 10L;
 
     /**
      * @TODO
@@ -40,4 +47,18 @@ public class ExpensesService {
         this.akibaApi = akibaApi;
     }
 
+    /**
+     * Method return list of last expenses of currently logged in user
+     * 
+     * @param user current user
+     * @return list of last expenses
+     */
+    public List<Expense> getLastExpenses(User user) {
+        CriteriaBuilder cb = new CriteriaBuilder();
+        Criteria criteria = cb.create().withAmountOfResults(amountOfLastExpenses)
+                .withSortOrder(CriteriaBuilder.SORT_ASCENDING_ORDER).build();
+
+        return this.akibaApi.getExpenseApi().get(user, criteria);
+
+    }
 }
