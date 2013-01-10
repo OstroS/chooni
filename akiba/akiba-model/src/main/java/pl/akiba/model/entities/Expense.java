@@ -1,6 +1,7 @@
 package pl.akiba.model.entities;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * Entity represents user expense.
@@ -14,6 +15,7 @@ public class Expense {
     private BigDecimal amount;
     private Kind kind;
     private Profile profile;
+    private Date date;
 
     public Expense(int id, BigDecimal amount, Kind kind, Profile profile) {
         this.id = id;
@@ -66,5 +68,13 @@ public class Expense {
     public String toString() {
         return "Expense [id=" + id + ", amount=" + amount + ", kind=" + kind + ", profile=" + profile + "]";
     }
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
 
 }
