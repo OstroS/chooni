@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
 import pl.akiba.model.entities.Expense;
@@ -169,8 +171,34 @@ public class AkibaApiMock implements AkibaApi {
 
             @Override
             public List<Expense> get(User user, Criteria criteria) {
-                // TODO Auto-generated method stub
-                return null;
+                return this.filter(expenses, criteria);
+            }
+
+            /**
+             * TODO Method should filter list given as a list to specific criteria <br/>
+             * In final solution this filtering should be done on BE side
+             * 
+             * @param list
+             *            List to be filtered
+             * @param criteria
+             *            Filtering criteria
+             * @return Filtered list
+             */
+            private List<Expense> filter(List<Expense> list, final Criteria criteria) {
+                List<Expense> toReturn = list;
+                
+                // get last X elements
+                if (criteria.getAmount() != null) {
+                    long lastIndex = toReturn.size() - 1;
+                    long firstIndex = lastIndex - criteria.getAmount();
+                    toReturn = toReturn.subList((int) firstIndex, (int) lastIndex);
+                }
+                
+                // filtered by date - TODO
+                
+                // order - TODO
+                
+                return toReturn;
             }
         };
     }
