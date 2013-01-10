@@ -12,6 +12,7 @@ import pl.akiba.model.entities.Kind;
 import pl.akiba.model.entities.Profile;
 import pl.akiba.model.entities.User;
 import pl.akiba.wsclient.api.AkibaApi;
+import pl.akiba.wsclient.api.Criteria;
 import pl.akiba.wsclient.api.CrudApi;
 
 @Component("akibaApiMock")
@@ -65,6 +66,12 @@ public class AkibaApiMock implements AkibaApi {
 
             }
 
+            @Override
+            public Profile get(Criteria criteria) {
+                // TODO Auto-generated method stub
+                return null;
+            }
+
         };
 
         return api;
@@ -110,6 +117,12 @@ public class AkibaApiMock implements AkibaApi {
 
             }
 
+            @Override
+            public Kind get(Criteria criteria) {
+                // TODO Auto-generated method stub
+                return null;
+            }
+
         };
 
         return api;
@@ -152,6 +165,12 @@ public class AkibaApiMock implements AkibaApi {
             public void delete(Expense entity) {
                 System.out.println("AkibaApiMock: DeleteExpense - no action");
 
+            }
+
+            @Override
+            public Expense get(Criteria criteria) {
+                // TODO Auto-generated method stub
+                return null;
             }
         };
     }

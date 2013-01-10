@@ -13,6 +13,8 @@ public interface CrudApi<K> {
     public List<K> getAll(User user);
 
     public K get(Long entityId);
+    
+    public K get(Criteria criteria);
 
     public K update(K entity);
 

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import pl.akiba.model.entities.Expense;
 import pl.akiba.model.entities.User;
+import pl.akiba.wsclient.api.Criteria;
 import pl.akiba.wsclient.api.CrudApi;
 
 /**
@@ -52,5 +53,11 @@ public class ExpenseApi implements CrudApi<Expense> {
     @Override
     public void delete(Expense entity) {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Expense get(Criteria criteria) {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

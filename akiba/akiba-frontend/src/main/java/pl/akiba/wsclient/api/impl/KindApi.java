@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import pl.akiba.model.entities.Kind;
 import pl.akiba.model.entities.User;
+import pl.akiba.wsclient.api.Criteria;
 import pl.akiba.wsclient.api.CrudApi;
 
 /**
@@ -44,6 +45,12 @@ public class KindApi implements CrudApi<Kind> {
     @Override
     public void delete(Kind entity) {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Kind get(Criteria criteria) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

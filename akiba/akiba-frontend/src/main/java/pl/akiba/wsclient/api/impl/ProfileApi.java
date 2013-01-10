@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import pl.akiba.model.entities.Profile;
 import pl.akiba.model.entities.User;
+import pl.akiba.wsclient.api.Criteria;
 import pl.akiba.wsclient.api.CrudApi;
 
 /**
@@ -44,6 +45,12 @@ public class ProfileApi implements CrudApi<Profile> {
     public void delete(Profile entity) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Profile get(Criteria criteria) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }
