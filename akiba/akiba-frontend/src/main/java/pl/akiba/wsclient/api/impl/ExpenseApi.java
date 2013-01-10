@@ -55,8 +55,8 @@ public class ExpenseApi implements CrudApi<Expense> {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    @Override
-    public Expense get(Criteria criteria) {
+     @Override
+    public Expense get(User user, Criteria criteria) {
         // TODO Auto-generated method stub
         return null;
     }

@@ -48,7 +48,7 @@ public class KindApi implements CrudApi<Kind> {
     }
 
     @Override
-    public Kind get(Criteria criteria) {
+    public Kind get(User user, Criteria criteria) {
         // TODO Auto-generated method stub
         return null;
     }

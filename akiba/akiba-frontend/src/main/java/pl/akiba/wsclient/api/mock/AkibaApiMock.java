@@ -67,7 +67,7 @@ public class AkibaApiMock implements AkibaApi {
             }
 
             @Override
-            public Profile get(Criteria criteria) {
+            public Profile get(User user, Criteria criteria) {
                 // TODO Auto-generated method stub
                 return null;
             }
@@ -118,7 +118,7 @@ public class AkibaApiMock implements AkibaApi {
             }
 
             @Override
-            public Kind get(Criteria criteria) {
+            public Kind get(User user, Criteria criteria) {
                 // TODO Auto-generated method stub
                 return null;
             }
@@ -168,7 +168,7 @@ public class AkibaApiMock implements AkibaApi {
             }
 
             @Override
-            public Expense get(Criteria criteria) {
+            public Expense get(User user, Criteria criteria) {
                 // TODO Auto-generated method stub
                 return null;
             }

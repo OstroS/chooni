@@ -48,7 +48,7 @@ public class ProfileApi implements CrudApi<Profile> {
     }
 
     @Override
-    public Profile get(Criteria criteria) {
+    public Profile get(User user, Criteria criteria) {
         // TODO Auto-generated method stub
         return null;
     }
