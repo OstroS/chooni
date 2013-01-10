@@ -5,8 +5,8 @@ import java.util.Date;
 public class CriteriaBuilder {
     private Criteria current;
     
-    public String SORT_ASCENDING_ORDER = "asc";
-    public String SORT_DESCENDING_ORDER = "desc";
+    public static final String SORT_ASCENDING_ORDER = "asc";
+    public static final String SORT_DESCENDING_ORDER = "desc";
     
     public CriteriaBuilder create() {
         current = new Criteria();
@@ -28,7 +28,7 @@ public class CriteriaBuilder {
         return this;
     }
     
-    public CriteriaBuilder withSortMethod(String sortMethod) {
+    public CriteriaBuilder withSortOrder(String sortMethod) {
         current.setSort(sortMethod);
         return this;
     }
