@@ -1,5 +1,6 @@
 package pl.akiba.frontend.expenses.controller;
 
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -50,7 +51,7 @@ public class ExpenseController {
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public ModelAndView handleAddExpenseForm(@ModelAttribute("expense") Expense expense, BindingResult result) {
-
+        expense.setDate(new Date());
         es.addExpense(expense, getCurrentUser());
 
         ModelAndView model = prepareModelAndView();
