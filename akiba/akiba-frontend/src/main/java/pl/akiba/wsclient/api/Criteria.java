@@ -14,7 +14,7 @@ public class Criteria {
     private Long amount;
     private String sort;
     
-    private Criteria() {
+    public Criteria() {
         startDate = null;
         endDate = null;
         amount = null;
@@ -45,4 +45,12 @@ public class Criteria {
     public void setSort(String sort) {
         this.sort = sort;
     }
+
+    @Override
+    public String toString() {
+        return "Criteria [startDate=" + startDate + ", endDate=" + endDate + ", amount=" + amount + ", sort=" + sort
+                + "]";
+    }
+
+    
 }

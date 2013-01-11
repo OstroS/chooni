@@ -34,6 +34,7 @@ public class CriteriaBuilder {
     }
     
     public Criteria build() {
+        System.out.println("Criteria Built: " + current);
         return current;
     }
 }

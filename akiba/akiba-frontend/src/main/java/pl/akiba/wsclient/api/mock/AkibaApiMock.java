@@ -189,8 +189,11 @@ public class AkibaApiMock implements AkibaApi {
                 
                 // get last X elements
                 if (criteria.getAmount() != null) {
-                    long lastIndex = toReturn.size() - 1;
+                    long lastIndex = list.size() - 1;
                     long firstIndex = lastIndex - criteria.getAmount();
+                    
+                    if(firstIndex < 0) firstIndex = 0;
+                    System.out.println("First index=" + firstIndex +", last index=" + lastIndex); 
                     toReturn = toReturn.subList((int) firstIndex, (int) lastIndex);
                 }
                 
