@@ -3,6 +3,7 @@ package pl.akiba.backend.dao;
 import java.util.List;
 
 import pl.akiba.model.entities.Expense;
+import pl.akiba.model.entities.Filter;
 
 /**
  * 
@@ -12,7 +13,7 @@ public interface ExpenseDao {
 
     public Expense get(int userId, int expenseId);
 
-    public List<Expense> getAll(int userId);
+    public List<Expense> getAll(int userId, Filter filter);
 
     /**
      * @return created expense

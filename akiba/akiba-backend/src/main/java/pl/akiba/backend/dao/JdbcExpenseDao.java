@@ -19,6 +19,7 @@ import org.springframework.stereotype.Repository;
 
 import pl.akiba.backend.util.Sql;
 import pl.akiba.model.entities.Expense;
+import pl.akiba.model.entities.Filter;
 import pl.akiba.model.entities.Kind;
 import pl.akiba.model.entities.Profile;
 
@@ -60,18 +61,22 @@ public class JdbcExpenseDao implements ExpenseDao, InitializingBean {
     }
 
     @Override
-    public List<Expense> getAll(int userId) {
-        return jdbcTemplate.query(Sql.SELECT_EXPENSES, new MapSqlParameterSource("userId", userId),
-                new RowMapper<Expense>() {
+    public List<Expense> getAll(int userId, Filter filter) {
+        StringBuilder sqlBuilder = new StringBuilder(Sql.SELECT_EXPENSES);
+        MapSqlParameterSource parameterMap = new MapSqlParameterSource("userId", userId);
 
-                    @Override
-                    public Expense mapRow(ResultSet rs, int rowNum) throws SQLException {
-                        return new Expense(rs.getInt("id"), rs.getDouble("amount"), new Kind(rs.getInt("kindId"), rs
-                                .getString("kindName")), new Profile(rs.getInt("profileId"), rs
-                                .getString("profileName")), rs.getTimestamp("addDate"));
-                    }
+        addFilters(filter, sqlBuilder, parameterMap);
 
-                });
+        return jdbcTemplate.query(sqlBuilder.toString(), parameterMap, new RowMapper<Expense>() {
+
+            @Override
+            public Expense mapRow(ResultSet rs, int rowNum) throws SQLException {
+                return new Expense(rs.getInt("id"), rs.getDouble("amount"), new Kind(rs.getInt("kindId"), rs
+                        .getString("kindName")), new Profile(rs.getInt("profileId"), rs.getString("profileName")), rs
+                        .getTimestamp("addDate"));
+            }
+
+        });
     }
 
     @Override
@@ -113,6 +118,31 @@ public class JdbcExpenseDao implements ExpenseDao, InitializingBean {
         parameterMap.addValue("expenseId", expenseId);
 
         jdbcTemplate.update(Sql.DELETE_EXPENSE, parameterMap);
+    }
+
+    private void addFilters(Filter filter, StringBuilder sqlBuilder, MapSqlParameterSource parameterMap) {
+        if (filter.getKindId() > 0) {
+            sqlBuilder.append(" and id_kind = :kindId");
+            parameterMap.addValue("kindId", filter.getKindId());
+        }
+        if (filter.getProfileId() > 0) {
+            sqlBuilder.append(" and id_profile = :profileId");
+            parameterMap.addValue("profileId", filter.getProfileId());
+        }
+        if (filter.getStartDate() != null && filter.getEndDate() != null) {
+            sqlBuilder.append(" and add_date between :startDate and :endDate");
+            parameterMap.addValue("startDate", filter.getStartDate());
+            parameterMap.addValue("endDate", filter.getEndDate());
+        } else if (filter.getStartDate() != null) {
+            sqlBuilder.append(" and add_date >= :startDate");
+            parameterMap.addValue("startDate", filter.getStartDate());
+        } else if (filter.getEndDate() != null) {
+            sqlBuilder.append(" and add_date <= :endDate");
+            parameterMap.addValue("endDate", filter.getEndDate());
+        }
+        if (filter.getLimit() > 0) {
+            sqlBuilder.append(" limit " + filter.getLimit());
+        }
     }
 
 }

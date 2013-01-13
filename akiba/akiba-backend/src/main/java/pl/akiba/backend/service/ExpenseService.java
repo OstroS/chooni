@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.dao.EmptyResultDataAccessException;
 
 import pl.akiba.model.entities.Expense;
+import pl.akiba.model.entities.Filter;
 import pl.akiba.model.exception.EntityIsNotValidException;
 
 /**
@@ -18,7 +19,7 @@ public interface ExpenseService {
      */
     public Expense get(int userId, int expenseId) throws EmptyResultDataAccessException;
 
-    public List<Expense> getAll(int userId);
+    public List<Expense> getAll(int userId, Filter filter);
 
     /**
      * @throws EntityIsNotValidException

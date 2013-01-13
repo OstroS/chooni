@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import pl.akiba.backend.dao.ExpenseDao;
 import pl.akiba.model.entities.Expense;
+import pl.akiba.model.entities.Filter;
 import pl.akiba.model.exception.EntityIsNotValidException;
 
 /**
@@ -39,8 +40,9 @@ public class DefaultExpenseService implements ExpenseService {
     }
 
     @Override
-    public List<Expense> getAll(int userId) {
-        return expenseDao.getAll(userId);
+    public List<Expense> getAll(int userId, Filter filter) {
+        //filter validating?
+        return expenseDao.getAll(userId, filter);
     }
 
     @Override

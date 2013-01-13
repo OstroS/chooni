@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import pl.akiba.backend.service.ExpenseService;
 import pl.akiba.model.entities.Expense;
+import pl.akiba.model.entities.Filter;
 import pl.akiba.model.entities.OperationType;
 
 /**
@@ -67,10 +69,11 @@ public class ExpenseController extends AbstractController {
      */
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<List<Expense>> getAll(@PathVariable final int userId) {
+    public ResponseEntity<List<Expense>> getAll(@PathVariable final int userId, @ModelAttribute Filter filter) {
         List<Expense> expenses = null;
+
         try {
-            expenses = expenseService.getAll(userId);
+            expenses = expenseService.getAll(userId, filter);
         } catch (Exception e) {
             LOGGER.error("Exception caught during getting user all expenses: ", e);
             return new ResponseEntity<List<Expense>>(HttpStatus.METHOD_FAILURE);
