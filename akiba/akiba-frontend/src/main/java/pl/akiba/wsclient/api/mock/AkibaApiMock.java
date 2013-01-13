@@ -1,6 +1,7 @@
 package pl.akiba.wsclient.api.mock;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
@@ -134,9 +135,9 @@ public class AkibaApiMock implements AkibaApi {
         return new CrudApi<Expense>() {
 
             List<Expense> expenses = Lists.newArrayList(
-                    new Expense(0, new BigDecimal("123"), AkibaApiMock.this.kindApi.get(0L),
-                            AkibaApiMock.this.profileApi.get(0L)), new Expense(1, new BigDecimal("456"),
-                            AkibaApiMock.this.kindApi.get(1L), AkibaApiMock.this.profileApi.get(1L)));
+                    new Expense(0, 123.0, AkibaApiMock.this.kindApi.get(0L),
+                            AkibaApiMock.this.profileApi.get(0L), new Date()), new Expense(1, 456.0,
+                            AkibaApiMock.this.kindApi.get(1L), AkibaApiMock.this.profileApi.get(1L),new Date()));
 
             @Override
             public void add(Expense entity, User user) {

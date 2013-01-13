@@ -1,6 +1,5 @@
 package pl.akiba.model.entities;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -12,24 +11,26 @@ import java.util.Date;
 public class Expense {
 
     private int id;
-    private BigDecimal amount;
+    private double amount;
     private Kind kind;
     private Profile profile;
     private Date date;
 
-    public Expense(int id, BigDecimal amount, Kind kind, Profile profile) {
+    public Expense(int id, double amount, Kind kind, Profile profile, Date date) {
         this.id = id;
         this.amount = amount;
         this.kind = kind;
         this.profile = profile;
+        this.date = date;
+    }
+
+    //only for test!
+    public Expense(int id, double amount) {
+        this.id = id;
+        this.amount = amount;
     }
 
     public Expense() {
-    }
-
-    //only for test
-    public Expense(int id) {
-        this.id = id;
     }
 
     public int getId() {
@@ -56,25 +57,40 @@ public class Expense {
         this.kind = kind;
     }
 
-    public BigDecimal getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(BigDecimal amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public boolean isValid(OperationType operationType) {
+        if (operationType == OperationType.CREATE) {
+            if (amount > 0 && profile != null && kind != null) {
+                return true;
+            }
+        } else if (operationType == OperationType.UPDATE) {
+            if (id > 0 && amount > 0 && profile != null && kind != null) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     @Override
     public String toString() {
-        return "Expense [id=" + id + ", amount=" + amount + ", kind=" + kind + ", profile=" + profile + "]";
+        return "Expense [id=" + id + ", amount=" + amount + ", kind=" + kind + ", profile=" + profile + ", date="
+                + date + "]";
     }
-
-	public Date getDate() {
-		return date;
-	}
-
-	public void setDate(Date date) {
-		this.date = date;
-	}
 
 }

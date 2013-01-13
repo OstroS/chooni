@@ -10,14 +10,17 @@ import pl.akiba.model.entities.Expense;
  */
 public interface ExpenseDao {
 
-	public Expense get(int userId, int expenseId);
+    public Expense get(int userId, int expenseId);
 
-	public List<Expense> getAll(int userId);
+    public List<Expense> getAll(int userId);
 
-	public void create(int userId, Expense expense);
+    /**
+     * @return created expense
+     */
+    public Expense create(int userId, Expense expense);
 
-	public void update(int userId, Expense expense);
+    public void update(int userId, Expense expense);
 
-	public void delete(int userId, int expenseId);
+    public void delete(int userId, int expenseId);
 
 }

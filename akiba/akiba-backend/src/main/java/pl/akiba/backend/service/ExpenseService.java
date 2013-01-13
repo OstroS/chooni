@@ -2,7 +2,10 @@ package pl.akiba.backend.service;
 
 import java.util.List;
 
+import org.springframework.dao.EmptyResultDataAccessException;
+
 import pl.akiba.model.entities.Expense;
+import pl.akiba.model.exception.EntityIsNotValidException;
 
 /**
  * 
@@ -10,13 +13,20 @@ import pl.akiba.model.entities.Expense;
  */
 public interface ExpenseService {
 
-    public Expense get(int userId, int expenseId);
+    /**
+     * @throws EmptyResultDataAccessException
+     */
+    public Expense get(int userId, int expenseId) throws EmptyResultDataAccessException;
 
     public List<Expense> getAll(int userId);
 
-    public void create(int userId, Expense expense);
+    /**
+     * @throws EntityIsNotValidException
+     * @return created expense
+     */
+    public Expense create(int userId, Expense expense) throws EntityIsNotValidException;
 
-    public void update(int userId, Expense expense);
+    public void update(int userId, Expense expense) throws EntityIsNotValidException;
 
     public void delete(int userId, int expenseId);
 

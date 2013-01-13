@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import pl.akiba.backend.service.ExpenseService;
 import pl.akiba.model.entities.Expense;
+import pl.akiba.model.entities.OperationType;
 
 /**
  * Provides REST services for CRUD operations on {@link Expense} entity.
@@ -41,7 +42,7 @@ public class ExpenseController extends AbstractController {
      */
     @RequestMapping(value = "/{expenseId}", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<Expense> get(@PathVariable int userId, @PathVariable int expenseId) {
+    public ResponseEntity<Expense> get(@PathVariable final int userId, @PathVariable final int expenseId) {
         Expense expense = null;
 
         try {
@@ -66,7 +67,7 @@ public class ExpenseController extends AbstractController {
      */
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<List<Expense>> getAll(@PathVariable int userId) {
+    public ResponseEntity<List<Expense>> getAll(@PathVariable final int userId) {
         List<Expense> expenses = null;
         try {
             expenses = expenseService.getAll(userId);
@@ -91,8 +92,21 @@ public class ExpenseController extends AbstractController {
      */
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<Expense> create(@PathVariable int userId, @RequestBody Expense expense) {
-        return new ResponseEntity<Expense>(new Expense(expense.getId()), HttpStatus.CREATED);
+    public ResponseEntity<Expense> create(@PathVariable final int userId, @RequestBody final Expense expense) {
+        if (!expense.isValid(OperationType.CREATE)) {
+            LOGGER.error("Expense entity is not valid!");
+            return new ResponseEntity<Expense>(HttpStatus.FORBIDDEN);
+        }
+
+        Expense createdExpense = null;
+        try {
+            createdExpense = expenseService.create(userId, expense);
+        } catch (Exception e) {
+            LOGGER.error("Exception caught during creating user [" + userId + "] expense: ", e);
+            return new ResponseEntity<Expense>(HttpStatus.METHOD_FAILURE);
+        }
+
+        return new ResponseEntity<Expense>(createdExpense, HttpStatus.CREATED);
     }
 
     /**
@@ -103,7 +117,20 @@ public class ExpenseController extends AbstractController {
      * @return updated expense
      */
     @RequestMapping(method = RequestMethod.PUT)
-    public ResponseEntity<Expense> update(@PathVariable int userId, @RequestBody Expense expense) {
+    public ResponseEntity<Expense> update(@PathVariable final int userId, @RequestBody final Expense expense) {
+        if (!expense.isValid(OperationType.UPDATE)) {
+            LOGGER.error("Expense entity is not valid!");
+            return new ResponseEntity<Expense>(HttpStatus.FORBIDDEN);
+        }
+
+        try {
+            expenseService.update(userId, expense);
+        } catch (Exception e) {
+            LOGGER.error("Exception caught during updating user [" + userId + "] expense [id: " + expense.getId()
+                    + "] ", e);
+            return new ResponseEntity<Expense>(HttpStatus.METHOD_FAILURE);
+        }
+
         return new ResponseEntity<Expense>(expense, HttpStatus.CREATED);
     }
 
@@ -115,15 +142,15 @@ public class ExpenseController extends AbstractController {
      * @return deleted expense
      */
     @RequestMapping(value = "/{expenseId}", method = RequestMethod.DELETE)
-    public ResponseEntity<String> delete(@PathVariable int userId, @PathVariable int expenseId) {
+    public ResponseEntity<HttpStatus> delete(@PathVariable final int userId, @PathVariable final int expenseId) {
         try {
             expenseService.delete(userId, expenseId);
         } catch (Exception e) {
             LOGGER.error("Exception caught during deleting user expense: ", e);
-            return new ResponseEntity<String>(HttpStatus.METHOD_FAILURE);
+            return new ResponseEntity<HttpStatus>(HttpStatus.METHOD_FAILURE);
         }
 
-        return new ResponseEntity<String>(HttpStatus.ACCEPTED);
+        return new ResponseEntity<HttpStatus>(HttpStatus.ACCEPTED);
     }
 
 }

@@ -28,8 +28,12 @@
 		</property>
 	</bean>
 
-	<bean id="jsonMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
+    <bean id="customObjectMapper" class="pl.akiba.backend.util.CustomObjectMapper" />
+
+	<bean id="jsonMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+		<property name="objectMapper" ref="customObjectMapper" />
+	</bean>
 	
 	<jee:jndi-lookup id="mysqlAkibaDataSource" jndi-name="jdbc/akibadb" expected-type="javax.sql.DataSource" />
-   
+
 </beans>

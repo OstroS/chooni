@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import pl.akiba.backend.dao.ExpenseDao;
 import pl.akiba.model.entities.Expense;
+import pl.akiba.model.exception.EntityIsNotValidException;
 
 /**
  * 
@@ -24,12 +25,12 @@ public class DefaultExpenseService implements ExpenseService {
     private ExpenseDao expenseDao;
 
     @Override
-    public Expense get(int userId, int expenseId) {
+    public Expense get(int userId, int expenseId) throws EmptyResultDataAccessException {
         Expense expense = null;
 
         try {
             expense = expenseDao.get(userId, expenseId);
-        } catch (EmptyResultDataAccessException e) {
+        } catch (EmptyResultDataAccessException e) { //spring forced this exception
             LOGGER.warn("Expense [userId:" + userId + ", expenseId:" + expenseId + "] doesn't exist!");
             return null;
         }
@@ -43,12 +44,26 @@ public class DefaultExpenseService implements ExpenseService {
     }
 
     @Override
-    public void create(int userId, Expense expense) {
-        expenseDao.create(userId, expense);
+    public Expense create(int userId, Expense expense) throws EntityIsNotValidException {
+        if (expense.getProfile() == null || expense.getProfile().getId() < 1) {
+            throw new EntityIsNotValidException("Profile entity is not valid!");
+        }
+        if (expense.getKind() == null || expense.getKind().getId() < 1) {
+            throw new EntityIsNotValidException("Kind entity is not valid!");
+        }
+
+        return expenseDao.create(userId, expense);
     }
 
     @Override
-    public void update(int userId, Expense expense) {
+    public void update(int userId, final Expense expense) throws EntityIsNotValidException {
+        if (expense.getProfile() == null || expense.getProfile().getId() < 1) {
+            throw new EntityIsNotValidException("Profile entity is not valid!");
+        }
+        if (expense.getKind() == null || expense.getKind().getId() < 1) {
+            throw new EntityIsNotValidException("Kind entity is not valid!");
+        }
+
         expenseDao.update(userId, expense);
     }
 
