@@ -21,4 +21,14 @@ public class Sql {
     public static final String UPDATE_EXPENSE = "update expense set id_profile = :profileId, id_kind = :kindId, amount = :amount "
             + "where id = :id and id_user = :userId";
 
+    public static final String SELECT_KIND = "select id, name from kind where id = :kindId and id_user = :userId";
+
+    public static final String SELECT_KINDS = "select id, name from kind where id_user = :userId";
+
+    public static final String INSERT_KIND = "insert into kind (name, id_user) values (:name, :userId)";
+
+    public static final String UPDATE_KIND = "update kind set name = :name where id = :kindId and id_user = :userId";
+
+    public static final String DELETE_KIND = "delete from kind where id = :kindId and id_user = :userId";
+
 }

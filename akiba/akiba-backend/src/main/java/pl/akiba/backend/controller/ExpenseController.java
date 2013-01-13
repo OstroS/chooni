@@ -138,7 +138,7 @@ public class ExpenseController extends AbstractController {
     }
 
     /**
-     * Deleted user expense by id.
+     * Deletes user expense by id.
      * 
      * @param userId
      * @param expenseId
