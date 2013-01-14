@@ -1,6 +1,7 @@
 package pl.akiba.wsclient.api.mock;
 
 import java.math.BigDecimal;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Component;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Ordering;
 
 import pl.akiba.model.entities.Expense;
 import pl.akiba.model.entities.Kind;
@@ -16,6 +18,7 @@ import pl.akiba.model.entities.Profile;
 import pl.akiba.model.entities.User;
 import pl.akiba.wsclient.api.AkibaApi;
 import pl.akiba.wsclient.api.Criteria;
+import pl.akiba.wsclient.api.CriteriaBuilder;
 import pl.akiba.wsclient.api.CrudApi;
 
 @Component("akibaApiMock")
@@ -134,10 +137,10 @@ public class AkibaApiMock implements AkibaApi {
     private CrudApi<Expense> instantiateExpenseApi() {
         return new CrudApi<Expense>() {
 
-            List<Expense> expenses = Lists.newArrayList(
-                    new Expense(0, 123.0, AkibaApiMock.this.kindApi.get(0L),
-                            AkibaApiMock.this.profileApi.get(0L), new Date()), new Expense(1, 456.0,
-                            AkibaApiMock.this.kindApi.get(1L), AkibaApiMock.this.profileApi.get(1L),new Date()));
+            List<Expense> expenses = Lists.newArrayList(new Expense(0, 123.0, AkibaApiMock.this.kindApi.get(0L),
+                    AkibaApiMock.this.profileApi.get(0L), new Date()),
+                    new Expense(1, 456.0, AkibaApiMock.this.kindApi.get(1L), AkibaApiMock.this.profileApi.get(1L),
+                            new Date()));
 
             @Override
             public void add(Expense entity, User user) {
@@ -187,24 +190,28 @@ public class AkibaApiMock implements AkibaApi {
              */
             private List<Expense> filter(List<Expense> list, final Criteria criteria) {
                 List<Expense> toReturn = list;
-                
-                // get last X elements
-                if (criteria.getAmount() != null) {
-                    long lastIndex = list.size() - 1;
-                    long firstIndex = lastIndex - criteria.getAmount();
-                    
-                    if(firstIndex < 0) firstIndex = 0;
-                    System.out.println("First index=" + firstIndex +", last index=" + lastIndex); 
-                    toReturn = toReturn.subList((int) firstIndex, (int) lastIndex);
-                }
+
+                toReturn = sortListByDate(list, criteria);
                 
                 // filtered by date - TODO
                 
-                // order - TODO
-                
+                // get first X elements
+                if (criteria.getAmount() != null) {
+                    long firstIndex = 0;
+                    long lastIndex = criteria.getAmount() - 1;
+
+                    if (lastIndex >= toReturn.size())
+                        lastIndex = toReturn.size() - 1;
+                    System.out.println("First index=" + firstIndex + ", last index=" + lastIndex);
+                    toReturn = toReturn.subList((int) firstIndex, (int) lastIndex);
+                }
                 return toReturn;
             }
+
         };
+
+        
+
     }
 
     @Override
@@ -220,5 +227,33 @@ public class AkibaApiMock implements AkibaApi {
     @Override
     public CrudApi<Profile> getProfileApi() {
         return profileApi;
+    }
+
+    private List<Expense> sortListByDate(List<Expense> list, final Criteria criteria) {
+        List<Expense> toReturn;
+        // order
+        Comparator<Expense> expenseByDate = new Comparator<Expense>() {
+
+            @Override
+            public int compare(Expense o1, Expense o2) {
+                long result = (o2.getDate().getTime() - o1.getDate().getTime());
+                if (result > 0) {
+                    return 1;
+                } else if (result < 0) {
+                    return -1;
+                }
+                return 0;
+            }
+        };
+        Ordering<Expense> ordering;
+        if(criteria.getSort().equals(CriteriaBuilder.SORT_ASCENDING_ORDER)) {
+            ordering = Ordering.from(expenseByDate);
+        }
+        else {
+            ordering = Ordering.from(expenseByDate).reverse();
+        }
+        
+        toReturn = ordering.sortedCopy(list);
+        return toReturn;
     }
 }
