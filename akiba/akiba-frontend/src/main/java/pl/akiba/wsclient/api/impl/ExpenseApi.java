@@ -2,6 +2,8 @@ package pl.akiba.wsclient.api.impl;
 
 import com.google.common.collect.Lists;
 import java.util.List;
+import java.util.logging.Logger;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -25,9 +27,10 @@ public class ExpenseApi implements CrudApi<Expense> {
     private static final String AKIBA_BACKEND_LOCATION = "http://localhost:8080/akiba-backend";
     private static final String GET_ALL_EXPENSES_FOR_USER_SUFFIX = "/expense/{userId}/get/all";
 
+    private static final Logger logger = Logger.getLogger(ExpenseApi.class.toString());
+    
     public void add(Expense expense, User user) {
-        System.out.println(expense);
-        System.out.println(user);
+        logger.info("Add: " + expense + ", " + user);
         throw new UnsupportedOperationException("Not supported yet.");
         //
     }
@@ -36,7 +39,7 @@ public class ExpenseApi implements CrudApi<Expense> {
     public List<Expense> getAll(User user) {
         ResponseEntity<Expense[]> entity = rest.getForEntity(AKIBA_BACKEND_LOCATION + GET_ALL_EXPENSES_FOR_USER_SUFFIX,
                 Expense[].class, user.getId());
-        System.out.println("GetAllExpenses status code: " + entity.getStatusCode());
+        logger.info("GetAllExpenses status code: " + entity.getStatusCode());
         return Lists.newArrayList(entity.getBody());
     }
 

@@ -2,6 +2,8 @@ package pl.akiba.frontend.expenses.controller;
 
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -32,6 +34,8 @@ public class ExpenseController {
     private KindsService kindsService;
     @Autowired
     private ProfilesService profilesService;
+    
+    private static final Logger logger = Logger.getLogger(ExpenseController.class.toString());
 
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView showExpenses() {

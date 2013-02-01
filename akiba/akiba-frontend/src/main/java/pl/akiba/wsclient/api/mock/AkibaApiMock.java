@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.springframework.stereotype.Component;
 
@@ -24,6 +25,8 @@ import pl.akiba.wsclient.api.CrudApi;
 @Component("akibaApiMock")
 public class AkibaApiMock implements AkibaApi {
 
+    private static final Logger logger = Logger.getLogger(AkibaApiMock.class.toString());
+    
     private CrudApi<Expense> expenseApi;
     private CrudApi<Kind> kindApi;
     private CrudApi<Profile> profileApi;
@@ -43,32 +46,32 @@ public class AkibaApiMock implements AkibaApi {
             @Override
             public void add(Profile entity, User user) {
                 profiles.add(entity);
-                System.out.println("AkibaApiMock: AddProfile " + entity);
+                logger.info("AkibaApiMock: AddProfile " + entity);
 
             }
 
             @Override
             public List<Profile> getAll(User user) {
-                System.out.println("AkibaApiMock: GetAllProfiles");
+                logger.info("AkibaApiMock: GetAllProfiles");
                 return profiles;
             }
 
             @Override
             public Profile get(Long entityId) {
-                System.out.println("AkibaApiMock: GetProfile " + entityId);
+                logger.info("AkibaApiMock: GetProfile " + entityId);
                 long id = entityId;
                 return profiles.get((int) id);
             }
 
             @Override
             public Profile update(Profile entity) {
-                System.out.println("AkibaApiMock: Update Profile - no action");
+                logger.info("AkibaApiMock: Update Profile - no action");
                 return null;
             }
 
             @Override
             public void delete(Profile entity) {
-                System.out.println("AkibaApiMock: DeleteProfile - no action" + entity);
+                logger.info("AkibaApiMock: DeleteProfile - no action" + entity);
 
             }
 
@@ -93,33 +96,33 @@ public class AkibaApiMock implements AkibaApi {
             @Override
             public void add(Kind entity, User user) {
                 entity.setId(kinds.size());
-                System.out.println("AkibaApiMock: AddKind " + entity);
+                logger.info("AkibaApiMock: AddKind " + entity);
                 kinds.add(entity);
 
             }
 
             @Override
             public List<Kind> getAll(User user) {
-                System.out.println("AkibaApiMock: GetAllKinds");
+                logger.info("AkibaApiMock: GetAllKinds");
                 return kinds;
             }
 
             @Override
             public Kind get(Long entityId) {
-                System.out.println("AkibaApiMock: GetKind");
+                logger.info("AkibaApiMock: GetKind");
                 long id = entityId;
                 return kinds.get((int) id);
             }
 
             @Override
             public Kind update(Kind entity) {
-                System.out.println("AkibaApiMock: KindUpdate - no action");
+                logger.info("AkibaApiMock: KindUpdate - no action");
                 return entity;
             }
 
             @Override
             public void delete(Kind entity) {
-                System.out.println("AkibaApiMock: DeleteKind - no action");
+                logger.info("AkibaApiMock: DeleteKind - no action");
 
             }
 
@@ -144,14 +147,14 @@ public class AkibaApiMock implements AkibaApi {
 
             @Override
             public void add(Expense entity, User user) {
-                System.out.println("AkibaApiMock: AddExpense " + entity);
+                logger.info("AkibaApiMock: AddExpense " + entity);
                 expenses.add(entity);
 
             }
 
             @Override
             public List<Expense> getAll(User user) {
-                System.out.println("AkibaApiMock: GetAllExpenses");
+                logger.info("AkibaApiMock: GetAllExpenses");
                 return expenses;
             }
 
@@ -163,13 +166,13 @@ public class AkibaApiMock implements AkibaApi {
 
             @Override
             public Expense update(Expense entity) {
-                System.out.println("AkibaApiMock: UpdateExpense - no action");
+                logger.info("AkibaApiMock: UpdateExpense - no action");
                 return entity;
             }
 
             @Override
             public void delete(Expense entity) {
-                System.out.println("AkibaApiMock: DeleteExpense - no action");
+                logger.info("AkibaApiMock: DeleteExpense - no action");
 
             }
 
@@ -202,7 +205,7 @@ public class AkibaApiMock implements AkibaApi {
 
                     if (lastIndex >= toReturn.size())
                         lastIndex = toReturn.size() - 1;
-                    System.out.println("First index=" + firstIndex + ", last index=" + lastIndex);
+                    logger.info("First index=" + firstIndex + ", last index=" + lastIndex);
                     toReturn = toReturn.subList((int) firstIndex, (int) lastIndex);
                 }
                 return toReturn;

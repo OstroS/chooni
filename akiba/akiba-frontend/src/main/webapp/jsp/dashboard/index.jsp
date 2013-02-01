@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -66,13 +68,15 @@ body {
 			<h3>User box</h3>
 			<p>${user}</p>
 		</div>
-		
+
 		<div class="lastexpenses-box">
 			<h3>Last expenses box</h3>
-			<p>${expenses}</p>
+			<c:forEach items="${expenses}" var="expense">
+				<p>${expense}</p>
+			</c:forEach>
 		</div>
 
-	
+
 
 	</div>
 	<!-- /container -->

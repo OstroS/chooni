@@ -1,6 +1,7 @@
 package pl.akiba.frontend.expenses.controller;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,6 +24,8 @@ public class KindController {
     @Autowired
     private KindsService kindsService;
 
+    private static final Logger logger = Logger.getLogger(KindController.class.toString());
+    
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public ModelAndView addKind() {
         ModelAndView model = new ModelAndView();
