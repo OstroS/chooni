@@ -5,8 +5,8 @@ package pl.akiba.model.entities;
  * @author kostrows
  */
 public class User {
-    Long id;
-    String name;
+    protected Long id;
+    protected String name;
 
     public Long getId() {
         return id;
