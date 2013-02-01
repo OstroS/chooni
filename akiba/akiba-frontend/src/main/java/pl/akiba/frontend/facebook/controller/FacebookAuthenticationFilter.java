@@ -11,8 +11,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.api.FacebookProfile;
 import org.springframework.social.facebook.api.impl.FacebookTemplate;
+
+import pl.akiba.frontend.facebook.FacebookUserDTO;
 import pl.akiba.frontend.facebook.service.FacebookLoginService;
-import pl.akiba.frontend.facebook.service.FacebookUserDTO;
 
 /**
  * Filter that perform action pointed by j_spring_security
@@ -55,7 +56,7 @@ public class FacebookAuthenticationFilter extends UsernamePasswordAuthentication
             FacebookProfile userProfile = facebook.userOperations().getUserProfile();
 
             FacebookUserDTO fud = new FacebookUserDTO();
-            fud.setFacebookProfileId(userProfile.getId());
+            fud.setFacebookProfileId(Long.parseLong(userProfile.getId()));
             fud.setAccessToken(facebookAccessToken);
 
             return new UsernamePasswordAuthenticationToken(fud, "cred");

@@ -8,7 +8,7 @@ import pl.akiba.model.entities.User;
  */
 public class FacebookUser extends User {
 
-    private String facebookId;
+    private Long facebookId;
     private String accessToken;
     private String facebookEmail;
     private String facebookFirstName;
@@ -26,11 +26,11 @@ public class FacebookUser extends User {
                 + ", name=" + name + "]";
     }
 
-    public String getFacebookId() {
+    public Long getFacebookId() {
         return facebookId;
     }
 
-    public void setFacebookId(String facebookId) {
+    public void setFacebookId(Long facebookId) {
         this.facebookId = facebookId;
     }
 

@@ -18,4 +18,6 @@ public interface AkibaApi {
 
     public CrudApi<Kind> getKindApi();
     public CrudApi<Profile> getProfileApi();
+    
+    public UserApi getUserApi();
 }

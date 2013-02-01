@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import pl.akiba.frontend.expenses.service.ExpensesService;
-import pl.akiba.frontend.expenses.service.UsersService;
+import pl.akiba.frontend.expenses.service.UserHelper;
 import pl.akiba.model.entities.Expense;
 import pl.akiba.model.entities.User;
 
@@ -25,7 +25,7 @@ public class DashboardController {
     private ExpensesService es;
 
     @Autowired
-    private UsersService us;
+    private UserHelper userHelper;
 
     private static final Logger logger = Logger.getLogger(DashboardController.class.toString());
 
@@ -33,7 +33,7 @@ public class DashboardController {
     public ModelAndView showExpenses(Principal principal) {
         ModelAndView model = new ModelAndView();
 
-        User user = us.getCurrentUser(principal);
+        User user = userHelper.getCurrentUser(principal);
 
         model.addObject("user", user);
 

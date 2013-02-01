@@ -10,10 +10,10 @@ import org.springframework.stereotype.Component;
 import pl.akiba.frontend.model.entities.FacebookUser;
 import pl.akiba.model.entities.User;
 
-@Component("usersService")
-public class UsersService {
+@Component("userHelper")
+public class UserHelper {
     
-    private static final Logger logger = Logger.getLogger(UsersService.class.toString());
+    private static final Logger logger = Logger.getLogger(UserHelper.class.toString());
 
     public User getCurrentUser() {
         User user = new User();

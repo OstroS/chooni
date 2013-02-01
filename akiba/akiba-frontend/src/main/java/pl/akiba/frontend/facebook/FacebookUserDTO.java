@@ -1,4 +1,4 @@
-package pl.akiba.frontend.facebook.service;
+package pl.akiba.frontend.facebook;
 
 /**
  *
@@ -6,7 +6,7 @@ package pl.akiba.frontend.facebook.service;
  */
 public class FacebookUserDTO {
 
-    private String facebookProfileId;
+    private Long facebookProfileId;
     private String accessToken;
 
     public String getAccessToken() {
@@ -17,11 +17,11 @@ public class FacebookUserDTO {
         this.accessToken = accessToken;
     }
     
-    public void setFacebookProfileId(String id) {
+    public void setFacebookProfileId(Long id) {
         this.facebookProfileId = id;
     }
     
-    public String getFacebookProfileId() {
+    public Long getFacebookProfileId() {
         return facebookProfileId;
     }
     

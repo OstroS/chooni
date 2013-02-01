@@ -1,18 +1,14 @@
 package pl.akiba.wsclient.api.mock;
 
-import java.math.BigDecimal;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import java.util.logging.Logger;
 
 import org.springframework.stereotype.Component;
 
-import com.google.common.base.Predicate;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Ordering;
-
+import pl.akiba.frontend.model.entities.FacebookUser;
 import pl.akiba.model.entities.Expense;
 import pl.akiba.model.entities.Kind;
 import pl.akiba.model.entities.Profile;
@@ -21,12 +17,16 @@ import pl.akiba.wsclient.api.AkibaApi;
 import pl.akiba.wsclient.api.Criteria;
 import pl.akiba.wsclient.api.CriteriaBuilder;
 import pl.akiba.wsclient.api.CrudApi;
+import pl.akiba.wsclient.api.UserApi;
+
+import com.google.common.collect.Lists;
+import com.google.common.collect.Ordering;
 
 @Component("akibaApiMock")
 public class AkibaApiMock implements AkibaApi {
 
     private static final Logger logger = Logger.getLogger(AkibaApiMock.class.toString());
-    
+
     private CrudApi<Expense> expenseApi;
     private CrudApi<Kind> kindApi;
     private CrudApi<Profile> profileApi;
@@ -195,9 +195,9 @@ public class AkibaApiMock implements AkibaApi {
                 List<Expense> toReturn = list;
 
                 toReturn = sortListByDate(list, criteria);
-                
+
                 // filtered by date - TODO
-                
+
                 // get first X elements
                 if (criteria.getAmount() != null) {
                     long firstIndex = 0;
@@ -212,8 +212,6 @@ public class AkibaApiMock implements AkibaApi {
             }
 
         };
-
-        
 
     }
 
@@ -249,14 +247,29 @@ public class AkibaApiMock implements AkibaApi {
             }
         };
         Ordering<Expense> ordering;
-        if(criteria.getSort().equals(CriteriaBuilder.SORT_ASCENDING_ORDER)) {
+        if (criteria.getSort().equals(CriteriaBuilder.SORT_ASCENDING_ORDER)) {
             ordering = Ordering.from(expenseByDate);
-        }
-        else {
+        } else {
             ordering = Ordering.from(expenseByDate).reverse();
         }
-        
+
         toReturn = ordering.sortedCopy(list);
         return toReturn;
+    }
+
+    @Override
+    public UserApi getUserApi() {
+
+        return new UserApi() {
+
+            @Override
+            public FacebookUser getByFacebookId(Long facebookId) {
+                logger.info("CreateDefaultFacebookUser");
+                FacebookUser fUser = new FacebookUser();
+                fUser.setFacebookId(facebookId);
+                fUser.setId(new Random().nextLong());
+                return fUser;
+            }
+        };
     }
 }

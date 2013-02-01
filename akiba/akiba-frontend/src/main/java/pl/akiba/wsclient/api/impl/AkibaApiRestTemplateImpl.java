@@ -8,6 +8,7 @@ import pl.akiba.model.entities.Kind;
 import pl.akiba.model.entities.Profile;
 import pl.akiba.wsclient.api.AkibaApi;
 import pl.akiba.wsclient.api.CrudApi;
+import pl.akiba.wsclient.api.UserApi;
 
 /**
  * Implementation of Akiba API base on json restful webservice
@@ -54,6 +55,11 @@ public class AkibaApiRestTemplateImpl implements AkibaApi {
     
     public void setProfileApi(CrudApi<Profile> profileApi) {
         this.profileApi = profileApi;
+    }
+
+    @Override
+    public UserApi getUserApi() {
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 
 }

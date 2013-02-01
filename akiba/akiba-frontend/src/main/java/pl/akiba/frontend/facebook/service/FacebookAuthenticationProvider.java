@@ -16,8 +16,9 @@ import org.springframework.social.facebook.api.FacebookProfile;
 import org.springframework.social.facebook.api.impl.FacebookTemplate;
 import org.springframework.stereotype.Component;
 
+import pl.akiba.frontend.facebook.FacebookUserDTO;
 import pl.akiba.frontend.model.entities.FacebookUser;
-import pl.akiba.frontend.users.UsersRepository;
+import pl.akiba.frontend.users.service.UsersService;
 
 /**
  *
@@ -27,7 +28,7 @@ import pl.akiba.frontend.users.UsersRepository;
 public class FacebookAuthenticationProvider implements AuthenticationProvider {
 
     @Autowired
-    private UsersRepository usersRepository;
+    private UsersService usersService;
 
     @Override
     public Authentication authenticate(Authentication a) throws AuthenticationException {
@@ -35,7 +36,7 @@ public class FacebookAuthenticationProvider implements AuthenticationProvider {
         String credentials = (String) a.getCredentials();
 
         // fetch user from our DB
-        FacebookUser user = usersRepository.getByFacebookId(fud.getFacebookProfileId());
+        FacebookUser user = usersService.getByFacebookId(fud.getFacebookProfileId());
                 
         // checking according to spring security documentation
         if (user.isDisabled()) {
@@ -68,7 +69,7 @@ public class FacebookAuthenticationProvider implements AuthenticationProvider {
         user.setFacebookEmail(facebookProfile.getEmail());
         user.setFacebookFirstName(facebookProfile.getFirstName());
         user.setFacebookGener(facebookProfile.getGender());
-        user.setFacebookId(facebookProfile.getId());
+        user.setFacebookId(Long.parseLong(facebookProfile.getId()));
         user.setFacebookLastName(facebookProfile.getLastName());
         user.setFacebookUsername(facebookProfile.getUsername());
       
