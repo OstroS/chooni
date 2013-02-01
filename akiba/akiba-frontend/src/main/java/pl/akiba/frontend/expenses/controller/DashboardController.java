@@ -1,7 +1,6 @@
 package pl.akiba.frontend.expenses.controller;
 
-
-
+import java.security.Principal;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -21,25 +20,26 @@ import pl.akiba.model.entities.User;
 @RequestMapping("/dashboard")
 @SessionAttributes
 public class DashboardController {
-    
+
     @Autowired
     private ExpensesService es;
-    
+
     @Autowired
     private UsersService us;
-    
+
     private static final Logger logger = Logger.getLogger(DashboardController.class.toString());
-    
+
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView showExpenses() {
+    public ModelAndView showExpenses(Principal principal) {
         ModelAndView model = new ModelAndView();
-        
-        User currentUser = us.getCurrentUser();
-        model.addObject("user", currentUser);
-        
-        List<Expense> expenses = es.getLastExpenses(currentUser);
+
+        User user = us.getCurrentUser(principal);
+
+        model.addObject("user", user);
+
+        List<Expense> expenses = es.getLastExpenses(user);
         model.addObject("expenses", expenses);
-        
+
         model.setViewName("dashboard/index");
         return model;
     }

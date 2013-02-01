@@ -1,5 +1,7 @@
 package pl.akiba.frontend.facebook.controller;
 
+import java.util.logging.Logger;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,7 +21,15 @@ import pl.akiba.frontend.facebook.service.FacebookUserDTO;
  */
 public class FacebookAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
+    private final class AuthenticationExceptionExtension extends AuthenticationException {
+        private AuthenticationExceptionExtension(String msg) {
+            super(msg);
+        }
+    }
+
     private FacebookLoginService facebookLoginService;
+    
+    private static final Logger logger = Logger.getLogger(FacebookAuthenticationFilter.class.toString());
 
     public FacebookLoginService getFacebookLoginService() {
         return facebookLoginService;
@@ -31,7 +41,7 @@ public class FacebookAuthenticationFilter extends UsernamePasswordAuthentication
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        System.out.println("FacebookAuthenticationFilter: attemptAuthentication");
+        logger.info("FacebookAuthenticationFilter: attemptAuthentication");
 
         // user should be redirected here from facebook with *code* parameter
         if (request.getParameter("code") != null) {
@@ -51,45 +61,44 @@ public class FacebookAuthenticationFilter extends UsernamePasswordAuthentication
             return new UsernamePasswordAuthenticationToken(fud, "cred");
 
         } else {
-            throw new AuthenticationException("Cannot find _code_ parameter") {
-            };
+            throw new AuthenticationExceptionExtension("Cannot find _code_ parameter");
         }
 
     }
 
     @Override
     protected String obtainPassword(HttpServletRequest request) {
-        System.out.println("FacebookAuthenticationFilter: obtainPassword");
+        logger.info("FacebookAuthenticationFilter: obtainPassword");
         return super.obtainPassword(request);
     }
 
     @Override
     protected String obtainUsername(HttpServletRequest request) {
-        System.out.println("FacebookAuthenticationFilter: obtainUsername");
+        logger.info("FacebookAuthenticationFilter: obtainUsername");
         return super.obtainUsername(request);
     }
 
     @Override
     protected void setDetails(HttpServletRequest request, UsernamePasswordAuthenticationToken authRequest) {
-        System.out.println("FacebookAuthenticationFilter: setDetails");
+        logger.info("FacebookAuthenticationFilter: setDetails");
         super.setDetails(request, authRequest);
     }
 
     @Override
     public void setUsernameParameter(String usernameParameter) {
-        System.out.println("FacebookAuthenticationFilter: setUsernameParameter");
+        logger.info("FacebookAuthenticationFilter: setUsernameParameter");
         super.setUsernameParameter(usernameParameter);
     }
 
     @Override
     public void setPasswordParameter(String passwordParameter) {
-        System.out.println("FacebookAuthenticationFilter: setPasswordParameter");
+        logger.info("FacebookAuthenticationFilter: setPasswordParameter");
         super.setPasswordParameter(passwordParameter);
     }
 
     @Override
     public void setPostOnly(boolean postOnly) {
-        System.out.println("FacebookAuthenticationFilter: postOnly");
+        logger.info("FacebookAuthenticationFilter: postOnly");
         super.setPostOnly(postOnly);
     }
 }

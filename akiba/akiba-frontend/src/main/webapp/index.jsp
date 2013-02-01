@@ -7,6 +7,7 @@
 <title>Akiba project</title>
 </head>
 <body>
+[TODO: Strona główna]<br/>
 Weź się zaloguj, człowieku.<br/>
 <a href="/akiba-frontend/dashboard">ZALOGUJ SIĘ</a>
 </body>

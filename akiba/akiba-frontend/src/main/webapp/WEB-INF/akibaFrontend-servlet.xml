@@ -83,6 +83,7 @@
         <security:custom-filter position="FORM_LOGIN_FILTER" ref="facebookAuthenticationFilter" />
         <security:intercept-url pattern="/dashboard" access="hasRole('ROLE_USER')" />
         <security:intercept-url pattern="/expense/*" access="hasRole('ROLE_USER')" /> 
+        <security:intercept-url pattern="/kind/*" access="hasRole('ROLE_USER')" /> 
     </security:http>
     
   
