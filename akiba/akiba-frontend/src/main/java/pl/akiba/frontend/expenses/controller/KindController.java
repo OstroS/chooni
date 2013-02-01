@@ -1,5 +1,6 @@
 package pl.akiba.frontend.expenses.controller;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import pl.akiba.frontend.expenses.service.KindsService;
+import pl.akiba.frontend.expenses.service.UserHelper;
 import pl.akiba.model.entities.Kind;
 import pl.akiba.model.entities.User;
 
@@ -23,23 +25,26 @@ public class KindController {
 
     @Autowired
     private KindsService kindsService;
+    
+    @Autowired
+    private UserHelper userHelper;
 
     private static final Logger logger = Logger.getLogger(KindController.class.toString());
     
     @RequestMapping(value = "/add", method = RequestMethod.GET)
-    public ModelAndView addKind() {
+    public ModelAndView addKind(Principal principal) {
         ModelAndView model = new ModelAndView();
         model.setViewName("/kinds/addKind");
         model.addObject("command", new Kind());
 
-        List<Kind> currentKinds = kindsService.prepareKindsforUser(getCurrentUser());
+        List<Kind> currentKinds = kindsService.prepareKindsforUser(userHelper.getCurrentUser(principal));
         model.addObject("currentKinds", currentKinds);
         return model;
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ModelAndView handleAddKindRequest(@ModelAttribute("kind") Kind kind, BindingResult result) {
-        kindsService.addKind(kind, getCurrentUser());
+    public ModelAndView handleAddKindRequest(@ModelAttribute("kind") Kind kind, BindingResult result, Principal principal) {
+        kindsService.addKind(kind, userHelper.getCurrentUser(principal));
        
         ModelAndView model = new ModelAndView();
         model.setViewName("/kinds/addKind");
