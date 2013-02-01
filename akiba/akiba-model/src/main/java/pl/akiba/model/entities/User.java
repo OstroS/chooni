@@ -24,5 +24,25 @@ public class User {
         this.name = name;
     }
     
+    /**
+     * Method should not be used - currently not supported.
+     * Implemented only to be compliant with Spring Security standard.
+     * @return Returns always FALSE
+     */
+    public Boolean isDisabled() {
+    	return Boolean.FALSE;
+    }
+    
+    /**
+     * Method should not be used - currently not supported.
+     * Implemented only to be compliant with Spring Security standard.
+     * @return Returns always FALSE
+     */  
+    public Boolean isLocked() {
+    	return Boolean.FALSE;
+    }
+    
+    
+    
     
 }
