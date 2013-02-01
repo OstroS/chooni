@@ -34,7 +34,8 @@
     
     <context:component-scan base-package="pl.akiba.frontend.facebook.controller" />
     <context:component-scan base-package="pl.akiba.frontend.facebook.service" />
-    <context:component-scan base-package="pl.akiba.frontend.users" />
+    <context:component-scan base-package="pl.akiba.frontend.users.service.mock" />
+    
     
     <beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <beans:property name="prefix" value="/jsp/" />

@@ -42,7 +42,7 @@ public class FacebookAuthenticationFilter extends UsernamePasswordAuthentication
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        logger.info("FacebookAuthenticationFilter: attemptAuthentication");
+        logger.info("Attempting authentication");
 
         // user should be redirected here from facebook with *code* parameter
         if (request.getParameter("code") != null) {
@@ -59,6 +59,7 @@ public class FacebookAuthenticationFilter extends UsernamePasswordAuthentication
             fud.setFacebookProfileId(Long.parseLong(userProfile.getId()));
             fud.setAccessToken(facebookAccessToken);
 
+            logger.info("Authentication attempt: " + fud);
             return new UsernamePasswordAuthenticationToken(fud, "cred");
 
         } else {

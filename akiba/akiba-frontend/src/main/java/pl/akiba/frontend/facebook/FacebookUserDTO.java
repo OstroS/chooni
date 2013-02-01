@@ -24,5 +24,12 @@ public class FacebookUserDTO {
     public Long getFacebookProfileId() {
         return facebookProfileId;
     }
+
+    @Override
+    public String toString() {
+        return "FacebookUserDTO [facebookProfileId=" + facebookProfileId + ", accessToken=" + accessToken + "]";
+    }
+    
+    
     
 }
