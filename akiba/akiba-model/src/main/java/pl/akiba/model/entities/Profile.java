@@ -8,6 +8,8 @@ public class Profile {
 
     private int id;
     private String name;
+    private boolean def;
+    private boolean active;
 
     public Profile(int id, String name) {
         this.id = id;
@@ -33,8 +35,33 @@ public class Profile {
         this.name = name;
     }
 
+    /**
+     * @return is default profile
+     */
+    public boolean isDef() {
+        return def;
+    }
+
+    public void setDef(boolean def) {
+        this.def = def;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    //TODO
+    public boolean isValid(OperationType operationType) {
+        return true;
+    }
+
     @Override
     public String toString() {
-        return "Profile{" + "id=" + id + ", name=" + name + '}';
+        return "Profile [id=" + id + ", name=" + name + ", default=" + def + ", active=" + active + "]";
     }
+
 }

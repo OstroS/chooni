@@ -2,6 +2,7 @@ package pl.akiba.backend.service;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import pl.akiba.backend.dao.KindDao;
 import pl.akiba.model.entities.Kind;
+import pl.akiba.model.exception.EntityIsNotValidException;
 
 /**
  * 
@@ -39,26 +41,30 @@ public class DefaultKindService implements KindService {
 
     @Override
     public List<Kind> getAll(int userId) {
-        // TODO Auto-generated method stub
-        return null;
+        return kindDao.getAll(userId);
     }
 
     @Override
     public Kind create(int userId, Kind kind) {
-        // TODO Auto-generated method stub
-        return null;
+        if (StringUtils.isBlank(kind.getName())) {
+            throw new EntityIsNotValidException("Kind entity is not valid!");
+        }
+
+        return kindDao.create(userId, kind);
     }
 
     @Override
     public void update(int userId, Kind kind) {
-        // TODO Auto-generated method stub
+        if (StringUtils.isBlank(kind.getName())) {
+            throw new EntityIsNotValidException("Kind entity is not valid!");
+        }
 
+        kindDao.update(userId, kind);
     }
 
     @Override
     public void delete(int userId, int kindId) {
-        // TODO Auto-generated method stub
-
+        kindDao.delete(userId, kindId);
     }
 
 }

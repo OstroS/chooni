@@ -6,6 +6,6 @@ package pl.akiba.backend.controller;
  */
 public class AbstractController {
 
-    private static final char[] FORBIDDEN_CHARS = { '<', '>', '"', '\'', '%', ';', '&', '*', '?' };
+    protected static final char[] FORBIDDEN_CHARS = { '<', '>', '"', '\'', '%', ';', '&', '*', '?' };
 
 }

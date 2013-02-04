@@ -28,7 +28,7 @@ import pl.akiba.model.entities.OperationType;
  */
 @Controller
 @RequestMapping("/{userId}/expense")
-public class ExpenseController extends AbstractController {
+public class ExpenseController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ExpenseController.class);
 
@@ -50,7 +50,7 @@ public class ExpenseController extends AbstractController {
         try {
             expense = expenseService.get(userId, expenseId);
         } catch (Exception e) {
-            LOGGER.error("Exception caught during getting user all expenses: ", e);
+            LOGGER.error("Exception caught during getting user's expense: ", e);
             return new ResponseEntity<Expense>(HttpStatus.METHOD_FAILURE);
         }
 
@@ -75,7 +75,7 @@ public class ExpenseController extends AbstractController {
         try {
             expenses = expenseService.getAll(userId, filter);
         } catch (Exception e) {
-            LOGGER.error("Exception caught during getting user all expenses: ", e);
+            LOGGER.error("Exception caught during getting user's all expenses: ", e);
             return new ResponseEntity<List<Expense>>(HttpStatus.METHOD_FAILURE);
         }
 

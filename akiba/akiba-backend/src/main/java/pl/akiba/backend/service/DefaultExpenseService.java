@@ -47,24 +47,28 @@ public class DefaultExpenseService implements ExpenseService {
 
     @Override
     public Expense create(int userId, Expense expense) throws EntityIsNotValidException {
-        if (expense.getProfile() == null || expense.getProfile().getId() < 1) {
-            throw new EntityIsNotValidException("Profile entity is not valid!");
-        }
-        if (expense.getKind() == null || expense.getKind().getId() < 1) {
-            throw new EntityIsNotValidException("Kind entity is not valid!");
-        }
+        //        if (expense.getProfile() == null || expense.getProfile().getId() < 1) {
+        //            throw new EntityIsNotValidException("Profile entity is not valid!");
+        //        }
+        //        if (expense.getKind() == null || expense.getKind().getId() < 1) {
+        //            throw new EntityIsNotValidException("Kind entity is not valid!");
+        //        }
+
+        //FIXME expense.isvalid?
 
         return expenseDao.create(userId, expense);
     }
 
     @Override
     public void update(int userId, final Expense expense) throws EntityIsNotValidException {
-        if (expense.getProfile() == null || expense.getProfile().getId() < 1) {
-            throw new EntityIsNotValidException("Profile entity is not valid!");
-        }
-        if (expense.getKind() == null || expense.getKind().getId() < 1) {
-            throw new EntityIsNotValidException("Kind entity is not valid!");
-        }
+        //        if (expense.getProfile() == null || expense.getProfile().getId() < 1) {
+        //            throw new EntityIsNotValidException("Profile entity is not valid!");
+        //        }
+        //        if (expense.getKind() == null || expense.getKind().getId() < 1) {
+        //            throw new EntityIsNotValidException("Kind entity is not valid!");
+        //        }
+
+        //FIXME expense.isvalid?
 
         expenseDao.update(userId, expense);
     }
