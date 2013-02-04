@@ -7,14 +7,21 @@ import com.google.common.io.CharStreams;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.logging.Logger;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+
+import pl.akiba.frontend.model.entities.FacebookUser;
 import pl.akiba.helper.StringHelper;
 
 /**
@@ -37,6 +44,8 @@ public class FacebookLoginService {
     
     @Value("${conf.facebook.redirectUri}")
     private String REDIRECT_URI;
+    
+    private static final Logger logger = Logger.getLogger(FacebookLoginService.class.toString());
     
     /**
      * @TODO @FIXME
@@ -99,6 +108,41 @@ public class FacebookLoginService {
         // @FIXME        
         return "";
 
+    }
+    
+    /**
+     * Method send logout requst directly to facebook <br />
+     * hen using the server-side Login flow, this process will involve revoking Permissions for a user from that app and
+     * removing any stored session information. <br />
+     * More information on facebook logout process:
+     * https://developers.facebook.com/docs/howtos/login/server-side-logout/
+     * 
+     * @param user
+     *            Users to be logged out
+     * @return
+     */
+    public int logoutFacebookUser(FacebookUser user) {
+        logger.info("Logout facebook user: " + user);
+        URIBuilder uriBuilder = new URIBuilder();
+        uriBuilder.setScheme(FB_URI_SCHEME).setHost("graph.facebook.com").setPath("/me/permissions")
+                .setParameter("method", "delete").setParameter("access_token", user.getAccessToken());
+
+        try {
+            URI uri = uriBuilder.build();
+            HttpDelete httpdelte = new HttpDelete(uri);
+
+            logger.info("Invoking... " + uri);
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpResponse fbResponse = httpclient.execute(httpdelte);
+
+            logger.info("FB response: " + fbResponse.getStatusLine());
+
+        } catch (URISyntaxException | IOException | IllegalStateException ex) {
+            // @FIXME
+            ex.printStackTrace();
+        }
+
+        return 0;
     }
 
     private String getAccessTokenFromKeyValueString(String content) {

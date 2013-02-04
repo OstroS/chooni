@@ -87,6 +87,7 @@
 			<beans:list>
 				<beans:bean id="securityContextLogoutHandler"
 					class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler" />
+				<beans:bean id="facebookLogoutHandler" class="pl.akiba.frontend.facebook.controller.FacebookLogoutHandler" />
 			</beans:list>
 		</beans:constructor-arg>
 		<beans:property name="filterProcessesUrl" value="/logout" />

@@ -67,6 +67,7 @@ public class FacebookAuthenticationProvider implements AuthenticationProvider {
         Facebook facebook = new FacebookTemplate(fud.getAccessToken());
         FacebookProfile facebookProfile = facebook.userOperations().getUserProfile();
         fillUserData(user, facebookProfile);
+        user.setAccessToken(fud.getAccessToken());
 
         Authentication auth = new UsernamePasswordAuthenticationToken(user, credentials, authorities);
         logger.info("Authentication completed: " + auth);
