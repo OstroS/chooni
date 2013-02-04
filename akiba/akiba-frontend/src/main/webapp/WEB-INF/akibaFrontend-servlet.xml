@@ -78,6 +78,19 @@
         class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
         <beans:property name="loginFormUrl" value="/fb/login" />
     </beans:bean>
+
+	<!--  Configuration of logout filter -->
+	<beans:bean id="akibaLogoutFilter"
+		class="org.springframework.security.web.authentication.logout.LogoutFilter">
+		<beans:constructor-arg index="0" value="/" /> <!--  where to redirect user after successful logout -->
+		<beans:constructor-arg index="1">
+			<beans:list>
+				<beans:bean id="securityContextLogoutHandler"
+					class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler" />
+			</beans:list>
+		</beans:constructor-arg>
+		<beans:property name="filterProcessesUrl" value="/logout" />
+	</beans:bean>
     
     <!-- access list with priviligies and login filters configuration -->
     <security:http auto-config="false" use-expressions="true" entry-point-ref="loginUrlAuthenticationEntryPoint">
@@ -85,6 +98,7 @@
         <security:intercept-url pattern="/dashboard" access="hasRole('ROLE_USER')" />
         <security:intercept-url pattern="/expense/*" access="hasRole('ROLE_USER')" /> 
         <security:intercept-url pattern="/kind/*" access="hasRole('ROLE_USER')" /> 
+        <security:custom-filter position="LOGOUT_FILTER" ref="akibaLogoutFilter" />
     </security:http>
     
   
