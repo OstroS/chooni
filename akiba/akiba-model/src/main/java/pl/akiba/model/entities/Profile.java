@@ -11,6 +11,13 @@ public class Profile {
     private boolean def;
     private boolean active;
 
+    public Profile(int id, String name, boolean def, boolean active) {
+        this.id = id;
+        this.name = name;
+        this.def = def;
+        this.active = active;
+    }
+
     public Profile(int id, String name) {
         this.id = id;
         this.name = name;

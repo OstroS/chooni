@@ -55,9 +55,11 @@ public class DefaultKindService implements KindService {
 
     @Override
     public void update(int userId, Kind kind) {
-        if (StringUtils.isBlank(kind.getName())) {
-            throw new EntityIsNotValidException("Kind entity is not valid!");
-        }
+        //        if (StringUtils.isBlank(kind.getName())) {
+        //            throw new EntityIsNotValidException("Kind entity is not valid!");
+        //        }
+
+        //TODO isValidate ???
 
         kindDao.update(userId, kind);
     }

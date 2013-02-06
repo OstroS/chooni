@@ -105,6 +105,7 @@ public class KindController {
      */
     @RequestMapping(method = RequestMethod.PUT)
     public ResponseEntity<Kind> update(@PathVariable final int userId, @RequestBody final Kind kind) {
+        //TODO czemu tak? sterowac wyjatkami, a walidacja itd w serwisie, na chuj on inaczej?
         if (!kind.isValid(OperationType.UPDATE)) {
             LOGGER.error("Kind entity is not valid!");
             return new ResponseEntity<Kind>(HttpStatus.FORBIDDEN);
