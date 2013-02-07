@@ -8,7 +8,7 @@ import java.util.Date;
  * @author kostrows
  * @author sobczakt
  */
-public class Expense {
+public class Expense extends AkibaEntity {
 
     private int id;
     private double amount;
@@ -73,13 +73,14 @@ public class Expense {
         this.date = date;
     }
 
+    @Override
     public boolean isValid(OperationType operationType) {
         if (operationType == OperationType.CREATE) {
             if (amount > 0 && profile != null && kind != null) {
                 return true;
             }
         } else if (operationType == OperationType.UPDATE) {
-            if (id > 0 && amount > 0 && profile != null && kind != null) {
+            if (id > 0 && amount > 0 && profile != null && kind != null && date != null) {
                 return true;
             }
         }

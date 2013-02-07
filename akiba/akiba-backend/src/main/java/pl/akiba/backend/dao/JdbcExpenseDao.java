@@ -53,8 +53,8 @@ public class JdbcExpenseDao implements ExpenseDao, InitializingBean {
             public Expense mapRow(ResultSet rs, int rowNum) throws SQLException {
 
                 return new Expense(rs.getInt("id"), rs.getDouble("amount"), new Kind(rs.getInt("kindId"), rs
-                        .getString("kindName")), new Profile(rs.getInt("profileId"), rs.getString("profileName")), rs
-                        .getTimestamp("addDate"));
+                        .getString("kindName")), new Profile(rs.getInt("id"), rs.getString("name"), rs
+                        .getBoolean("def"), rs.getBoolean("active")), rs.getTimestamp("addDate"));
             }
 
         });
@@ -72,8 +72,8 @@ public class JdbcExpenseDao implements ExpenseDao, InitializingBean {
             @Override
             public Expense mapRow(ResultSet rs, int rowNum) throws SQLException {
                 return new Expense(rs.getInt("id"), rs.getDouble("amount"), new Kind(rs.getInt("kindId"), rs
-                        .getString("kindName")), new Profile(rs.getInt("profileId"), rs.getString("profileName")), rs
-                        .getTimestamp("addDate"));
+                        .getString("kindName")), new Profile(rs.getInt("id"), rs.getString("name"), rs
+                        .getBoolean("def"), rs.getBoolean("active")), rs.getTimestamp("addDate"));
             }
 
         });

@@ -6,6 +6,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import pl.akiba.backend.service.ExpenseService;
 import pl.akiba.model.entities.Expense;
 import pl.akiba.model.entities.Filter;
-import pl.akiba.model.entities.OperationType;
+import pl.akiba.model.exception.EntityIsNotValidException;
 
 /**
  * Provides REST services for CRUD operations on {@link Expense} entity.
@@ -49,13 +50,12 @@ public class ExpenseController {
 
         try {
             expense = expenseService.get(userId, expenseId);
+        } catch (EmptyResultDataAccessException e) {
+            LOGGER.warn("Expense [userId:" + userId + ", expenseId:" + expenseId + "] doesn't exist!");
+            return new ResponseEntity<Expense>(HttpStatus.NOT_FOUND);
         } catch (Exception e) {
             LOGGER.error("Exception caught during getting user's expense: ", e);
             return new ResponseEntity<Expense>(HttpStatus.METHOD_FAILURE);
-        }
-
-        if (expense == null) {
-            return new ResponseEntity<Expense>(HttpStatus.NOT_FOUND);
         }
 
         return new ResponseEntity<Expense>(expense, HttpStatus.OK);
@@ -96,16 +96,15 @@ public class ExpenseController {
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<Expense> create(@PathVariable final int userId, @RequestBody final Expense expense) {
-        if (!expense.isValid(OperationType.CREATE)) {
-            LOGGER.error("Expense entity is not valid!");
-            return new ResponseEntity<Expense>(HttpStatus.FORBIDDEN);
-        }
-
         Expense createdExpense = null;
+
         try {
             createdExpense = expenseService.create(userId, expense);
+        } catch (EntityIsNotValidException e) {
+            LOGGER.error("Exception caught during creating user [id: " + userId + "] expense: ", e);
+            return new ResponseEntity<Expense>(HttpStatus.METHOD_FAILURE);
         } catch (Exception e) {
-            LOGGER.error("Exception caught during creating user [" + userId + "] expense: ", e);
+            LOGGER.error("Exception caught during creating user [id: " + userId + "] expense: ", e);
             return new ResponseEntity<Expense>(HttpStatus.METHOD_FAILURE);
         }
 
@@ -121,15 +120,14 @@ public class ExpenseController {
      */
     @RequestMapping(method = RequestMethod.PUT)
     public ResponseEntity<Expense> update(@PathVariable final int userId, @RequestBody final Expense expense) {
-        if (!expense.isValid(OperationType.UPDATE)) {
-            LOGGER.error("Expense entity is not valid!");
-            return new ResponseEntity<Expense>(HttpStatus.FORBIDDEN);
-        }
-
         try {
             expenseService.update(userId, expense);
+        } catch (EntityIsNotValidException e) {
+            LOGGER.error("Exception caught during updating user [id: " + userId + "] expense [id: " + expense.getId()
+                    + "] ", e);
+            return new ResponseEntity<Expense>(HttpStatus.METHOD_FAILURE);
         } catch (Exception e) {
-            LOGGER.error("Exception caught during updating user [" + userId + "] expense [id: " + expense.getId()
+            LOGGER.error("Exception caught during updating user [id: " + userId + "] expense [id: " + expense.getId()
                     + "] ", e);
             return new ResponseEntity<Expense>(HttpStatus.METHOD_FAILURE);
         }

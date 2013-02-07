@@ -2,9 +2,11 @@ package pl.akiba.model.entities;
 
 /**
  * Klasa do nadpisania przez model danych
+ * 
  * @author kostrows
  */
-public class User {
+public class User extends AkibaEntity {
+
     protected Long id;
     protected String name;
 
@@ -23,26 +25,31 @@ public class User {
     public void setName(String name) {
         this.name = name;
     }
-    
+
     /**
-     * Method should not be used - currently not supported.
-     * Implemented only to be compliant with Spring Security standard.
+     * Method should not be used - currently not supported. Implemented only to be compliant with Spring Security
+     * standard.
+     * 
      * @return Returns always FALSE
      */
     public Boolean isDisabled() {
-    	return Boolean.FALSE;
+        return Boolean.FALSE;
     }
-    
+
     /**
-     * Method should not be used - currently not supported.
-     * Implemented only to be compliant with Spring Security standard.
+     * Method should not be used - currently not supported. Implemented only to be compliant with Spring Security
+     * standard.
+     * 
      * @return Returns always FALSE
-     */  
+     */
     public Boolean isLocked() {
-    	return Boolean.FALSE;
+        return Boolean.FALSE;
     }
-    
-    
-    
-    
+
+    @Override
+    //TODO
+    public boolean isValid(OperationType type) {
+        return true;
+    }
+
 }

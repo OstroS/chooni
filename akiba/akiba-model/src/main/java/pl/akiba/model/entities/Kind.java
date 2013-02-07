@@ -1,10 +1,12 @@
 package pl.akiba.model.entities;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
  * 
  * @author OstroS
  */
-public class Kind {
+public class Kind extends AkibaEntity {
 
     private int id;
     private String name;
@@ -33,14 +35,14 @@ public class Kind {
         this.name = name;
     }
 
-    public boolean isValid(OperationType operationType) {
-        //FIXME stringutils!
-        if (operationType == OperationType.CREATE) {
-            if (name != null && !"".equals(name)) {
+    @Override
+    public boolean isValid(OperationType type) {
+        if (type == OperationType.CREATE) {
+            if (StringUtils.isNotBlank(name)) {
                 return true;
             }
-        } else if (operationType == OperationType.UPDATE) {
-            if (id > 0 && name != null && !"".equals(name)) {
+        } else if (type == OperationType.UPDATE) {
+            if (id > 0 && StringUtils.isNotBlank(name)) {
                 return true;
             }
         }

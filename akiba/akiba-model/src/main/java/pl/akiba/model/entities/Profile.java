@@ -1,10 +1,12 @@
 package pl.akiba.model.entities;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
  * 
  * @author OstroS
  */
-public class Profile {
+public class Profile extends AkibaEntity {
 
     private int id;
     private String name;
@@ -61,9 +63,19 @@ public class Profile {
         this.active = active;
     }
 
-    //TODO
-    public boolean isValid(OperationType operationType) {
-        return true;
+    @Override
+    public boolean isValid(OperationType type) {
+        if (type == OperationType.CREATE) {
+            if (StringUtils.isNotBlank(name)) {
+                return true;
+            }
+        } else if (type == OperationType.UPDATE) {
+            if (StringUtils.isNotBlank(name) && id > 0) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     @Override

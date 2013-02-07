@@ -6,6 +6,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import pl.akiba.backend.service.KindService;
 import pl.akiba.model.entities.Kind;
-import pl.akiba.model.entities.OperationType;
+import pl.akiba.model.exception.EntityIsNotValidException;
 
 /**
  * Provides REST services for CRUD operations on {@link Kind} entity.
@@ -44,13 +45,12 @@ public class KindController {
 
         try {
             kind = kindService.get(userId, kindId);
+        } catch (EmptyResultDataAccessException e) {
+            LOGGER.warn("Kind [userId:" + userId + ", kindId:" + kindId + "] doesn't exist!");
+            return new ResponseEntity<Kind>(HttpStatus.NOT_FOUND);
         } catch (Exception e) {
             LOGGER.error("Exception caught during getting user's kind: ", e);
             return new ResponseEntity<Kind>(HttpStatus.METHOD_FAILURE);
-        }
-
-        if (kind == null) {
-            return new ResponseEntity<Kind>(HttpStatus.NOT_FOUND);
         }
 
         return new ResponseEntity<Kind>(kind, HttpStatus.OK);
@@ -84,16 +84,15 @@ public class KindController {
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<Kind> create(@PathVariable final int userId, @RequestBody final Kind kind) {
-        if (!kind.isValid(OperationType.CREATE)) {
-            LOGGER.error("Kind entity is not valid!");
-            return new ResponseEntity<Kind>(HttpStatus.FORBIDDEN);
-        }
-
         Kind createdKind = null;
+
         try {
             createdKind = kindService.create(userId, kind);
+        } catch (EntityIsNotValidException e) {
+            LOGGER.error("Exception caught during creating user's [id: " + userId + "] kind: ", e);
+            return new ResponseEntity<Kind>(HttpStatus.METHOD_FAILURE);
         } catch (Exception e) {
-            LOGGER.error("Exception caught during creating user's [" + userId + "] kind: ", e);
+            LOGGER.error("Exception caught during creating user's [id: " + userId + "] kind: ", e);
             return new ResponseEntity<Kind>(HttpStatus.METHOD_FAILURE);
         }
 
@@ -105,16 +104,15 @@ public class KindController {
      */
     @RequestMapping(method = RequestMethod.PUT)
     public ResponseEntity<Kind> update(@PathVariable final int userId, @RequestBody final Kind kind) {
-        //TODO czemu tak? sterowac wyjatkami, a walidacja itd w serwisie, na chuj on inaczej?
-        if (!kind.isValid(OperationType.UPDATE)) {
-            LOGGER.error("Kind entity is not valid!");
-            return new ResponseEntity<Kind>(HttpStatus.FORBIDDEN);
-        }
-
         try {
             kindService.update(userId, kind);
+        } catch (EntityIsNotValidException e) {
+            LOGGER.error("Exception caught during updating user's [id: " + userId + "] kind [id: " + kind.getId()
+                    + "] ", e);
+            return new ResponseEntity<Kind>(HttpStatus.METHOD_FAILURE);
         } catch (Exception e) {
-            LOGGER.error("Exception caught during updating user's [" + userId + "] kind [id: " + kind.getId() + "] ", e);
+            LOGGER.error("Exception caught during updating user's [id: " + userId + "] kind [id: " + kind.getId()
+                    + "] ", e);
             return new ResponseEntity<Kind>(HttpStatus.METHOD_FAILURE);
         }
 

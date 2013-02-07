@@ -6,6 +6,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -16,8 +17,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import pl.akiba.backend.service.ProfileService;
-import pl.akiba.model.entities.OperationType;
 import pl.akiba.model.entities.Profile;
+import pl.akiba.model.exception.EntityIsNotValidException;
 
 /**
  * 
@@ -39,13 +40,12 @@ public class ProfileController {
 
         try {
             profile = profileService.getDefault(userId);
+        } catch (EmptyResultDataAccessException e) {
+            LOGGER.warn("Default profile [userId:" + userId + "] doesn't exist!");
+            return new ResponseEntity<Profile>(HttpStatus.NOT_FOUND);
         } catch (Exception e) {
             LOGGER.error("Exception caught during getting user's default profile: ", e);
             return new ResponseEntity<Profile>(HttpStatus.METHOD_FAILURE);
-        }
-
-        if (profile == null) {
-            return new ResponseEntity<Profile>(HttpStatus.NOT_FOUND);
         }
 
         return new ResponseEntity<Profile>(profile, HttpStatus.OK);
@@ -73,16 +73,15 @@ public class ProfileController {
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<Profile> create(@PathVariable final int userId, @RequestBody final Profile profile) {
-        if (!profile.isValid(OperationType.CREATE)) {
-            LOGGER.error("Profile entity is not valid!");
-            return new ResponseEntity<Profile>(HttpStatus.FORBIDDEN);
-        }
-
         Profile createdProfile = null;
+
         try {
             createdProfile = profileService.create(userId, profile);
+        } catch (EntityIsNotValidException e) {
+            LOGGER.error("Exception caught during creating user's [id: " + userId + "] profile: ", e);
+            return new ResponseEntity<Profile>(HttpStatus.METHOD_FAILURE);
         } catch (Exception e) {
-            LOGGER.error("Exception caught during creating user's [" + userId + "] profile: ", e);
+            LOGGER.error("Exception caught during creating user's [id: " + userId + "] profile: ", e);
             return new ResponseEntity<Profile>(HttpStatus.METHOD_FAILURE);
         }
 
@@ -91,15 +90,14 @@ public class ProfileController {
 
     @RequestMapping(method = RequestMethod.PUT)
     public ResponseEntity<Profile> update(@PathVariable final int userId, @RequestBody final Profile profile) {
-        if (!profile.isValid(OperationType.UPDATE)) {
-            LOGGER.error("Kind entity is not valid!");
-            return new ResponseEntity<Profile>(HttpStatus.FORBIDDEN);
-        }
-
         try {
             profileService.update(userId, profile);
+        } catch (EntityIsNotValidException e) {
+            LOGGER.error("Exception caught during updating user's [id: " + userId + "] profile [id: " + profile.getId()
+                    + "] ", e);
+            return new ResponseEntity<Profile>(HttpStatus.METHOD_FAILURE);
         } catch (Exception e) {
-            LOGGER.error("Exception caught during updating user's [" + userId + "] profile [id: " + profile.getId()
+            LOGGER.error("Exception caught during updating user's [id: " + userId + "] profile [id: " + profile.getId()
                     + "] ", e);
             return new ResponseEntity<Profile>(HttpStatus.METHOD_FAILURE);
         }

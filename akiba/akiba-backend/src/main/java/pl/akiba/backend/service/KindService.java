@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.dao.EmptyResultDataAccessException;
 
 import pl.akiba.model.entities.Kind;
+import pl.akiba.model.exception.EntityIsNotValidException;
 
 /**
  * 
@@ -19,9 +20,9 @@ public interface KindService {
     /**
      * @return created kind
      */
-    public Kind create(int userId, Kind kind);
+    public Kind create(int userId, Kind kind) throws EntityIsNotValidException;
 
-    public void update(int userId, Kind kind);
+    public void update(int userId, Kind kind) throws EntityIsNotValidException;
 
     public void delete(int userId, int kindId);
 

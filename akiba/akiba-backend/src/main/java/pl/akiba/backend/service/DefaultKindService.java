@@ -2,14 +2,12 @@ package pl.akiba.backend.service;
 
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import pl.akiba.backend.dao.KindDao;
+import pl.akiba.model.entities.AkibaEntity.OperationType;
 import pl.akiba.model.entities.Kind;
 import pl.akiba.model.exception.EntityIsNotValidException;
 
@@ -19,8 +17,6 @@ import pl.akiba.model.exception.EntityIsNotValidException;
  */
 @Service
 public class DefaultKindService implements KindService {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultKindService.class);
 
     @Autowired
     private KindDao kindDao;
@@ -32,8 +28,7 @@ public class DefaultKindService implements KindService {
         try {
             kind = kindDao.get(userId, kindId);
         } catch (EmptyResultDataAccessException e) { //spring forced this exception
-            LOGGER.warn("Kind [userId:" + userId + ", kindId:" + kindId + "] doesn't exist!");
-            return null;
+            throw e;
         }
 
         return kind;
@@ -45,8 +40,8 @@ public class DefaultKindService implements KindService {
     }
 
     @Override
-    public Kind create(int userId, Kind kind) {
-        if (StringUtils.isBlank(kind.getName())) {
+    public Kind create(int userId, Kind kind) throws EntityIsNotValidException {
+        if (!kind.isValid(OperationType.CREATE)) {
             throw new EntityIsNotValidException("Kind entity is not valid!");
         }
 
@@ -54,12 +49,10 @@ public class DefaultKindService implements KindService {
     }
 
     @Override
-    public void update(int userId, Kind kind) {
-        //        if (StringUtils.isBlank(kind.getName())) {
-        //            throw new EntityIsNotValidException("Kind entity is not valid!");
-        //        }
-
-        //TODO isValidate ???
+    public void update(int userId, Kind kind) throws EntityIsNotValidException {
+        if (!kind.isValid(OperationType.UPDATE)) {
+            throw new EntityIsNotValidException("Kind entity is not valid!");
+        }
 
         kindDao.update(userId, kind);
     }
