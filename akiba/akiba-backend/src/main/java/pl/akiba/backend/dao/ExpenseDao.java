@@ -16,6 +16,11 @@ public interface ExpenseDao {
     public List<Expense> getAll(int userId, Filter filter);
 
     /**
+     * 
+     */
+    public double getTotal(int userId, Filter filter);
+
+    /**
      * @return created expense
      */
     public Expense create(int userId, Expense expense);

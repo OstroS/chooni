@@ -87,6 +87,24 @@ public class ExpenseController {
     }
 
     /**
+     * 
+     */
+    @RequestMapping(value = "/total", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<Double> getTotal(@PathVariable final int userId, @ModelAttribute Filter filter) {
+        double total = 0;
+
+        try {
+            total = expenseService.getTotal(userId, filter);
+        } catch (Exception e) {
+            LOGGER.error("Exception caught during getting user's total expense: ", e);
+            return new ResponseEntity<Double>(HttpStatus.METHOD_FAILURE);
+        }
+
+        return new ResponseEntity<Double>(total, HttpStatus.OK);
+    }
+
+    /**
      * Creates new user expense.
      * 
      * @param userId

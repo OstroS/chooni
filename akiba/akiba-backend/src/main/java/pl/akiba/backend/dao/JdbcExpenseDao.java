@@ -53,7 +53,7 @@ public class JdbcExpenseDao implements ExpenseDao, InitializingBean {
             public Expense mapRow(ResultSet rs, int rowNum) throws SQLException {
 
                 return new Expense(rs.getInt("id"), rs.getDouble("amount"), new Kind(rs.getInt("kindId"), rs
-                        .getString("kindName")), new Profile(rs.getInt("id"), rs.getString("name"), rs
+                        .getString("kindName")), new Profile(rs.getInt("id"), rs.getString("profileName"), rs
                         .getBoolean("def"), rs.getBoolean("active")), rs.getTimestamp("addDate"));
             }
 
@@ -63,20 +63,32 @@ public class JdbcExpenseDao implements ExpenseDao, InitializingBean {
     @Override
     public List<Expense> getAll(int userId, Filter filter) {
         StringBuilder sqlBuilder = new StringBuilder(Sql.SELECT_EXPENSES);
-        MapSqlParameterSource parameterMap = new MapSqlParameterSource("userId", userId);
+        sqlBuilder.append(filter.getFilterSql());
 
-        addFilters(filter, sqlBuilder, parameterMap);
+        MapSqlParameterSource parameterMap = new MapSqlParameterSource("userId", userId);
+        parameterMap.addValues(filter.getFilterSqlParams());
 
         return jdbcTemplate.query(sqlBuilder.toString(), parameterMap, new RowMapper<Expense>() {
 
             @Override
             public Expense mapRow(ResultSet rs, int rowNum) throws SQLException {
                 return new Expense(rs.getInt("id"), rs.getDouble("amount"), new Kind(rs.getInt("kindId"), rs
-                        .getString("kindName")), new Profile(rs.getInt("id"), rs.getString("name"), rs
+                        .getString("kindName")), new Profile(rs.getInt("id"), rs.getString("profileName"), rs
                         .getBoolean("def"), rs.getBoolean("active")), rs.getTimestamp("addDate"));
             }
 
         });
+    }
+
+    @Override
+    public double getTotal(int userId, Filter filter) {
+        StringBuilder sqlBuilder = new StringBuilder(Sql.SELECT_TOTAL_EXPENSE);
+        sqlBuilder.append(filter.getFilterSql());
+
+        MapSqlParameterSource parameterMap = new MapSqlParameterSource("userId", userId);
+        parameterMap.addValues(filter.getFilterSqlParams());
+
+        return jdbcTemplate.queryForObject(sqlBuilder.toString(), parameterMap, Double.class);
     }
 
     @Override
@@ -118,31 +130,6 @@ public class JdbcExpenseDao implements ExpenseDao, InitializingBean {
         parameterMap.addValue("expenseId", expenseId);
 
         jdbcTemplate.update(Sql.DELETE_EXPENSE, parameterMap);
-    }
-
-    private void addFilters(Filter filter, StringBuilder sqlBuilder, MapSqlParameterSource parameterMap) {
-        if (filter.getKindId() > 0) {
-            sqlBuilder.append(" and id_kind = :kindId");
-            parameterMap.addValue("kindId", filter.getKindId());
-        }
-        if (filter.getProfileId() > 0) {
-            sqlBuilder.append(" and id_profile = :profileId");
-            parameterMap.addValue("profileId", filter.getProfileId());
-        }
-        if (filter.getStartDate() != null && filter.getEndDate() != null) {
-            sqlBuilder.append(" and add_date between :startDate and :endDate");
-            parameterMap.addValue("startDate", filter.getStartDate());
-            parameterMap.addValue("endDate", filter.getEndDate());
-        } else if (filter.getStartDate() != null) {
-            sqlBuilder.append(" and add_date >= :startDate");
-            parameterMap.addValue("startDate", filter.getStartDate());
-        } else if (filter.getEndDate() != null) {
-            sqlBuilder.append(" and add_date <= :endDate");
-            parameterMap.addValue("endDate", filter.getEndDate());
-        }
-        if (filter.getLimit() > 0) {
-            sqlBuilder.append(" limit " + filter.getLimit());
-        }
     }
 
 }

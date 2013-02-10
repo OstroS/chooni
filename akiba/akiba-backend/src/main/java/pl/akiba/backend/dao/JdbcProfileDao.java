@@ -95,6 +95,7 @@ public class JdbcProfileDao implements ProfileDao, InitializingBean {
         parameterMap.addValue("profileId", profileId);
 
         jdbcTemplate.update(Sql.DELETE_PROFILE, parameterMap);
+        jdbcTemplate.update(Sql.DELETE_PROFILE_EXPENSES, parameterMap);
     }
 
 }

@@ -1,12 +1,9 @@
 package pl.akiba.model.entities;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
-/**
- * Entity filter model.
- * 
- * @author sobczakt
- */
 public class Filter {
 
     private Date startDate;
@@ -14,6 +11,9 @@ public class Filter {
     private int limit;
     private int profileId;
     private int kindId;
+
+    private final StringBuilder sqlBuilder = new StringBuilder();
+    private final Map<String, Object> sqlParams = new HashMap<String, Object>();
 
     public Filter() {
     }
@@ -56,6 +56,48 @@ public class Filter {
 
     public void setKindId(int kindId) {
         this.kindId = kindId;
+    }
+
+    public String getFilterSql() {
+        if (sqlBuilder.length() < 1 || sqlParams.size() < 1) {
+            buildSql();
+        }
+
+        return sqlBuilder.toString();
+    }
+
+    public Map<String, Object> getFilterSqlParams() {
+        if (sqlBuilder.length() < 1 || sqlParams.size() < 1) {
+            buildSql();
+        }
+
+        return sqlParams;
+    }
+
+    private void buildSql() {
+        if (kindId > 0) {
+            sqlBuilder.append(" and id_kind = :kindId");
+            sqlParams.put("kindId", kindId);
+        }
+        if (profileId > 0) {
+            sqlBuilder.append(" and id_profile = :profileId");
+            sqlParams.put("profileId", profileId);
+        }
+        if (startDate != null && endDate != null) {
+            sqlBuilder.append(" and add_date between :startDate and :endDate");
+            sqlParams.put("startDate", startDate);
+            sqlParams.put("endDate", endDate);
+        } else if (startDate != null) {
+            sqlBuilder.append(" and add_date >= :startDate");
+            sqlParams.put("startDate", startDate);
+        } else if (endDate != null) {
+            sqlBuilder.append(" and add_date <= :endDate");
+            sqlParams.put("endDate", endDate);
+        }
+        if (limit > 0) {
+            sqlBuilder.append(" limit :limit");
+            sqlParams.put("limit", limit);
+        }
     }
 
     @Override

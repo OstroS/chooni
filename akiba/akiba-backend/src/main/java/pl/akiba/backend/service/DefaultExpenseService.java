@@ -41,6 +41,11 @@ public class DefaultExpenseService implements ExpenseService {
     }
 
     @Override
+    public double getTotal(int userId, Filter filter) {
+        return expenseDao.getTotal(userId, filter);
+    }
+
+    @Override
     public Expense create(int userId, Expense expense) throws EntityIsNotValidException {
         if (!expense.isValid(OperationType.CREATE)) {
             throw new EntityIsNotValidException("Expense entity is not valid!");

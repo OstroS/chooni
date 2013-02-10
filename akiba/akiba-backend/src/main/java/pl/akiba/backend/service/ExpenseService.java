@@ -21,6 +21,8 @@ public interface ExpenseService {
 
     public List<Expense> getAll(int userId, Filter filter);
 
+    public double getTotal(int userId, Filter filter);
+
     /**
      * @throws EntityIsNotValidException
      * @return created expense

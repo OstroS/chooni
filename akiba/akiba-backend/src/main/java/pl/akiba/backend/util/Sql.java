@@ -8,7 +8,7 @@ public class Sql {
     /* expenses */
 
     public static final String SELECT_EXPENSES = "select e.id, e.amount, e.add_date as addDate, "
-            + "p.id as profileId, p.name as profileName, p.def, p.active "
+            + "p.id as profileId, p.name as profileName, p.def, p.active, "
             + "k.id as kindId, k.name as kindName from expense e, kind k, profile p "
             + "where e.id_profile = p.id and e.id_kind = k.id and e.id_user = :userId";
 
@@ -17,6 +17,8 @@ public class Sql {
             + "k.id as kindId, k.name as kindName from expense e, kind k, profile p "
             + "where e.id_profile = p.id and e.id_kind = k.id and e.id_user = :userId and e.id = :expenseId";
 
+    public static final String SELECT_TOTAL_EXPENSE = "select sum(amount) from expense where id_user = :userId";
+    
     public static final String DELETE_EXPENSE = "delete from expense where id = :expenseId and id_user = :userId";
 
     public static final String INSERT_EXPENSE = "insert into expense (id_user, id_profile, id_kind, amount, add_date) values "
@@ -52,4 +54,5 @@ public class Sql {
 
     public static final String DELETE_PROFILE = "delete from profile where id = :profileId and id_user = :userId";
 
+    public static final String DELETE_PROFILE_EXPENSES = "delete from expense where id_profile = :profileId and id_user = :userId";
 }
