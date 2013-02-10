@@ -13,7 +13,7 @@ public class Filter {
     private int kindId;
 
     private final StringBuilder sqlBuilder = new StringBuilder();
-    private final Map<String, Object> sqlParams = new HashMap<String, Object>();
+    private final Map<String, Object> sqlParams = new HashMap<String, Object>(5);
 
     public Filter() {
     }

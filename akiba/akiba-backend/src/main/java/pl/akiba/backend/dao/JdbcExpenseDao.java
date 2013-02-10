@@ -63,10 +63,12 @@ public class JdbcExpenseDao implements ExpenseDao, InitializingBean {
     @Override
     public List<Expense> getAll(int userId, Filter filter) {
         StringBuilder sqlBuilder = new StringBuilder(Sql.SELECT_EXPENSES);
-        sqlBuilder.append(filter.getFilterSql());
-
         MapSqlParameterSource parameterMap = new MapSqlParameterSource("userId", userId);
-        parameterMap.addValues(filter.getFilterSqlParams());
+
+        if (filter != null) {
+            sqlBuilder.append(filter.getFilterSql());
+            parameterMap.addValues(filter.getFilterSqlParams());
+        }
 
         return jdbcTemplate.query(sqlBuilder.toString(), parameterMap, new RowMapper<Expense>() {
 
@@ -83,10 +85,12 @@ public class JdbcExpenseDao implements ExpenseDao, InitializingBean {
     @Override
     public double getTotal(int userId, Filter filter) {
         StringBuilder sqlBuilder = new StringBuilder(Sql.SELECT_TOTAL_EXPENSE);
-        sqlBuilder.append(filter.getFilterSql());
-
         MapSqlParameterSource parameterMap = new MapSqlParameterSource("userId", userId);
-        parameterMap.addValues(filter.getFilterSqlParams());
+
+        if (filter != null) {
+            sqlBuilder.append(filter.getFilterSql());
+            parameterMap.addValues(filter.getFilterSqlParams());
+        }
 
         return jdbcTemplate.queryForObject(sqlBuilder.toString(), parameterMap, Double.class);
     }
