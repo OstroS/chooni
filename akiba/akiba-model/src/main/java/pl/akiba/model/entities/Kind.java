@@ -52,7 +52,7 @@ public class Kind extends AkibaEntity {
 
     @Override
     public String toString() {
-        return "Kind{" + "id=" + id + ", name=" + name + '}';
+        return "Kind [id=" + id + ", name=" + name + "]";
     }
 
 }

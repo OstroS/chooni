@@ -74,6 +74,42 @@ public class Filter {
         return sqlParams;
     }
 
+    public String getFilterString() {
+        if (isEmpty()) {
+            return "";
+        }
+
+        StringBuilder filterBuilder = new StringBuilder("?");
+        if (kindId > 0) {
+            filterBuilder.append("kindId=").append(kindId).append("&");
+        }
+        if (profileId > 0) {
+            filterBuilder.append("profileId=").append(profileId).append("&");
+        }
+        if (startDate != null) {
+            filterBuilder.append("startDate=").append(startDate).append("&");
+        }
+        if (endDate != null) {
+            filterBuilder.append("endDate=").append(endDate).append("&");
+        }
+        if (limit > 0) {
+            filterBuilder.append("limit=").append(limit).append("&");
+        }
+
+        String filter = filterBuilder.toString();
+        int ampIndex = filter.lastIndexOf("&");
+
+        return filter.substring(0, ampIndex);
+    }
+
+    public boolean isEmpty() {
+        if (startDate == null && endDate == null && kindId == 0 && profileId == 0 && limit == 0) {
+            return true;
+        }
+
+        return false;
+    }
+
     private void buildSql() {
         if (kindId > 0) {
             sqlBuilder.append(" and id_kind = :kindId");
