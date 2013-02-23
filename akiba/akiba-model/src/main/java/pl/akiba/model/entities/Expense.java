@@ -10,6 +10,8 @@ import java.util.Date;
  */
 public class Expense extends AkibaEntity {
 
+    private static final long serialVersionUID = 419036045542260659L;
+
     private int id;
     private double amount;
     private Kind kind;

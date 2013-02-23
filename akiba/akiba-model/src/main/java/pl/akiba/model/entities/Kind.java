@@ -8,6 +8,8 @@ import org.apache.commons.lang.StringUtils;
  */
 public class Kind extends AkibaEntity {
 
+    private static final long serialVersionUID = 4580476173597389489L;
+
     private int id;
     private String name;
 

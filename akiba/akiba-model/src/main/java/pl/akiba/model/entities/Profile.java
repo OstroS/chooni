@@ -8,6 +8,8 @@ import org.apache.commons.lang.StringUtils;
  */
 public class Profile extends AkibaEntity {
 
+    private static final long serialVersionUID = -8844910233911449169L;
+
     private int id;
     private String name;
     private boolean def;

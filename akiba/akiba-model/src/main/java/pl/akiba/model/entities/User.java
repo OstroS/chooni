@@ -7,6 +7,8 @@ package pl.akiba.model.entities;
  */
 public class User extends AkibaEntity {
 
+    private static final long serialVersionUID = 956451699793082534L;
+
     protected Long id;
     protected String name;
 

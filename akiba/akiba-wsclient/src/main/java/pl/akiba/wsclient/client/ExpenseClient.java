@@ -16,9 +16,8 @@ public interface ExpenseClient {
      * @throws StatusException
      * @throws IOException
      * @throws InterruptedException
-     * @throws Exception
      */
-    public Expense get(int userId, int expenseId) throws StatusException, IOException, InterruptedException, Exception;
+    public Expense get(int userId, int expenseId) throws StatusException, IOException, InterruptedException;
 
     /**
      * @param userId
@@ -27,17 +26,35 @@ public interface ExpenseClient {
      * @throws StatusException
      * @throws IOException
      * @throws InterruptedException
-     * @throws Exception
      */
-    public List<Expense> getAll(int userId, Filter filter) throws StatusException, IOException, InterruptedException,
-            Exception;
+    public List<Expense> getAll(int userId, Filter filter) throws StatusException, IOException, InterruptedException;
 
-    public double getTotal(int userId, Filter filter);
+    /**
+     * @throws StatusException
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public double getTotal(int userId, Filter filter) throws StatusException, IOException, InterruptedException;
 
-    public Expense create(int userId, Expense expense);
+    /**
+     * @throws StatusException
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public Expense create(int userId, Expense expense) throws StatusException, IOException, InterruptedException;
 
-    public void update(int userId, Expense expense);
+    /**
+     * @throws StatusException
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public Expense update(int userId, Expense expense) throws StatusException, IOException, InterruptedException;
 
-    public void delete(int userId, int expenseId);
+    /**
+     * @throws StatusException
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public void delete(int userId, int expenseId) throws StatusException, IOException, InterruptedException;
 
 }

@@ -1,11 +1,12 @@
 package pl.akiba.wsclient.client;
 
+import org.eclipse.jetty.client.ContentExchange;
 import org.eclipse.jetty.client.HttpClient;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 
 public class DefaultClient {
 
-    protected HttpClient getConfiguredHttpClient() {
+    protected HttpClient getConfiguredHttpClient() throws Exception {
         final HttpClient httpClient = new HttpClient();
         httpClient.setMaxRetries(5);
         httpClient.setTimeout(1500);
@@ -14,12 +15,29 @@ public class DefaultClient {
         httpClient.setMaxConnectionsPerAddress(100);
         httpClient.setThreadPool(new QueuedThreadPool(100));
         httpClient.setConnectorType(HttpClient.CONNECTOR_SELECT_CHANNEL);
+        httpClient.start();
 
         return httpClient;
     }
 
     protected String getExchangeStatusName(int state) {
         return HttpExchangeStatus.getName(state);
+    }
+
+    protected ContentExchange prepareExchange(HttpMethod method, String url) {
+        ContentExchange exchange = new ContentExchange();
+        exchange.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        exchange.setMethod(method.name());
+        exchange.setURL(url);
+
+        return exchange;
+    }
+
+    protected enum HttpMethod {
+        GET,
+        POST,
+        PUT,
+        DELETE
     }
 
     private enum HttpExchangeStatus {

@@ -10,6 +10,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.eclipse.jetty.client.ContentExchange;
 import org.eclipse.jetty.client.HttpClient;
 import org.eclipse.jetty.client.HttpExchange;
+import org.eclipse.jetty.io.ByteArrayBuffer;
 
 import pl.akiba.model.entities.Expense;
 import pl.akiba.model.entities.Filter;
@@ -29,38 +30,32 @@ public class DefaultExpenseClient extends DefaultClient implements ExpenseClient
     private final String address;
     private final ObjectMapper mapper;
 
-    public DefaultExpenseClient(String address) {
-        this.httpClient = getConfiguredHttpClient();
+    public DefaultExpenseClient(String address) throws Exception {
         this.address = address;
         this.mapper = new ObjectMapper();
+        this.httpClient = getConfiguredHttpClient();
     }
 
-    public DefaultExpenseClient(HttpClient httpClient, String address) {
+    public DefaultExpenseClient(String address, HttpClient httpClient) {
         this.address = address;
-        this.mapper = new ObjectMapper();
         this.httpClient = httpClient;
+        this.mapper = new ObjectMapper();
     }
 
     @Override
-    public Expense get(int userId, int expenseId) throws StatusException, IOException, InterruptedException, Exception {
+    public Expense get(int userId, int expenseId) throws StatusException, IOException, InterruptedException {
         StringBuilder urlBuilder = new StringBuilder(address);
         urlBuilder.append(userId).append("/expense/").append(expenseId);
 
-        ContentExchange exchange = new ContentExchange();
-        exchange.setURL(urlBuilder.toString());
-        exchange.setMethod("GET");
-
-        httpClient.start();
+        ContentExchange exchange = prepareExchange(HttpMethod.GET, urlBuilder.toString());
         httpClient.send(exchange);
         int exchangeStatus = exchange.waitForDone();
-        httpClient.stop();
 
         if (exchangeStatus == HttpExchange.STATUS_COMPLETED) {
             int responseStatus = exchange.getResponseStatus();
             switch (responseStatus) {
                 case 200:
-                    String json = exchange.getResponseContent();
-                    return mapper.readValue(json, Expense.class);
+                    return mapper.readValue(exchange.getResponseContent(), Expense.class);
                 case 404:
                     throw new NotFoundStatusException("Http response returns NOT FOUND (404) status");
                 case 420:
@@ -75,23 +70,16 @@ public class DefaultExpenseClient extends DefaultClient implements ExpenseClient
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<Expense> getAll(int userId, Filter filter) throws StatusException, IOException, InterruptedException,
-            Exception {
-
+    public List<Expense> getAll(int userId, Filter filter) throws StatusException, IOException, InterruptedException {
         StringBuilder urlBuilder = new StringBuilder(address);
         urlBuilder.append(userId).append("/expense");
         if (filter != null) {
             urlBuilder.append(filter.getFilterString());
         }
 
-        ContentExchange exchange = new ContentExchange();
-        exchange.setURL(urlBuilder.toString());
-        exchange.setMethod("GET");
-
-        httpClient.start();
+        ContentExchange exchange = prepareExchange(HttpMethod.GET, urlBuilder.toString());
         httpClient.send(exchange);
         int exchangeStatus = exchange.waitForDone();
-        httpClient.stop();
 
         if (exchangeStatus == HttpExchange.STATUS_COMPLETED) {
             int responseStatus = exchange.getResponseStatus();
@@ -120,21 +108,105 @@ public class DefaultExpenseClient extends DefaultClient implements ExpenseClient
     }
 
     @Override
-    public double getTotal(int userId, Filter filter) {
-        return 0;
+    public double getTotal(int userId, Filter filter) throws StatusException, IOException, InterruptedException {
+        StringBuilder urlBuilder = new StringBuilder(address);
+        urlBuilder.append(userId).append("/expense/total");
+        if (filter != null) {
+            urlBuilder.append(filter.getFilterString());
+        }
+
+        ContentExchange exchange = prepareExchange(HttpMethod.GET, urlBuilder.toString());
+        httpClient.send(exchange);
+        int exchangeStatus = exchange.waitForDone();
+
+        if (exchangeStatus == HttpExchange.STATUS_COMPLETED) {
+            int responseStatus = exchange.getResponseStatus();
+            switch (responseStatus) {
+                case 200:
+                    return Double.parseDouble(exchange.getResponseContent());
+                case 420:
+                    throw new MethodFailureStatusException("Http response returns METHOD FAILURE (420) status");
+                default:
+                    throw new StatusException("Http response returns unknown status");
+            }
+        }
+
+        throw new StatusException("Http exchange returns status: " + getExchangeStatusName(exchangeStatus));
     }
 
     @Override
-    public Expense create(int userId, Expense expense) {
-        return null;
+    public Expense create(int userId, Expense expense) throws StatusException, IOException, InterruptedException {
+        StringBuilder urlBuilder = new StringBuilder(address);
+        urlBuilder.append(userId).append("/expense");
+
+        ContentExchange exchange = prepareExchange(HttpMethod.POST, urlBuilder.toString());
+        exchange.setRequestContent(new ByteArrayBuffer(mapper.writeValueAsString(expense).getBytes("UTF-8")));
+
+        httpClient.send(exchange);
+        int exchangeStatus = exchange.waitForDone();
+
+        if (exchangeStatus == HttpExchange.STATUS_COMPLETED) {
+            int responseStatus = exchange.getResponseStatus();
+            switch (responseStatus) {
+                case 201:
+                    return mapper.readValue(exchange.getResponseContent(), Expense.class);
+                case 420:
+                    throw new MethodFailureStatusException("Http response returns METHOD FAILURE (420) status");
+                default:
+                    throw new StatusException("Http response returns unknown status");
+            }
+        }
+
+        throw new StatusException("Http exchange returns status: " + getExchangeStatusName(exchangeStatus));
     }
 
     @Override
-    public void update(int userId, Expense expense) {
+    public Expense update(int userId, Expense expense) throws StatusException, IOException, InterruptedException {
+        StringBuilder urlBuilder = new StringBuilder(address);
+        urlBuilder.append(userId).append("/expense");
+
+        ContentExchange exchange = prepareExchange(HttpMethod.PUT, urlBuilder.toString());
+        exchange.setRequestContent(new ByteArrayBuffer(mapper.writeValueAsString(expense).getBytes("UTF-8")));
+
+        httpClient.send(exchange);
+        int exchangeStatus = exchange.waitForDone();
+
+        if (exchangeStatus == HttpExchange.STATUS_COMPLETED) {
+            int responseStatus = exchange.getResponseStatus();
+            switch (responseStatus) {
+                case 201:
+                    return mapper.readValue(exchange.getResponseContent(), Expense.class);
+                case 420:
+                    throw new MethodFailureStatusException("Http response returns METHOD FAILURE (420) status");
+                default:
+                    throw new StatusException("Http response returns unknown status");
+            }
+        }
+
+        throw new StatusException("Http exchange returns status: " + getExchangeStatusName(exchangeStatus));
     }
 
     @Override
-    public void delete(int userId, int expenseId) {
+    public void delete(int userId, int expenseId) throws StatusException, IOException, InterruptedException {
+        StringBuilder urlBuilder = new StringBuilder(address);
+        urlBuilder.append(userId).append("/expense/").append(expenseId);
+
+        ContentExchange exchange = prepareExchange(HttpMethod.DELETE, urlBuilder.toString());
+        httpClient.send(exchange);
+        int exchangeStatus = exchange.waitForDone();
+
+        if (exchangeStatus == HttpExchange.STATUS_COMPLETED) {
+            int responseStatus = exchange.getResponseStatus();
+            switch (responseStatus) {
+                case 202:
+                case 420:
+                    throw new MethodFailureStatusException("Http response returns METHOD FAILURE (420) status");
+                default:
+                    throw new StatusException("Http response returns unknown status");
+            }
+        }
+
+        throw new StatusException("Http exchange returns status: " + getExchangeStatusName(exchangeStatus));
     }
 
     @SuppressWarnings("unchecked")
