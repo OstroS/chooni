@@ -1,0 +1,15 @@
+package pl.akiba.backend.dao;
+
+import pl.akiba.model.entities.FacebookUser;
+
+public interface UserDao {
+
+    public FacebookUser getFacebookUser(long facebookId);
+
+    public FacebookUser createFacebookUser(long facebookId);
+
+    //    public GoogleUser getGoogleUser(long googleId);
+
+    //    public GoogleUser createGoogleUser(long googleId);
+
+}
