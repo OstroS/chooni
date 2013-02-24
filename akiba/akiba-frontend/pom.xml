@@ -18,6 +18,11 @@
 			<artifactId>akiba-model</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>pl.akiba</groupId>
+			<artifactId>akiba-wsclient</artifactId>
+		</dependency>
+		
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
