@@ -1,4 +1,4 @@
-package pl.akiba.wsclient.api.impl;
+package pl.akiba.wsclient.api.impl.resttemplate;
 
 import java.util.List;
 

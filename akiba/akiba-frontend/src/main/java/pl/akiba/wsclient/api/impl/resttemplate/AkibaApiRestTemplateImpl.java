@@ -1,4 +1,4 @@
-package pl.akiba.wsclient.api.impl;
+package pl.akiba.wsclient.api.impl.resttemplate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
