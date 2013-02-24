@@ -8,8 +8,8 @@ import java.util.logging.Logger;
 
 import org.springframework.stereotype.Component;
 
-import pl.akiba.frontend.model.entities.FacebookUser;
 import pl.akiba.model.entities.Expense;
+import pl.akiba.model.entities.FacebookUser;
 import pl.akiba.model.entities.Kind;
 import pl.akiba.model.entities.Profile;
 import pl.akiba.model.entities.User;

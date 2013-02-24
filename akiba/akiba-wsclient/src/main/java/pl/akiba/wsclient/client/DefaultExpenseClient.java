@@ -100,6 +100,7 @@ public class DefaultExpenseClient extends DefaultClient implements ExpenseClient
                 case 420:
                     throw new MethodFailureStatusException("Http response returns METHOD FAILURE (420) status");
                 default:
+                    //TODO dopisac status
                     throw new StatusException("Http response returns unknown status");
             }
         }

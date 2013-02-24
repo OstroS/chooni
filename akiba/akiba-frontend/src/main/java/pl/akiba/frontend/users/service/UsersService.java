@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
 
-import pl.akiba.frontend.model.entities.FacebookUser;
+import pl.akiba.model.entities.FacebookUser;
 import pl.akiba.model.entities.User;
 
 /**

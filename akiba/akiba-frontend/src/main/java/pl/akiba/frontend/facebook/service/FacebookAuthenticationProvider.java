@@ -20,8 +20,8 @@ import org.springframework.social.facebook.api.impl.FacebookTemplate;
 import org.springframework.stereotype.Component;
 
 import pl.akiba.frontend.facebook.FacebookUserDTO;
-import pl.akiba.frontend.model.entities.FacebookUser;
 import pl.akiba.frontend.users.service.UsersService;
+import pl.akiba.model.entities.FacebookUser;
 
 /**
  * Class implement authentication process. <br />

@@ -7,7 +7,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Component;
 
-import pl.akiba.frontend.model.entities.FacebookUser;
+import pl.akiba.model.entities.FacebookUser;
 import pl.akiba.model.entities.User;
 
 @Component("userHelper")

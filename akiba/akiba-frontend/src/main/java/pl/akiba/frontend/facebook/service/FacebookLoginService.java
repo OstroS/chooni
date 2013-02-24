@@ -21,8 +21,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
-import pl.akiba.frontend.model.entities.FacebookUser;
 import pl.akiba.helper.StringHelper;
+import pl.akiba.model.entities.FacebookUser;
 
 /**
  * Service class that should be used while performing login process based on facebook

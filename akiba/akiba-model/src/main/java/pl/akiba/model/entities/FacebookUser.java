@@ -1,12 +1,12 @@
-package pl.akiba.frontend.model.entities;
-
-import pl.akiba.model.entities.User;
+package pl.akiba.model.entities;
 
 /**
  * 
  * @author kostrows
  */
 public class FacebookUser extends User {
+
+    private static final long serialVersionUID = 9010189152910021921L;
 
     private Long facebookId;
     private String accessToken;
@@ -16,8 +16,6 @@ public class FacebookUser extends User {
     private String facebookGener;
     private String facebookUsername;
 
-    
-    
     @Override
     public String toString() {
         return "FacebookUser [facebookId=" + facebookId + ", accessToken=" + accessToken + ", facebookEmail="

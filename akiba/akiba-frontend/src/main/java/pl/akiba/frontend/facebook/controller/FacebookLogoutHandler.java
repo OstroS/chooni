@@ -13,7 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 
 import pl.akiba.frontend.facebook.service.FacebookLoginService;
-import pl.akiba.frontend.model.entities.FacebookUser;
+import pl.akiba.model.entities.FacebookUser;
 
 /**
  * @author OstroS

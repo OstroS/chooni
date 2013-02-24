@@ -10,8 +10,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
-import pl.akiba.frontend.model.entities.FacebookUser;
 import pl.akiba.frontend.users.service.UsersService;
+import pl.akiba.model.entities.FacebookUser;
 import pl.akiba.model.entities.User;
 import pl.akiba.wsclient.api.AkibaApi;
 
