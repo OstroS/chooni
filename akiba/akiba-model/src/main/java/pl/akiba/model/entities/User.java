@@ -1,5 +1,9 @@
 package pl.akiba.model.entities;
 
+import java.util.List;
+
+
+
 /**
  * Klasa do nadpisania przez model danych
  * 
@@ -11,8 +15,17 @@ public class User extends AkibaEntity {
 
     protected Long id;
     protected String name;
+    protected List<String> authorities;
+    
+    public List<String> getAuthorities() {
+		return authorities;
+	}
 
-    public Long getId() {
+	public void setAuthorities(List<String> authorities) {
+		this.authorities = authorities;
+	}
+
+	public Long getId() {
         return id;
     }
 
@@ -53,5 +66,6 @@ public class User extends AkibaEntity {
     public boolean isValid(OperationType type) {
         return true;
     }
-
+    
+    
 }
