@@ -2,6 +2,10 @@ package pl.akiba.backend.dao;
 
 import pl.akiba.model.entities.FacebookUser;
 
+/**
+ * 
+ * @author sobczakt
+ */
 public interface UserDao {
 
     public FacebookUser getFacebookUser(long facebookId);

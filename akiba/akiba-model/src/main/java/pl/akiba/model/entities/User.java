@@ -1,31 +1,29 @@
 package pl.akiba.model.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
-
-
 /**
- * Klasa do nadpisania przez model danych
  * 
  * @author kostrows
+ * @author sobczakt
  */
 public class User extends AkibaEntity {
 
     private static final long serialVersionUID = 956451699793082534L;
 
     protected Long id;
-    protected String name;
-    protected List<String> authorities;
-    
-    public List<String> getAuthorities() {
-		return authorities;
-	}
+    protected final List<ROLE> authorities = new ArrayList<ROLE>(0);
 
-	public void setAuthorities(List<String> authorities) {
-		this.authorities = authorities;
-	}
+    public User(Long id, ROLE authority) {
+        this.id = id;
+        this.authorities.add(authority);
+    }
 
-	public Long getId() {
+    public User() {
+    }
+
+    public Long getId() {
         return id;
     }
 
@@ -33,12 +31,13 @@ public class User extends AkibaEntity {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public List<ROLE> getAuthorities() {
+        return authorities;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public User addAuthority(ROLE authority) {
+        authorities.add(authority);
+        return this;
     }
 
     /**
@@ -62,10 +61,29 @@ public class User extends AkibaEntity {
     }
 
     @Override
-    //TODO
     public boolean isValid(OperationType type) {
+        //TODO
         return true;
     }
-    
-    
+
+    public enum ROLE {
+
+        ROLE_USER;
+
+        public static ROLE getRole(String strRole) {
+            for (ROLE role : values()) {
+                if (strRole.equalsIgnoreCase(role.name())) {
+                    return role;
+                }
+            }
+
+            return null;
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "User [id=" + id + ", authorities=" + authorities + "]";
+    }
+
 }

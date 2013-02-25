@@ -51,7 +51,6 @@ public class JdbcExpenseDao implements ExpenseDao, InitializingBean {
 
             @Override
             public Expense mapRow(ResultSet rs, int rowNum) throws SQLException {
-
                 return new Expense(rs.getInt("id"), rs.getDouble("amount"), new Kind(rs.getInt("kindId"), rs
                         .getString("kindName")), new Profile(rs.getInt("id"), rs.getString("profileName"), rs
                         .getBoolean("def"), rs.getBoolean("active")), rs.getTimestamp("addDate"));

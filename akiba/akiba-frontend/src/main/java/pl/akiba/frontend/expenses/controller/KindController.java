@@ -25,12 +25,12 @@ public class KindController {
 
     @Autowired
     private KindsService kindsService;
-    
+
     @Autowired
     private UserHelper userHelper;
 
     private static final Logger logger = Logger.getLogger(KindController.class.toString());
-    
+
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public ModelAndView addKind(Principal principal) {
         ModelAndView model = new ModelAndView();
@@ -43,9 +43,10 @@ public class KindController {
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ModelAndView handleAddKindRequest(@ModelAttribute("kind") Kind kind, BindingResult result, Principal principal) {
+    public ModelAndView handleAddKindRequest(@ModelAttribute("kind") Kind kind, BindingResult result,
+            Principal principal) {
         kindsService.addKind(kind, userHelper.getCurrentUser(principal));
-       
+
         ModelAndView model = new ModelAndView();
         model.setViewName("/kinds/addKind");
         model.addObject("command", new Kind());
@@ -56,7 +57,7 @@ public class KindController {
     private User getCurrentUser() {
         User user = new User();
         user.setId(0L);
-        user.setName("Użyszkodnik testowy");
+        //        user.setName("Użyszkodnik testowy");
         return user;
     }
 }

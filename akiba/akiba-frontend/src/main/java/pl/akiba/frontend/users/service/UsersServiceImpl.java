@@ -8,26 +8,27 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import pl.akiba.model.entities.FacebookUser;
 import pl.akiba.model.entities.User;
+import pl.akiba.model.entities.User.ROLE;
 import pl.akiba.wsclient.client.DefaultUserClient;
 import pl.akiba.wsclient.client.UserClient;
 
 public class UsersServiceImpl implements UsersService {
 
-    
     @Override
     public FacebookUser getByFacebookId(Long facebookId) {
-        UserClient userClient = new DefaultUserClient();
+        //FIXME
+        UserClient userClient = new DefaultUserClient("http://localhost:8080/akiba-backend/");
         return userClient.getUser(facebookId);
     }
 
     @Override
     public List<GrantedAuthority> getUsersAuthorities(User user) {
-        List<String> authorities = user.getAuthorities();
+        List<ROLE> authorities = user.getAuthorities();
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-        for(String authority: authorities) {
-            grantedAuthorities.add(new SimpleGrantedAuthority(authority));
+        for (ROLE authority : authorities) {
+            grantedAuthorities.add(new SimpleGrantedAuthority(authority.name()));
         }
-        
+
         return grantedAuthorities;
     }
 

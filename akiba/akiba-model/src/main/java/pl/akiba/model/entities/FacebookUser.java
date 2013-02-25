@@ -16,12 +16,12 @@ public class FacebookUser extends User {
     private String facebookGener;
     private String facebookUsername;
 
-    @Override
-    public String toString() {
-        return "FacebookUser [facebookId=" + facebookId + ", accessToken=" + accessToken + ", facebookEmail="
-                + facebookEmail + ", facebookFirstName=" + facebookFirstName + ", facebookLastName=" + facebookLastName
-                + ", facebookGener=" + facebookGener + ", facebookUsername=" + facebookUsername + ", id=" + id
-                + ", name=" + name + "]";
+    public FacebookUser(long facebookId, long id, ROLE authority) {
+        super(id, authority);
+        this.facebookId = facebookId;
+    }
+
+    public FacebookUser() {
     }
 
     public Long getFacebookId() {
@@ -78,6 +78,14 @@ public class FacebookUser extends User {
 
     public void setFacebookUsername(String facebookUsername) {
         this.facebookUsername = facebookUsername;
+    }
+
+    @Override
+    public String toString() {
+        return "FacebookUser [facebookId=" + facebookId + ", accessToken=" + accessToken + ", facebookEmail="
+                + facebookEmail + ", facebookFirstName=" + facebookFirstName + ", facebookLastName=" + facebookLastName
+                + ", facebookGener=" + facebookGener + ", facebookUsername=" + facebookUsername + ", id=" + id
+                + ", authorities=" + authorities + "]";
     }
 
 }

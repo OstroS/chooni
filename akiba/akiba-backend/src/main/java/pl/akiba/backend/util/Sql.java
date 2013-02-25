@@ -18,7 +18,7 @@ public class Sql {
             + "where e.id_profile = p.id and e.id_kind = k.id and e.id_user = :userId and e.id = :expenseId";
 
     public static final String SELECT_TOTAL_EXPENSE = "select sum(amount) from expense where id_user = :userId";
-    
+
     public static final String DELETE_EXPENSE = "delete from expense where id = :expenseId and id_user = :userId";
 
     public static final String INSERT_EXPENSE = "insert into expense (id_user, id_profile, id_kind, amount, add_date) values "
@@ -55,4 +55,11 @@ public class Sql {
     public static final String DELETE_PROFILE = "delete from profile where id = :profileId and id_user = :userId";
 
     public static final String DELETE_PROFILE_EXPENSES = "delete from expense where id_profile = :profileId and id_user = :userId";
+
+    /* users */
+
+    public static final String INSERT_FACEBOOK_USER = "insert into user (id_facebook, role) values (:facebookId, :role)";
+
+    public static final String SELECT_FACEBOOK_USER = "select id, role from user where id_facebook = :facebookId";
+
 }

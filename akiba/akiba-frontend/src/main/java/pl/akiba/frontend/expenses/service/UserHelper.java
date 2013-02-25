@@ -12,13 +12,13 @@ import pl.akiba.model.entities.User;
 
 @Component("userHelper")
 public class UserHelper {
-    
+
     private static final Logger logger = Logger.getLogger(UserHelper.class.toString());
 
     public User getCurrentUser() {
         User user = new User();
         user.setId(667L);
-        user.setName("Krzysztof Madafaka");
+        //        user.setName("Krzysztof Madafaka");
 
         return user;
     }
@@ -35,8 +35,7 @@ public class UserHelper {
                 logger.info("User is not of proper type");
                 throw new AccessDeniedException("Nieprawidłowy użyszkodnik!");
             }
-        }
-        else {
+        } else {
             logger.info("User is not authenticated properly");
             throw new AccessDeniedException("Nieprawidłowy użyszkodnik!");
         }

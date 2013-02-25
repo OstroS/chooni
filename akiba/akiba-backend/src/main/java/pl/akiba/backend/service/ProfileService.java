@@ -7,6 +7,10 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import pl.akiba.model.entities.Profile;
 import pl.akiba.model.exception.EntityIsNotValidException;
 
+/**
+ * 
+ * @author sobczakt
+ */
 public interface ProfileService {
 
     public List<Profile> getAll(int userId);

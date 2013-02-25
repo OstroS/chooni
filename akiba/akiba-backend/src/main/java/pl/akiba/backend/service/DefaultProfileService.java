@@ -11,6 +11,10 @@ import pl.akiba.model.entities.AkibaEntity.OperationType;
 import pl.akiba.model.entities.Profile;
 import pl.akiba.model.exception.EntityIsNotValidException;
 
+/**
+ * 
+ * @author sobczakt
+ */
 @Service
 public class DefaultProfileService implements ProfileService {
 

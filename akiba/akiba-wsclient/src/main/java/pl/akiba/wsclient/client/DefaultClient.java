@@ -1,23 +1,42 @@
 package pl.akiba.wsclient.client;
 
+import org.codehaus.jackson.map.ObjectMapper;
 import org.eclipse.jetty.client.ContentExchange;
 import org.eclipse.jetty.client.HttpClient;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+/**
+ * 
+ * @author sobczakt
+ */
 public class DefaultClient {
 
-    protected HttpClient getConfiguredHttpClient() throws Exception {
-        final HttpClient httpClient = new HttpClient();
-        httpClient.setMaxRetries(5);
-        httpClient.setTimeout(1500);
-        httpClient.setIdleTimeout(1500);
-        httpClient.setConnectBlocking(false);
-        httpClient.setMaxConnectionsPerAddress(100);
-        httpClient.setThreadPool(new QueuedThreadPool(100));
-        httpClient.setConnectorType(HttpClient.CONNECTOR_SELECT_CHANNEL);
-        httpClient.start();
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultClient.class);
 
-        return httpClient;
+    protected final HttpClient httpClient;
+    protected final String address;
+    protected final ObjectMapper mapper;
+
+    /**
+     * @param address
+     *            http://host:port/app-context/
+     */
+    public DefaultClient(String address) {
+        this.address = address;
+        this.mapper = new ObjectMapper();
+        this.httpClient = getConfiguredHttpClient();
+    }
+
+    /**
+     * @param address
+     *            http://host:port/app-context/
+     */
+    public DefaultClient(String address, HttpClient httpClient) {
+        this.address = address;
+        this.httpClient = httpClient;
+        this.mapper = new ObjectMapper();
     }
 
     protected String getExchangeStatusName(int state) {
@@ -38,6 +57,26 @@ public class DefaultClient {
         POST,
         PUT,
         DELETE
+    }
+
+    private HttpClient getConfiguredHttpClient() {
+        final HttpClient httpClient = new HttpClient();
+        httpClient.setMaxRetries(5);
+        httpClient.setTimeout(1500);
+        httpClient.setIdleTimeout(1500);
+        httpClient.setConnectBlocking(false);
+        httpClient.setMaxConnectionsPerAddress(100);
+        httpClient.setThreadPool(new QueuedThreadPool(100));
+        httpClient.setConnectorType(HttpClient.CONNECTOR_SELECT_CHANNEL);
+
+        try {
+            //FIXME to chyba nie za dobrze tworzyc i uruchamiac X httclientow 
+            httpClient.start();
+        } catch (Exception e) {
+            LOGGER.error("Exception caught during starting httpClient", e);
+        }
+
+        return httpClient;
     }
 
     private enum HttpExchangeStatus {

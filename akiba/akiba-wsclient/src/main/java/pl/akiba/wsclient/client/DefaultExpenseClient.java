@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.codehaus.jackson.map.ObjectMapper;
 import org.eclipse.jetty.client.ContentExchange;
 import org.eclipse.jetty.client.HttpClient;
 import org.eclipse.jetty.client.HttpExchange;
@@ -26,20 +25,12 @@ import pl.akiba.model.exception.StatusException;
  */
 public class DefaultExpenseClient extends DefaultClient implements ExpenseClient {
 
-    private final HttpClient httpClient;
-    private final String address;
-    private final ObjectMapper mapper;
-
-    public DefaultExpenseClient(String address) throws Exception {
-        this.address = address;
-        this.mapper = new ObjectMapper();
-        this.httpClient = getConfiguredHttpClient();
+    public DefaultExpenseClient(String address, HttpClient httpClient) {
+        super(address, httpClient);
     }
 
-    public DefaultExpenseClient(String address, HttpClient httpClient) {
-        this.address = address;
-        this.httpClient = httpClient;
-        this.mapper = new ObjectMapper();
+    public DefaultExpenseClient(String address) throws Exception {
+        super(address);
     }
 
     @Override
