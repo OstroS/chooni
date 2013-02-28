@@ -29,14 +29,10 @@ public class DefaultExpenseClient extends DefaultClient implements ExpenseClient
         super(address, httpClient);
     }
 
-    public DefaultExpenseClient(String address) throws Exception {
-        super(address);
-    }
-
     @Override
     public Expense get(int userId, int expenseId) throws StatusException, IOException, InterruptedException {
         StringBuilder urlBuilder = new StringBuilder(address);
-        urlBuilder.append(userId).append("/expense/").append(expenseId);
+        urlBuilder.append("/").append(userId).append("/expense/").append(expenseId);
 
         ContentExchange exchange = prepareExchange(HttpMethod.GET, urlBuilder.toString());
         httpClient.send(exchange);
@@ -52,7 +48,7 @@ public class DefaultExpenseClient extends DefaultClient implements ExpenseClient
                 case 420:
                     throw new MethodFailureStatusException("Http response returns METHOD FAILURE (420) status");
                 default:
-                    throw new StatusException("Http response returns unknown status");
+                    throw new StatusException("Http response returns unknown (" + responseStatus + ") status");
             }
         }
 
@@ -63,7 +59,7 @@ public class DefaultExpenseClient extends DefaultClient implements ExpenseClient
     @SuppressWarnings("unchecked")
     public List<Expense> getAll(int userId, Filter filter) throws StatusException, IOException, InterruptedException {
         StringBuilder urlBuilder = new StringBuilder(address);
-        urlBuilder.append(userId).append("/expense");
+        urlBuilder.append("/").append(userId).append("/expense");
         if (filter != null) {
             urlBuilder.append(filter.getFilterString());
         }
@@ -91,8 +87,7 @@ public class DefaultExpenseClient extends DefaultClient implements ExpenseClient
                 case 420:
                     throw new MethodFailureStatusException("Http response returns METHOD FAILURE (420) status");
                 default:
-                    //TODO dopisac status
-                    throw new StatusException("Http response returns unknown status");
+                    throw new StatusException("Http response returns unknown (" + responseStatus + ") status");
             }
         }
 
@@ -102,7 +97,7 @@ public class DefaultExpenseClient extends DefaultClient implements ExpenseClient
     @Override
     public double getTotal(int userId, Filter filter) throws StatusException, IOException, InterruptedException {
         StringBuilder urlBuilder = new StringBuilder(address);
-        urlBuilder.append(userId).append("/expense/total");
+        urlBuilder.append("/").append(userId).append("/expense/total");
         if (filter != null) {
             urlBuilder.append(filter.getFilterString());
         }
@@ -119,7 +114,7 @@ public class DefaultExpenseClient extends DefaultClient implements ExpenseClient
                 case 420:
                     throw new MethodFailureStatusException("Http response returns METHOD FAILURE (420) status");
                 default:
-                    throw new StatusException("Http response returns unknown status");
+                    throw new StatusException("Http response returns unknown (" + responseStatus + ") status");
             }
         }
 
@@ -129,7 +124,7 @@ public class DefaultExpenseClient extends DefaultClient implements ExpenseClient
     @Override
     public Expense create(int userId, Expense expense) throws StatusException, IOException, InterruptedException {
         StringBuilder urlBuilder = new StringBuilder(address);
-        urlBuilder.append(userId).append("/expense");
+        urlBuilder.append("/").append(userId).append("/expense");
 
         ContentExchange exchange = prepareExchange(HttpMethod.POST, urlBuilder.toString());
         exchange.setRequestContent(new ByteArrayBuffer(mapper.writeValueAsString(expense).getBytes("UTF-8")));
@@ -145,7 +140,7 @@ public class DefaultExpenseClient extends DefaultClient implements ExpenseClient
                 case 420:
                     throw new MethodFailureStatusException("Http response returns METHOD FAILURE (420) status");
                 default:
-                    throw new StatusException("Http response returns unknown status");
+                    throw new StatusException("Http response returns unknown (" + responseStatus + ") status");
             }
         }
 
@@ -155,7 +150,7 @@ public class DefaultExpenseClient extends DefaultClient implements ExpenseClient
     @Override
     public Expense update(int userId, Expense expense) throws StatusException, IOException, InterruptedException {
         StringBuilder urlBuilder = new StringBuilder(address);
-        urlBuilder.append(userId).append("/expense");
+        urlBuilder.append("/").append(userId).append("/expense");
 
         ContentExchange exchange = prepareExchange(HttpMethod.PUT, urlBuilder.toString());
         exchange.setRequestContent(new ByteArrayBuffer(mapper.writeValueAsString(expense).getBytes("UTF-8")));
@@ -171,7 +166,7 @@ public class DefaultExpenseClient extends DefaultClient implements ExpenseClient
                 case 420:
                     throw new MethodFailureStatusException("Http response returns METHOD FAILURE (420) status");
                 default:
-                    throw new StatusException("Http response returns unknown status");
+                    throw new StatusException("Http response returns unknown (" + responseStatus + ") status");
             }
         }
 
@@ -181,7 +176,7 @@ public class DefaultExpenseClient extends DefaultClient implements ExpenseClient
     @Override
     public void delete(int userId, int expenseId) throws StatusException, IOException, InterruptedException {
         StringBuilder urlBuilder = new StringBuilder(address);
-        urlBuilder.append(userId).append("/expense/").append(expenseId);
+        urlBuilder.append("/").append(userId).append("/expense/").append(expenseId);
 
         ContentExchange exchange = prepareExchange(HttpMethod.DELETE, urlBuilder.toString());
         httpClient.send(exchange);
@@ -194,7 +189,7 @@ public class DefaultExpenseClient extends DefaultClient implements ExpenseClient
                 case 420:
                     throw new MethodFailureStatusException("Http response returns METHOD FAILURE (420) status");
                 default:
-                    throw new StatusException("Http response returns unknown status");
+                    throw new StatusException("Http response returns unknown (" + responseStatus + ") status");
             }
         }
 

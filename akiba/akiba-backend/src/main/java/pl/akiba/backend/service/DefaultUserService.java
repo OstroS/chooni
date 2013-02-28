@@ -18,7 +18,7 @@ public class DefaultUserService implements UserService {
     private UserDao userDao;
 
     @Override
-    public FacebookUser getUser(long facebookId) {
+    public FacebookUser getFacebookUser(long facebookId) {
         FacebookUser facebookUser = null;
 
         try {

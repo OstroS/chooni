@@ -34,7 +34,7 @@ public class UserController {
         FacebookUser facebookUser = null;
 
         try {
-            facebookUser = userService.getUser(facebookId);
+            facebookUser = userService.getFacebookUser(facebookId);
         } catch (Exception e) {
             LOGGER.error("Exception caught during getting facebook user [facebookId: " + facebookId + "]: ", e);
             return new ResponseEntity<FacebookUser>(HttpStatus.METHOD_FAILURE);
