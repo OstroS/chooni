@@ -36,7 +36,7 @@ import pl.akiba.model.entities.FacebookUser;
 public class FacebookAuthenticationProvider implements AuthenticationProvider {
 
     @Autowired
-    @Qualifier(value = "usersServiceMock")
+    @Qualifier(value = "usersService")
     private UsersService usersService;
 
     private static final Logger logger = Logger.getLogger(FacebookAuthenticationProvider.class.toString());
