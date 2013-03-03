@@ -14,6 +14,8 @@ public class User extends AkibaEntity {
 
     protected Long id;
     protected final List<ROLE> authorities = new ArrayList<ROLE>(0);
+    protected Boolean disabled = Boolean.FALSE;
+    protected Boolean locked = Boolean.FALSE;
 
     public User(Long id, ROLE authority) {
         this.id = id;
@@ -49,6 +51,10 @@ public class User extends AkibaEntity {
     public Boolean isDisabled() {
         return Boolean.FALSE;
     }
+    
+    public void setDisabled(Boolean disabled) {
+    	this.disabled = disabled;
+    }
 
     /**
      * Method should not be used - currently not supported. Implemented only to be compliant with Spring Security
@@ -58,6 +64,10 @@ public class User extends AkibaEntity {
      */
     public Boolean isLocked() {
         return Boolean.FALSE;
+    }
+    
+    public void setLocked(Boolean locked) {
+    	this.locked  = locked;
     }
 
     @Override
