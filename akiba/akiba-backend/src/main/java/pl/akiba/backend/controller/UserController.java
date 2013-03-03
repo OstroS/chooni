@@ -28,7 +28,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "/fb", method = RequestMethod.GET)
+    @RequestMapping(value = "/fb/{facebookId}", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<FacebookUser> getFacebookUser(@PathVariable final int facebookId) {
         FacebookUser facebookUser = null;
