@@ -28,22 +28,21 @@ public class UserController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
-//    @Autowired
-//    private UserService userService;
+    @Autowired
+    private UserService userService;
 
     @RequestMapping(value = "/fb/{facebookId}", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<FacebookUser> getFacebookUser(@PathVariable final int facebookId) throws StatusException, IOException, InterruptedException {
+    public ResponseEntity<FacebookUser> getFacebookUser(@PathVariable final int facebookId) throws StatusException,
+            IOException, InterruptedException {
         FacebookUser facebookUser = null;
 
-        System.out.println("facebookId: " + facebookId);
-
-//        try {
-//            facebookUser = userService.getFacebookUser(facebookId);
-//        } catch (Exception e) {
-//            LOGGER.error("Exception caught during getting facebook user [facebookId: " + facebookId + "]: ", e);
-//            return new ResponseEntity<FacebookUser>(HttpStatus.METHOD_FAILURE);
-//        }
+        try {
+            facebookUser = userService.getFacebookUser(facebookId);
+        } catch (Exception e) {
+            LOGGER.error("Exception caught during getting facebook user [facebookId: " + facebookId + "]: ", e);
+            return new ResponseEntity<FacebookUser>(HttpStatus.METHOD_FAILURE);
+        }
 
         return new ResponseEntity<FacebookUser>(facebookUser, HttpStatus.OK);
     }
