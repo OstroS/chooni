@@ -9,12 +9,13 @@ import org.eclipse.jetty.client.HttpExchange;
 import pl.akiba.model.entities.FacebookUser;
 import pl.akiba.model.exception.MethodFailureStatusException;
 import pl.akiba.model.exception.StatusException;
+import pl.akiba.model.service.UserService;
 
 /**
  * 
  * @author sobczakt
  */
-public class DefaultUserClient extends DefaultClient implements UserClient {
+public class DefaultUserClient extends DefaultClient implements UserService {
 
     public DefaultUserClient(String address, HttpClient httpClient) {
         super(address, httpClient);

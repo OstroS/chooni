@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import pl.akiba.backend.service.ExpenseService;
 import pl.akiba.model.entities.Expense;
 import pl.akiba.model.entities.Filter;
 import pl.akiba.model.exception.EntityIsNotValidException;
+import pl.akiba.model.service.ExpenseService;
 
 /**
  * Provides REST services for CRUD operations on {@link Expense} entity.

@@ -12,8 +12,8 @@ import pl.akiba.model.entities.FacebookUser;
 import pl.akiba.model.entities.User;
 import pl.akiba.model.entities.User.ROLE;
 import pl.akiba.model.exception.StatusException;
+import pl.akiba.model.service.UserService;
 import pl.akiba.wsclient.client.DefaultUserClient;
-import pl.akiba.wsclient.client.UserClient;
 import pl.akiba.wsclient.client.factory.JettyHttpClientConf.Builder;
 import pl.akiba.wsclient.client.factory.JettyHttpClientFactory;
 
@@ -35,7 +35,7 @@ public class UsersServiceImpl implements UsersService {
 
         JettyHttpClientFactory httpClientFactory = new JettyHttpClientFactory(httpClientConfBuilder.build());
 
-        UserClient userClient = new DefaultUserClient("http://localhost:8080/akiba-backend",
+        UserService userClient = new DefaultUserClient("http://localhost:8080/akiba-backend",
                 httpClientFactory.getHttpClient());
 
         try {

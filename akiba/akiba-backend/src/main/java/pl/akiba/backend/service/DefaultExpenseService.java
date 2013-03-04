@@ -10,7 +10,9 @@ import pl.akiba.backend.dao.ExpenseDao;
 import pl.akiba.model.entities.AkibaEntity.OperationType;
 import pl.akiba.model.entities.Expense;
 import pl.akiba.model.entities.Filter;
+import pl.akiba.model.exception.EmptyResultException;
 import pl.akiba.model.exception.EntityIsNotValidException;
+import pl.akiba.model.service.ExpenseService;
 
 /**
  * 
@@ -23,13 +25,13 @@ public class DefaultExpenseService implements ExpenseService {
     private ExpenseDao expenseDao;
 
     @Override
-    public Expense get(int userId, int expenseId) throws EmptyResultDataAccessException {
+    public Expense get(int userId, int expenseId) throws EmptyResultException {
         Expense expense = null;
 
         try {
             expense = expenseDao.get(userId, expenseId);
         } catch (EmptyResultDataAccessException e) { //spring forced this exception
-            throw e;
+            throw new EmptyResultException(e.getMessage());
         }
 
         return expense;
@@ -55,12 +57,14 @@ public class DefaultExpenseService implements ExpenseService {
     }
 
     @Override
-    public void update(int userId, final Expense expense) throws EntityIsNotValidException {
+    public Expense update(int userId, final Expense expense) throws EntityIsNotValidException {
         if (!expense.isValid(OperationType.UPDATE)) {
             throw new EntityIsNotValidException("Expense entity is not valid!");
         }
 
         expenseDao.update(userId, expense);
+
+        return expense;
     }
 
     @Override

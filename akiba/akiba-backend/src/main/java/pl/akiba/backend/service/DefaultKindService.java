@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 import pl.akiba.backend.dao.KindDao;
 import pl.akiba.model.entities.AkibaEntity.OperationType;
 import pl.akiba.model.entities.Kind;
+import pl.akiba.model.exception.EmptyResultException;
 import pl.akiba.model.exception.EntityIsNotValidException;
+import pl.akiba.model.service.KindService;
 
 /**
  * 
@@ -22,13 +24,13 @@ public class DefaultKindService implements KindService {
     private KindDao kindDao;
 
     @Override
-    public Kind get(int userId, int kindId) throws EmptyResultDataAccessException {
+    public Kind get(int userId, int kindId) throws EmptyResultException {
         Kind kind = null;
 
         try {
             kind = kindDao.get(userId, kindId);
         } catch (EmptyResultDataAccessException e) { //spring forced this exception
-            throw e;
+            throw new EmptyResultException(e.getMessage());
         }
 
         return kind;

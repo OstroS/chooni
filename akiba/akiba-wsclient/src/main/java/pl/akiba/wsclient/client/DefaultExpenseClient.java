@@ -18,12 +18,13 @@ import pl.akiba.model.entities.Profile;
 import pl.akiba.model.exception.MethodFailureStatusException;
 import pl.akiba.model.exception.NotFoundStatusException;
 import pl.akiba.model.exception.StatusException;
+import pl.akiba.model.service.ExpenseService;
 
 /**
  * 
  * @author sobczakt
  */
-public class DefaultExpenseClient extends DefaultClient implements ExpenseClient {
+public class DefaultExpenseClient extends DefaultClient implements ExpenseService {
 
     public DefaultExpenseClient(String address, HttpClient httpClient) {
         super(address, httpClient);

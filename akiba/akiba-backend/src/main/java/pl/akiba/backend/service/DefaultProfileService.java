@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 import pl.akiba.backend.dao.ProfileDao;
 import pl.akiba.model.entities.AkibaEntity.OperationType;
 import pl.akiba.model.entities.Profile;
+import pl.akiba.model.exception.EmptyResultException;
 import pl.akiba.model.exception.EntityIsNotValidException;
+import pl.akiba.model.service.ProfileService;
 
 /**
  * 
@@ -27,13 +29,13 @@ public class DefaultProfileService implements ProfileService {
     }
 
     @Override
-    public Profile getDefault(int userId) throws EmptyResultDataAccessException {
+    public Profile getDefault(int userId) throws EmptyResultException {
         Profile profile = null;
 
         try {
             profile = profileDao.getDefault(userId);
         } catch (EmptyResultDataAccessException e) { //spring forced this exception
-            throw e;
+            throw new EmptyResultException(e.getMessage());
         }
 
         return profile;

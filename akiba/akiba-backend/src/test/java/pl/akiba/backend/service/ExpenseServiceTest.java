@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -11,7 +12,6 @@ import java.util.GregorianCalendar;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -19,6 +19,10 @@ import pl.akiba.model.entities.Expense;
 import pl.akiba.model.entities.Filter;
 import pl.akiba.model.entities.Kind;
 import pl.akiba.model.entities.Profile;
+import pl.akiba.model.exception.EmptyResultException;
+import pl.akiba.model.exception.EntityIsNotValidException;
+import pl.akiba.model.exception.StatusException;
+import pl.akiba.model.service.ExpenseService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/pl/akiba/backend/appContextTest.xml" })
@@ -32,7 +36,7 @@ public class ExpenseServiceTest {
     private final int profileId = 1;
 
     @Test
-    public void testCRUD() {
+    public void testCRUD() throws EntityIsNotValidException, StatusException, IOException, InterruptedException {
         final Expense createdExpense = expenseService.create(userId, prepareExpense());
 
         assertNotNull(createdExpense);
@@ -49,14 +53,14 @@ public class ExpenseServiceTest {
         Expense expense = null;
         try {
             expense = expenseService.get(userId, updatedExpense.getId());
-        } catch (EmptyResultDataAccessException e) {
+        } catch (EmptyResultException e) {
         }
 
         assertTrue(expense == null);
     }
 
     @Test
-    public void testTotalCount() {
+    public void testTotalCount() throws StatusException, IOException, InterruptedException {
         double total = expenseService.getTotal(userId, prepareFilter());
         assertTrue(total > 0.0);
     }

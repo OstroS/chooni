@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import pl.akiba.backend.dao.UserDao;
 import pl.akiba.model.entities.FacebookUser;
+import pl.akiba.model.service.UserService;
 
 /**
  * 

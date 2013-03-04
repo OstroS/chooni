@@ -9,35 +9,23 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
-import org.eclipse.jetty.client.HttpClient;
 import org.junit.Test;
 
 import pl.akiba.model.entities.Expense;
 import pl.akiba.model.entities.Kind;
 import pl.akiba.model.entities.Profile;
 import pl.akiba.model.exception.StatusException;
-import pl.akiba.wsclient.client.factory.JettyHttpClientConf.Builder;
-import pl.akiba.wsclient.client.factory.JettyHttpClientFactory;
+import pl.akiba.model.service.ExpenseService;
 
-public class ExpenseClientTest {
+/**
+ * 
+ * @author sobczakt
+ */
+public class ExpenseClientTest extends CommonClientTest {
 
-    private final ExpenseClient expenseClient;
-    private final int userId = 0;
+    private final ExpenseService expenseClient;
 
     public ExpenseClientTest() throws Exception {
-        //@formatter:off
-        Builder httpClientConfBuilder = new Builder()
-            .withConnectorType(HttpClient.CONNECTOR_SELECT_CHANNEL)
-            .withMaxConnectionsPerAddress(100)
-            .withConnectBlocking(false)
-            .withIdleTimeout(1500)
-            .withMaxThreads(100)
-            .withTimeout(1500)
-            .withMaxRetries(5);
-        //@formatter:on
-
-        JettyHttpClientFactory httpClientFactory = new JettyHttpClientFactory(httpClientConfBuilder.build());
-
         this.expenseClient = new DefaultExpenseClient("http://localhost:8080/akiba-backend",
                 httpClientFactory.getHttpClient());
     }

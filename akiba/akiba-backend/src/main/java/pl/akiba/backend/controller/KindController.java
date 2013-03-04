@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import pl.akiba.backend.service.KindService;
 import pl.akiba.model.entities.Kind;
 import pl.akiba.model.exception.EntityIsNotValidException;
+import pl.akiba.model.service.KindService;
 
 /**
  * Provides REST services for CRUD operations on {@link Kind} entity.
