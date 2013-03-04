@@ -31,24 +31,6 @@ public class ExpenseClientTest extends CommonClientTest {
     }
 
     @Test
-    public void testGet() {
-        int expenseId = 29;
-
-        Expense expense = null;
-        try {
-            expense = expenseClient.get(userId, expenseId);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        assertEquals(expense.getId(), expenseId);
-    }
-
-    @Test
     public void testGetAll() {
         List<Expense> expenses = null;
         try {

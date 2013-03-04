@@ -47,9 +47,9 @@
 
     <Resource name="jdbc/akibadb" auth="Container" type="javax.sql.DataSource"
               maxActive="25" maxIdle="10" maxWait="5000"
-              username="root" password="qwerty" 
+              username="akibamaster" password="akibamaster" 
               driverClassName="com.mysql.jdbc.Driver"
-              url="jdbc:mysql://localhost:3306/akibadb"/>
+              url="jdbc:mysql://akibadb.cp9gcmf90og7.us-east-1.rds.amazonaws.com:3306/akibadb"/>
   </GlobalNamingResources>
 
   <!-- A "Service" is a collection of one or more "Connectors" that share

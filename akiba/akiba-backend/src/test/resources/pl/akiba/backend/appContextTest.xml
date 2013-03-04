@@ -16,9 +16,9 @@
 
 	<bean id="mysqlAkibaDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://localhost:3306/akibadb" />
-		<property name="username" value="root" />
-		<property name="password" value="qwerty" />
+		<property name="url" value="jdbc:mysql://akibadb.cp9gcmf90og7.us-east-1.rds.amazonaws.com:3306/akibadb" />
+		<property name="username" value="akibamaster" />
+		<property name="password" value="akibamaster" />
 	</bean>
 
 </beans>

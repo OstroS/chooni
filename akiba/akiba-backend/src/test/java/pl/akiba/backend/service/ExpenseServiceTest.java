@@ -45,8 +45,8 @@ public class ExpenseServiceTest {
         final double newAmount = 299.00;
         createdExpense.setAmount(newAmount);
         expenseService.update(userId, createdExpense);
-        final Expense updatedExpense = expenseService.get(userId, createdExpense.getId());
 
+        final Expense updatedExpense = expenseService.get(userId, createdExpense.getId());
         assertEquals(null, newAmount, updatedExpense.getAmount(), 1e-8);
 
         expenseService.delete(userId, updatedExpense.getId());
