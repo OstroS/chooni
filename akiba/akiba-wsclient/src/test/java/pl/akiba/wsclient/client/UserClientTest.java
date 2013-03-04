@@ -25,16 +25,16 @@ public class UserClientTest extends CommonClientTest {
     @Test
     public void testGetFacebookUser() {
         FacebookUser facebookUser = null;
-        
-        System.out.println("/nchuj/n");
-        
+
         try {
-            facebookUser = userService.getFacebookUser(random.nextLong());
+            facebookUser = userService.getFacebookUser(random.nextInt(10000000));
         } catch (StatusException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

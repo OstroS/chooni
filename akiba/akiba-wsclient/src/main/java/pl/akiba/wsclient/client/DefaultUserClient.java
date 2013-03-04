@@ -26,6 +26,8 @@ public class DefaultUserClient extends DefaultClient implements UserService {
         StringBuilder urlBuilder = new StringBuilder(address);
         urlBuilder.append("/user/fb/").append(facebookId);
 
+        System.out.println("\n\n" + urlBuilder.toString() + "\n\n");
+
         ContentExchange exchange = prepareExchange(HttpMethod.GET, urlBuilder.toString());
         httpClient.send(exchange);
         int exchangeStatus = exchange.waitForDone();
