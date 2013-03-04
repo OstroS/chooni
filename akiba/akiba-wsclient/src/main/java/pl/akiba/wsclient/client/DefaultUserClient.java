@@ -1,7 +1,10 @@
 package pl.akiba.wsclient.client;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.map.JsonMappingException;
 import org.eclipse.jetty.client.ContentExchange;
 import org.eclipse.jetty.client.HttpClient;
 import org.eclipse.jetty.client.HttpExchange;
@@ -26,8 +29,6 @@ public class DefaultUserClient extends DefaultClient implements UserService {
         StringBuilder urlBuilder = new StringBuilder(address);
         urlBuilder.append("/user/fb/").append(facebookId);
 
-        System.out.println("\n\n" + urlBuilder.toString() + "\n\n");
-
         ContentExchange exchange = prepareExchange(HttpMethod.GET, urlBuilder.toString());
         httpClient.send(exchange);
         int exchangeStatus = exchange.waitForDone();
@@ -36,7 +37,9 @@ public class DefaultUserClient extends DefaultClient implements UserService {
             int responseStatus = exchange.getResponseStatus();
             switch (responseStatus) {
                 case 200:
-                    return mapper.readValue(exchange.getResponseContent(), FacebookUser.class);
+                    return returnFacebookUser(exchange);
+                case 201:
+                    return returnFacebookUser(exchange);
                 case 420:
                     throw new MethodFailureStatusException("Http response returns METHOD FAILURE (420) status");
                 default:
@@ -45,6 +48,12 @@ public class DefaultUserClient extends DefaultClient implements UserService {
         }
 
         throw new StatusException("Http exchange returns status: " + getExchangeStatusName(exchangeStatus));
+    }
+
+    private FacebookUser returnFacebookUser(ContentExchange exchange) throws IOException, JsonParseException,
+            JsonMappingException, UnsupportedEncodingException {
+
+        return mapper.readValue(exchange.getResponseContent(), FacebookUser.class);
     }
 
 }

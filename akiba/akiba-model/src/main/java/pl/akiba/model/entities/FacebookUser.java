@@ -15,6 +15,7 @@ public class FacebookUser extends User {
     private String facebookLastName;
     private String facebookGener;
     private String facebookUsername;
+    private Status status;
 
     public FacebookUser(long facebookId, long id, ROLE authority) {
         super(id, authority);
@@ -78,6 +79,19 @@ public class FacebookUser extends User {
 
     public void setFacebookUsername(String facebookUsername) {
         this.facebookUsername = facebookUsername;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public enum Status {
+        CREATED,
+        EXISTING
     }
 
     @Override

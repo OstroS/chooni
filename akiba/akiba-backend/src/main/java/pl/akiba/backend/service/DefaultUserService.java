@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import pl.akiba.backend.dao.UserDao;
 import pl.akiba.model.entities.FacebookUser;
+import pl.akiba.model.entities.FacebookUser.Status;
 import pl.akiba.model.service.UserService;
 
 /**
@@ -21,12 +22,17 @@ public class DefaultUserService implements UserService {
     @Override
     public FacebookUser getFacebookUser(long facebookId) {
         FacebookUser facebookUser = null;
+        Status status = null;
 
         try {
             facebookUser = userDao.getFacebookUser(facebookId);
+            status = Status.EXISTING;
         } catch (EmptyResultDataAccessException e) {
             facebookUser = userDao.createFacebookUser(facebookId);
+            status = Status.CREATED;
         }
+
+        facebookUser.setStatus(status);
 
         return facebookUser;
     }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import pl.akiba.model.entities.FacebookUser;
+import pl.akiba.model.entities.FacebookUser.Status;
 import pl.akiba.model.exception.StatusException;
 import pl.akiba.model.service.UserService;
 
@@ -37,14 +38,21 @@ public class UserController {
             IOException, InterruptedException {
 
         FacebookUser facebookUser = null;
+        HttpStatus httpStatus = null;
+
         try {
             facebookUser = userService.getFacebookUser(facebookId);
+            if (facebookUser.getStatus() == Status.EXISTING) {
+                httpStatus = HttpStatus.OK;
+            } else if (facebookUser.getStatus() == Status.CREATED) {
+                httpStatus = HttpStatus.CREATED;
+            }
         } catch (Exception e) {
             LOGGER.error("Exception caught during getting facebook user [facebookId: " + facebookId + "]: ", e);
             return new ResponseEntity<FacebookUser>(HttpStatus.METHOD_FAILURE);
         }
 
-        return new ResponseEntity<FacebookUser>(facebookUser, HttpStatus.OK);
+        return new ResponseEntity<FacebookUser>(facebookUser, httpStatus);
     }
 
 }
