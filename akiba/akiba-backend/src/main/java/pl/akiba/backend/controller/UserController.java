@@ -33,7 +33,7 @@ public class UserController {
 
     @RequestMapping(value = "/fb/{facebookId}", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<FacebookUser> getFacebookUser(@PathVariable final int facebookId) throws StatusException,
+    public ResponseEntity<FacebookUser> getFacebookUser(@PathVariable final long facebookId) throws StatusException,
             IOException, InterruptedException {
 
         FacebookUser facebookUser = null;

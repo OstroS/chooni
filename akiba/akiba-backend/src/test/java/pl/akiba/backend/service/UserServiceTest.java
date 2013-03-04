@@ -27,7 +27,7 @@ public class UserServiceTest {
     public void testGetFacebookUser() {
         FacebookUser facebookUser = null;
         try {
-            facebookUser = userService.getFacebookUser(random.nextInt(100000));
+            facebookUser = userService.getFacebookUser(random.nextLong());
         } catch (StatusException e) {
             e.printStackTrace();
         } catch (IOException e) {
