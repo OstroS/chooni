@@ -35,8 +35,8 @@ public class UserController {
     @ResponseBody
     public ResponseEntity<FacebookUser> getFacebookUser(@PathVariable final int facebookId) throws StatusException,
             IOException, InterruptedException {
-        FacebookUser facebookUser = null;
 
+        FacebookUser facebookUser = null;
         try {
             facebookUser = userService.getFacebookUser(facebookId);
         } catch (Exception e) {

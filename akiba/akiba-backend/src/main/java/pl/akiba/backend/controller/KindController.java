@@ -6,7 +6,6 @@ import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import pl.akiba.model.entities.Kind;
+import pl.akiba.model.exception.EmptyResultException;
 import pl.akiba.model.exception.EntityIsNotValidException;
 import pl.akiba.model.service.KindService;
 
@@ -45,7 +45,7 @@ public class KindController {
 
         try {
             kind = kindService.get(userId, kindId);
-        } catch (EmptyResultDataAccessException e) {
+        } catch (EmptyResultException e) {
             LOGGER.warn("Kind [userId:" + userId + ", kindId:" + kindId + "] doesn't exist!");
             return new ResponseEntity<Kind>(HttpStatus.NOT_FOUND);
         } catch (Exception e) {
