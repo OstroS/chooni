@@ -3,10 +3,12 @@ package pl.akiba.frontend.users.service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.eclipse.jetty.client.HttpClient;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.stereotype.Component;
 
 import pl.akiba.model.entities.FacebookUser;
 import pl.akiba.model.entities.User;
@@ -17,8 +19,11 @@ import pl.akiba.wsclient.client.DefaultUserClient;
 import pl.akiba.wsclient.client.factory.JettyHttpClientConf.Builder;
 import pl.akiba.wsclient.client.factory.JettyHttpClientFactory;
 
+@Component("usersService")
 public class UsersServiceImpl implements UsersService {
 
+    private static Logger logger = Logger.getLogger(UsersServiceImpl.class.toString());
+    
     @Override
     //FIXME logging & httpclient
     public FacebookUser getByFacebookId(Long facebookId) {
@@ -39,16 +44,11 @@ public class UsersServiceImpl implements UsersService {
                 httpClientFactory.getHttpClient());
 
         try {
-            return userClient.getFacebookUser(facebookId);
-        } catch (StatusException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            FacebookUser fUser = userClient.getFacebookUser(facebookId);
+            logger.info("Returned facebook user: " + fUser);
+            return fUser;
+        } catch (StatusException | IOException | InterruptedException exception) {
+            logger.severe(exception.toString());
         }
 
         return null;

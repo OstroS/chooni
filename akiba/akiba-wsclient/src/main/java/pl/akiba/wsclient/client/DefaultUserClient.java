@@ -24,7 +24,7 @@ public class DefaultUserClient extends DefaultClient implements UserService {
     @Override
     public FacebookUser getFacebookUser(long facebookId) throws StatusException, IOException, InterruptedException {
         StringBuilder urlBuilder = new StringBuilder(address);
-        urlBuilder.append("/user/fb?facebookId=").append(facebookId);
+        urlBuilder.append("/user/fb/").append(facebookId);
 
         ContentExchange exchange = prepareExchange(HttpMethod.GET, urlBuilder.toString());
         httpClient.send(exchange);

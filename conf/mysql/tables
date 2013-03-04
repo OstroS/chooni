@@ -31,7 +31,7 @@ CREATE TABLE `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_facebook` int(11) DEFAULT NULL,
   `id_google` int(11) DEFAULT NULL,
-  `role` int(11) NOT NULL,
+  `role` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='latin1_swedish_ci'
 ;
