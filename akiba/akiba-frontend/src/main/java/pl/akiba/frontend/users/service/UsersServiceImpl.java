@@ -15,7 +15,6 @@ import pl.akiba.model.entities.FacebookUser;
 import pl.akiba.model.entities.User;
 import pl.akiba.model.entities.User.ROLE;
 import pl.akiba.model.exception.StatusException;
-import pl.akiba.model.service.UserService;
 import pl.akiba.wsclient.client.DefaultUserClient;
 import pl.akiba.wsclient.client.factory.JettyHttpClientConf.Builder;
 import pl.akiba.wsclient.client.factory.JettyHttpClientFactory;
@@ -33,7 +32,7 @@ public class UsersServiceImpl implements UsersService {
     public FacebookUser getByFacebookId(Long facebookId) {
         HttpClient httpClient = getHttpClient();
         
-        UserService userClient = new DefaultUserClient(WS_ENDPOINT,
+        DefaultUserClient userClient = new DefaultUserClient(WS_ENDPOINT,
                 httpClient);
 
         try {
