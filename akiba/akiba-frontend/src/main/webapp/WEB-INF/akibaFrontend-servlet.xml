@@ -36,6 +36,8 @@
     <context:component-scan base-package="pl.akiba.frontend.facebook.service" />
     <context:component-scan base-package="pl.akiba.frontend.users.service" />
     
+    <context:component-scan base-package="pl.akiba.wsclient.api.impl" />
+    
     <beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <beans:property name="prefix" value="/jsp/" />
         <beans:property name="suffix" value=".jsp" />
