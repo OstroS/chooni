@@ -29,8 +29,7 @@ public class DefaultUserClient extends DefaultClient implements UserService {
         StringBuilder urlBuilder = new StringBuilder(address);
         urlBuilder.append("/user/fb/").append(facebookId);
 
-        ContentExchange exchange = prepareExchange(HttpMethod.GET, urlBuilder.toString());
-        httpClient.send(exchange);
+        ContentExchange exchange = sendExchange(HttpMethod.GET, urlBuilder.toString(), null);
         int exchangeStatus = exchange.waitForDone();
 
         if (exchangeStatus == HttpExchange.STATUS_COMPLETED) {
@@ -52,7 +51,6 @@ public class DefaultUserClient extends DefaultClient implements UserService {
 
     private FacebookUser returnFacebookUser(ContentExchange exchange) throws IOException, JsonParseException,
             JsonMappingException, UnsupportedEncodingException {
-
         return mapper.readValue(exchange.getResponseContent(), FacebookUser.class);
     }
 
