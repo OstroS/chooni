@@ -35,7 +35,7 @@ public class ProfileController {
 
     @RequestMapping(value = "/default", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<Profile> getDefault(@PathVariable final int userId) {
+    public ResponseEntity<Profile> getDefault(@PathVariable final long userId) {
         Profile profile = null;
 
         try {
@@ -53,7 +53,7 @@ public class ProfileController {
 
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<List<Profile>> getAll(@PathVariable final int userId) {
+    public ResponseEntity<List<Profile>> getAll(@PathVariable final long userId) {
         List<Profile> profiles = null;
 
         try {
@@ -72,7 +72,7 @@ public class ProfileController {
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<Profile> create(@PathVariable final int userId, @RequestBody final Profile profile) {
+    public ResponseEntity<Profile> create(@PathVariable final long userId, @RequestBody final Profile profile) {
         Profile createdProfile = null;
 
         try {
@@ -89,7 +89,7 @@ public class ProfileController {
     }
 
     @RequestMapping(method = RequestMethod.PUT)
-    public ResponseEntity<Profile> update(@PathVariable final int userId, @RequestBody final Profile profile) {
+    public ResponseEntity<Profile> update(@PathVariable final long userId, @RequestBody final Profile profile) {
         try {
             profileService.update(userId, profile);
         } catch (EntityIsNotValidException e) {
@@ -106,7 +106,7 @@ public class ProfileController {
     }
 
     @RequestMapping(value = "/{profileId}", method = RequestMethod.DELETE)
-    public ResponseEntity<HttpStatus> delete(@PathVariable final int userId, @PathVariable final int profileId) {
+    public ResponseEntity<HttpStatus> delete(@PathVariable final long userId, @PathVariable final int profileId) {
         try {
             profileService.delete(userId, profileId);
         } catch (Exception e) {

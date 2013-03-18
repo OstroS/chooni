@@ -18,23 +18,23 @@ public interface ExpenseService {
     /**
      * @throws EmptyResultDataAccessException
      */
-    public Expense get(int userId, int expenseId) throws EmptyResultException, StatusException, IOException,
+    public Expense get(long userId, int expenseId) throws EmptyResultException, StatusException, IOException,
             InterruptedException;
 
-    public List<Expense> getAll(int userId, Filter filter) throws StatusException, IOException, InterruptedException;
+    public List<Expense> getAll(long userId, Filter filter) throws StatusException, IOException, InterruptedException;
 
-    public double getTotal(int userId, Filter filter) throws StatusException, IOException, InterruptedException;
+    public double getTotal(long userId, Filter filter) throws StatusException, IOException, InterruptedException;
 
     /**
      * @throws EntityIsNotValidException
      * @return created expense
      */
-    public Expense create(int userId, Expense expense) throws EntityIsNotValidException, StatusException, IOException,
+    public Expense create(long userId, Expense expense) throws EntityIsNotValidException, StatusException, IOException,
             InterruptedException;
 
-    public Expense update(int userId, Expense expense) throws EntityIsNotValidException, StatusException, IOException,
+    public Expense update(long userId, Expense expense) throws EntityIsNotValidException, StatusException, IOException,
             InterruptedException;
 
-    public void delete(int userId, int expenseId) throws StatusException, IOException, InterruptedException;
+    public void delete(long userId, int expenseId) throws StatusException, IOException, InterruptedException;
 
 }

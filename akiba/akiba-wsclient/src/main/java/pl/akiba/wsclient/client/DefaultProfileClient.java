@@ -24,7 +24,7 @@ public class DefaultProfileClient extends DefaultClient implements ProfileServic
     }
 
     @Override
-    public List<Profile> getAll(int userId) throws StatusException, IOException, InterruptedException {
+    public List<Profile> getAll(long userId) throws StatusException, IOException, InterruptedException {
         StringBuilder urlBuilder = prepareBasicUrl(userId).append("/profile");
 
         ContentExchange exchange = sendExchange(HttpMethod.GET, urlBuilder.toString(), null);
@@ -48,7 +48,7 @@ public class DefaultProfileClient extends DefaultClient implements ProfileServic
     }
 
     @Override
-    public Profile getDefault(int userId) throws StatusException, IOException, InterruptedException {
+    public Profile getDefault(long userId) throws StatusException, IOException, InterruptedException {
         StringBuilder urlBuilder = prepareBasicUrl(userId).append("/profile/default");
 
         ContentExchange exchange = sendExchange(HttpMethod.GET, urlBuilder.toString(), null);
@@ -72,7 +72,7 @@ public class DefaultProfileClient extends DefaultClient implements ProfileServic
     }
 
     @Override
-    public Profile create(int userId, Profile profile) throws StatusException, IOException, InterruptedException {
+    public Profile create(long userId, Profile profile) throws StatusException, IOException, InterruptedException {
         StringBuilder urlBuilder = prepareBasicUrl(userId).append("/profile");
 
         ContentExchange exchange = sendExchange(HttpMethod.POST, urlBuilder.toString(), profile);
@@ -94,7 +94,7 @@ public class DefaultProfileClient extends DefaultClient implements ProfileServic
     }
 
     @Override
-    public void update(int userId, Profile profile) throws StatusException, IOException, InterruptedException {
+    public void update(long userId, Profile profile) throws StatusException, IOException, InterruptedException {
         StringBuilder urlBuilder = prepareBasicUrl(userId).append("/profile");
 
         ContentExchange exchange = sendExchange(HttpMethod.PUT, urlBuilder.toString(), profile);
@@ -114,7 +114,7 @@ public class DefaultProfileClient extends DefaultClient implements ProfileServic
     }
 
     @Override
-    public void delete(int userId, int profileId) throws StatusException, IOException, InterruptedException {
+    public void delete(long userId, int profileId) throws StatusException, IOException, InterruptedException {
         StringBuilder urlBuilder = prepareBasicUrl(userId).append("/profile/").append(profileId);
 
         ContentExchange exchange = sendExchange(HttpMethod.DELETE, urlBuilder.toString(), null);

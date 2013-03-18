@@ -31,7 +31,7 @@ public class ExpenseServiceTest {
     @Autowired
     private ExpenseService expenseService;
 
-    private final int userId = 0;
+    private final long userId = 0;
     private final int kindId = 1;
     private final int profileId = 1;
 

@@ -11,7 +11,7 @@ public class CommonClientTest {
 
     protected final JettyHttpClientFactory httpClientFactory;
     protected final Random random = new Random();
-    protected final int userId = 0;
+    protected final long userId = 0;
 
     public CommonClientTest() {
         //@formatter:off

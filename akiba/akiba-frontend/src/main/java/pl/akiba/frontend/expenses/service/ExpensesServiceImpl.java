@@ -46,7 +46,7 @@ public class ExpensesServiceImpl implements ExpensesService {
         
         // FIXME THATS F*** HORRIBLE :D:D:D
         
-        int userId = (int)(long)user.getId();
+        long userId = (int)(long)user.getId();
         try {
             defaultExpensesClient.create(userId, expense);
         } catch (StatusException | IOException | InterruptedException e) {

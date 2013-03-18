@@ -40,7 +40,7 @@ public class KindController {
      */
     @RequestMapping(value = "/{kindId}", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<Kind> get(@PathVariable final int userId, @PathVariable final int kindId) {
+    public ResponseEntity<Kind> get(@PathVariable final long userId, @PathVariable final int kindId) {
         Kind kind = null;
 
         try {
@@ -61,7 +61,7 @@ public class KindController {
      */
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<List<Kind>> getAll(@PathVariable final int userId) {
+    public ResponseEntity<List<Kind>> getAll(@PathVariable final long userId) {
         List<Kind> kinds = null;
 
         try {
@@ -83,7 +83,7 @@ public class KindController {
      */
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<Kind> create(@PathVariable final int userId, @RequestBody final Kind kind) {
+    public ResponseEntity<Kind> create(@PathVariable final long userId, @RequestBody final Kind kind) {
         Kind createdKind = null;
 
         try {
@@ -103,7 +103,7 @@ public class KindController {
      * Updates kind's data.
      */
     @RequestMapping(method = RequestMethod.PUT)
-    public ResponseEntity<Kind> update(@PathVariable final int userId, @RequestBody final Kind kind) {
+    public ResponseEntity<Kind> update(@PathVariable final long userId, @RequestBody final Kind kind) {
         try {
             kindService.update(userId, kind);
         } catch (EntityIsNotValidException e) {
@@ -123,7 +123,7 @@ public class KindController {
      * Deletes kind by id.
      */
     @RequestMapping(value = "/{kindId}", method = RequestMethod.DELETE)
-    public ResponseEntity<HttpStatus> delete(@PathVariable final int userId, @PathVariable final int kindId) {
+    public ResponseEntity<HttpStatus> delete(@PathVariable final long userId, @PathVariable final int kindId) {
         try {
             kindService.delete(userId, kindId);
         } catch (Exception e) {

@@ -42,7 +42,7 @@ public class JdbcExpenseDao implements ExpenseDao, InitializingBean {
     }
 
     @Override
-    public Expense get(int userId, int expenseId) {
+    public Expense get(long userId, int expenseId) {
         MapSqlParameterSource parameterMap = new MapSqlParameterSource();
         parameterMap.addValue("userId", userId);
         parameterMap.addValue("expenseId", expenseId);
@@ -60,7 +60,7 @@ public class JdbcExpenseDao implements ExpenseDao, InitializingBean {
     }
 
     @Override
-    public List<Expense> getAll(int userId, Filter filter) {
+    public List<Expense> getAll(long userId, Filter filter) {
         StringBuilder sqlBuilder = new StringBuilder(Sql.SELECT_EXPENSES);
         MapSqlParameterSource parameterMap = new MapSqlParameterSource("userId", userId);
 
@@ -82,7 +82,7 @@ public class JdbcExpenseDao implements ExpenseDao, InitializingBean {
     }
 
     @Override
-    public double getTotal(int userId, Filter filter) {
+    public double getTotal(long userId, Filter filter) {
         StringBuilder sqlBuilder = new StringBuilder(Sql.SELECT_TOTAL_EXPENSE);
         MapSqlParameterSource parameterMap = new MapSqlParameterSource("userId", userId);
 
@@ -95,7 +95,7 @@ public class JdbcExpenseDao implements ExpenseDao, InitializingBean {
     }
 
     @Override
-    public Expense create(int userId, Expense expense) {
+    public Expense create(long userId, Expense expense) {
         Date now = new Date();
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -115,7 +115,7 @@ public class JdbcExpenseDao implements ExpenseDao, InitializingBean {
     }
 
     @Override
-    public void update(int userId, Expense expense) {
+    public void update(long userId, Expense expense) {
         MapSqlParameterSource parameterMap = new MapSqlParameterSource();
         parameterMap.addValue("userId", userId);
         parameterMap.addValue("id", expense.getId());
@@ -127,7 +127,7 @@ public class JdbcExpenseDao implements ExpenseDao, InitializingBean {
     }
 
     @Override
-    public void delete(int userId, int expenseId) {
+    public void delete(long userId, int expenseId) {
         MapSqlParameterSource parameterMap = new MapSqlParameterSource();
         parameterMap.addValue("userId", userId);
         parameterMap.addValue("expenseId", expenseId);

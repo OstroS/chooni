@@ -38,7 +38,7 @@ public class JdbcKindDao implements KindDao, InitializingBean {
     }
 
     @Override
-    public Kind get(int userId, int kindId) {
+    public Kind get(long userId, int kindId) {
         MapSqlParameterSource parameterMap = new MapSqlParameterSource();
         parameterMap.addValue("userId", userId);
         parameterMap.addValue("kindId", kindId);
@@ -54,7 +54,7 @@ public class JdbcKindDao implements KindDao, InitializingBean {
     }
 
     @Override
-    public List<Kind> getAll(int userId) {
+    public List<Kind> getAll(long userId) {
         return jdbcTemplate.query(Sql.SELECT_KINDS, new MapSqlParameterSource("userId", userId), new RowMapper<Kind>() {
 
             @Override
@@ -66,7 +66,7 @@ public class JdbcKindDao implements KindDao, InitializingBean {
     }
 
     @Override
-    public Kind create(int userId, Kind kind) {
+    public Kind create(long userId, Kind kind) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         MapSqlParameterSource parameterMap = new MapSqlParameterSource();
@@ -80,7 +80,7 @@ public class JdbcKindDao implements KindDao, InitializingBean {
     }
 
     @Override
-    public void update(int userId, Kind kind) {
+    public void update(long userId, Kind kind) {
         MapSqlParameterSource parameterMap = new MapSqlParameterSource();
         parameterMap.addValue("userId", userId);
         parameterMap.addValue("kindId", kind.getId());
@@ -90,7 +90,7 @@ public class JdbcKindDao implements KindDao, InitializingBean {
     }
 
     @Override
-    public void delete(int userId, int kindId) {
+    public void delete(long userId, int kindId) {
         MapSqlParameterSource parameterMap = new MapSqlParameterSource();
         parameterMap.addValue("userId", userId);
         parameterMap.addValue("kindId", kindId);

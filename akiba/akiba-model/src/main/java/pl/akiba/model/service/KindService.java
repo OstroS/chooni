@@ -14,20 +14,20 @@ import pl.akiba.model.exception.StatusException;
  */
 public interface KindService {
 
-    public Kind get(int userId, int kindId) throws EmptyResultException, StatusException, IOException,
+    public Kind get(long userId, int kindId) throws EmptyResultException, StatusException, IOException,
             InterruptedException;
 
-    public List<Kind> getAll(int userId) throws StatusException, IOException, InterruptedException;;
+    public List<Kind> getAll(long userId) throws StatusException, IOException, InterruptedException;;
 
     /**
      * @return created kind
      */
-    public Kind create(int userId, Kind kind) throws EntityIsNotValidException, StatusException, IOException,
+    public Kind create(long userId, Kind kind) throws EntityIsNotValidException, StatusException, IOException,
             InterruptedException;
 
-    public void update(int userId, Kind kind) throws EntityIsNotValidException, StatusException, IOException,
+    public void update(long userId, Kind kind) throws EntityIsNotValidException, StatusException, IOException,
             InterruptedException;
 
-    public void delete(int userId, int kindId) throws StatusException, IOException, InterruptedException;;
+    public void delete(long userId, int kindId) throws StatusException, IOException, InterruptedException;;
 
 }

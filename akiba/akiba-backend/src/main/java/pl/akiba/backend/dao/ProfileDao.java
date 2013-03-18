@@ -6,14 +6,14 @@ import pl.akiba.model.entities.Profile;
 
 public interface ProfileDao {
 
-    public List<Profile> getAll(int userId);
+    public List<Profile> getAll(long userId);
 
-    public Profile getDefault(int userId);
+    public Profile getDefault(long userId);
 
-    public Profile create(int userId, Profile profile);
+    public Profile create(long userId, Profile profile);
 
-    public void update(int userId, Profile profile);
+    public void update(long userId, Profile profile);
 
-    public void delete(int userId, int profileId);
+    public void delete(long userId, int profileId);
 
 }

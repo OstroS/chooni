@@ -24,7 +24,7 @@ public class DefaultKindClient extends DefaultClient implements KindService {
     }
 
     @Override
-    public Kind get(int userId, int kindId) throws StatusException, IOException, InterruptedException {
+    public Kind get(long userId, int kindId) throws StatusException, IOException, InterruptedException {
         StringBuilder urlBuilder = prepareBasicUrl(userId).append("/kind/").append(kindId);
 
         ContentExchange exchange = sendExchange(HttpMethod.GET, urlBuilder.toString(), null);
@@ -48,7 +48,7 @@ public class DefaultKindClient extends DefaultClient implements KindService {
     }
 
     @Override
-    public List<Kind> getAll(int userId) throws StatusException, IOException, InterruptedException {
+    public List<Kind> getAll(long userId) throws StatusException, IOException, InterruptedException {
         StringBuilder urlBuilder = prepareBasicUrl(userId).append("/kind");
 
         ContentExchange exchange = sendExchange(HttpMethod.GET, urlBuilder.toString(), null);
@@ -72,7 +72,7 @@ public class DefaultKindClient extends DefaultClient implements KindService {
     }
 
     @Override
-    public Kind create(int userId, Kind kind) throws StatusException, IOException, InterruptedException {
+    public Kind create(long userId, Kind kind) throws StatusException, IOException, InterruptedException {
         StringBuilder urlBuilder = prepareBasicUrl(userId).append("/kind");
 
         ContentExchange exchange = sendExchange(HttpMethod.POST, urlBuilder.toString(), kind);
@@ -94,7 +94,7 @@ public class DefaultKindClient extends DefaultClient implements KindService {
     }
 
     @Override
-    public void update(int userId, Kind kind) throws StatusException, IOException, InterruptedException {
+    public void update(long userId, Kind kind) throws StatusException, IOException, InterruptedException {
         StringBuilder urlBuilder = prepareBasicUrl(userId).append("/kind");
 
         ContentExchange exchange = sendExchange(HttpMethod.PUT, urlBuilder.toString(), kind);
@@ -114,7 +114,7 @@ public class DefaultKindClient extends DefaultClient implements KindService {
     }
 
     @Override
-    public void delete(int userId, int kindId) throws StatusException, IOException, InterruptedException {
+    public void delete(long userId, int kindId) throws StatusException, IOException, InterruptedException {
         StringBuilder urlBuilder = prepareBasicUrl(userId).append("/kind/").append(kindId);
 
         ContentExchange exchange = sendExchange(HttpMethod.DELETE, urlBuilder.toString(), null);

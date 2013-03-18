@@ -14,17 +14,17 @@ import pl.akiba.model.exception.StatusException;
  */
 public interface ProfileService {
 
-    public List<Profile> getAll(int userId) throws StatusException, IOException, InterruptedException;
+    public List<Profile> getAll(long userId) throws StatusException, IOException, InterruptedException;
 
-    public Profile getDefault(int userId) throws EmptyResultException, StatusException, IOException,
+    public Profile getDefault(long userId) throws EmptyResultException, StatusException, IOException,
             InterruptedException;
 
-    public Profile create(int userId, Profile profile) throws EntityIsNotValidException, StatusException, IOException,
+    public Profile create(long userId, Profile profile) throws EntityIsNotValidException, StatusException, IOException,
             InterruptedException;
 
-    public void update(int userId, Profile profile) throws EntityIsNotValidException, StatusException, IOException,
+    public void update(long userId, Profile profile) throws EntityIsNotValidException, StatusException, IOException,
             InterruptedException;
 
-    public void delete(int userId, int profileId) throws StatusException, IOException, InterruptedException;
+    public void delete(long userId, int profileId) throws StatusException, IOException, InterruptedException;
 
 }

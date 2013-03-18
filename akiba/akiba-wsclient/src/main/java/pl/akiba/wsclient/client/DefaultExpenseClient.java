@@ -26,7 +26,7 @@ public class DefaultExpenseClient extends DefaultClient implements ExpenseServic
     }
 
     @Override
-    public Expense get(int userId, int expenseId) throws StatusException, IOException, InterruptedException {
+    public Expense get(long userId, int expenseId) throws StatusException, IOException, InterruptedException {
         StringBuilder urlBuilder = prepareBasicUrl(userId).append("/expense/").append(expenseId);
 
         ContentExchange exchange = sendExchange(HttpMethod.GET, urlBuilder.toString(), null);
@@ -50,7 +50,7 @@ public class DefaultExpenseClient extends DefaultClient implements ExpenseServic
     }
 
     @Override
-    public List<Expense> getAll(int userId, Filter filter) throws StatusException, IOException, InterruptedException {
+    public List<Expense> getAll(long userId, Filter filter) throws StatusException, IOException, InterruptedException {
         StringBuilder urlBuilder = prepareBasicUrl(userId).append("/expense");
         if (filter != null) {
             urlBuilder.append(filter.getFilterString());
@@ -77,7 +77,7 @@ public class DefaultExpenseClient extends DefaultClient implements ExpenseServic
     }
 
     @Override
-    public double getTotal(int userId, Filter filter) throws StatusException, IOException, InterruptedException {
+    public double getTotal(long userId, Filter filter) throws StatusException, IOException, InterruptedException {
         StringBuilder urlBuilder = prepareBasicUrl(userId).append("/expense/total");
         if (filter != null) {
             urlBuilder.append(filter.getFilterString());
@@ -102,7 +102,7 @@ public class DefaultExpenseClient extends DefaultClient implements ExpenseServic
     }
 
     @Override
-    public Expense create(int userId, Expense expense) throws StatusException, IOException, InterruptedException {
+    public Expense create(long userId, Expense expense) throws StatusException, IOException, InterruptedException {
         StringBuilder urlBuilder = prepareBasicUrl(userId).append("/expense");
 
         ContentExchange exchange = sendExchange(HttpMethod.POST, urlBuilder.toString(), expense);
@@ -124,7 +124,7 @@ public class DefaultExpenseClient extends DefaultClient implements ExpenseServic
     }
 
     @Override
-    public Expense update(int userId, Expense expense) throws StatusException, IOException, InterruptedException {
+    public Expense update(long userId, Expense expense) throws StatusException, IOException, InterruptedException {
         StringBuilder urlBuilder = prepareBasicUrl(userId).append("/expense");
 
         ContentExchange exchange = sendExchange(HttpMethod.PUT, urlBuilder.toString(), expense);
@@ -146,7 +146,7 @@ public class DefaultExpenseClient extends DefaultClient implements ExpenseServic
     }
 
     @Override
-    public void delete(int userId, int expenseId) throws StatusException, IOException, InterruptedException {
+    public void delete(long userId, int expenseId) throws StatusException, IOException, InterruptedException {
         StringBuilder urlBuilder = prepareBasicUrl(userId).append("/expense/").append(expenseId);
 
         ContentExchange exchange = sendExchange(HttpMethod.DELETE, urlBuilder.toString(), null);

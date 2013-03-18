@@ -39,7 +39,7 @@ public class DefaultClient {
         this.mapper = new ObjectMapper();
     }
 
-    protected StringBuilder prepareBasicUrl(int userId) {
+    protected StringBuilder prepareBasicUrl(long userId) {
         return new StringBuilder(address).append("/").append(userId);
     }
 

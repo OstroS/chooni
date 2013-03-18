@@ -45,7 +45,7 @@ public class ExpenseController {
      */
     @RequestMapping(value = "/{expenseId}", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<Expense> get(@PathVariable final int userId, @PathVariable final int expenseId) {
+    public ResponseEntity<Expense> get(@PathVariable final long userId, @PathVariable final int expenseId) {
         Expense expense = null;
 
         try {
@@ -69,7 +69,7 @@ public class ExpenseController {
      */
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<List<Expense>> getAll(@PathVariable final int userId, @ModelAttribute Filter filter) {
+    public ResponseEntity<List<Expense>> getAll(@PathVariable final long userId, @ModelAttribute Filter filter) {
         List<Expense> expenses = null;
 
         try {
@@ -91,7 +91,7 @@ public class ExpenseController {
      */
     @RequestMapping(value = "/total", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<Double> getTotal(@PathVariable final int userId, @ModelAttribute Filter filter) {
+    public ResponseEntity<Double> getTotal(@PathVariable final long userId, @ModelAttribute Filter filter) {
         double total = 0;
 
         try {
@@ -113,7 +113,7 @@ public class ExpenseController {
      */
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<Expense> create(@PathVariable final int userId, @RequestBody final Expense expense) {
+    public ResponseEntity<Expense> create(@PathVariable final long userId, @RequestBody final Expense expense) {
         Expense createdExpense = null;
 
         try {
@@ -137,7 +137,7 @@ public class ExpenseController {
      * @return updated expense
      */
     @RequestMapping(method = RequestMethod.PUT)
-    public ResponseEntity<Expense> update(@PathVariable final int userId, @RequestBody final Expense expense) {
+    public ResponseEntity<Expense> update(@PathVariable final long userId, @RequestBody final Expense expense) {
         try {
             expenseService.update(userId, expense);
         } catch (EntityIsNotValidException e) {
@@ -161,7 +161,7 @@ public class ExpenseController {
      * @return deleted expense
      */
     @RequestMapping(value = "/{expenseId}", method = RequestMethod.DELETE)
-    public ResponseEntity<HttpStatus> delete(@PathVariable final int userId, @PathVariable final int expenseId) {
+    public ResponseEntity<HttpStatus> delete(@PathVariable final long userId, @PathVariable final int expenseId) {
         try {
             expenseService.delete(userId, expenseId);
         } catch (Exception e) {

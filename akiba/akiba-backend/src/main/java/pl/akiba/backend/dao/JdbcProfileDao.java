@@ -34,7 +34,7 @@ public class JdbcProfileDao implements ProfileDao, InitializingBean {
     }
 
     @Override
-    public List<Profile> getAll(int userId) {
+    public List<Profile> getAll(long userId) {
         return jdbcTemplate.query(Sql.SELECT_PROFILES, new MapSqlParameterSource("userId", userId),
                 new RowMapper<Profile>() {
 
@@ -48,7 +48,7 @@ public class JdbcProfileDao implements ProfileDao, InitializingBean {
     }
 
     @Override
-    public Profile getDefault(int userId) {
+    public Profile getDefault(long userId) {
         MapSqlParameterSource parameterMap = new MapSqlParameterSource();
         parameterMap.addValue("userId", userId);
 
@@ -63,7 +63,7 @@ public class JdbcProfileDao implements ProfileDao, InitializingBean {
     }
 
     @Override
-    public Profile create(int userId, Profile profile) {
+    public Profile create(long userId, Profile profile) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         MapSqlParameterSource parameterMap = new MapSqlParameterSource();
@@ -77,7 +77,7 @@ public class JdbcProfileDao implements ProfileDao, InitializingBean {
     }
 
     @Override
-    public void update(int userId, Profile profile) {
+    public void update(long userId, Profile profile) {
         MapSqlParameterSource parameterMap = new MapSqlParameterSource();
         parameterMap.addValue("userId", userId);
         parameterMap.addValue("profileId", profile.getId());
@@ -89,7 +89,7 @@ public class JdbcProfileDao implements ProfileDao, InitializingBean {
     }
 
     @Override
-    public void delete(int userId, int profileId) {
+    public void delete(long userId, int profileId) {
         MapSqlParameterSource parameterMap = new MapSqlParameterSource();
         parameterMap.addValue("userId", userId);
         parameterMap.addValue("profileId", profileId);
