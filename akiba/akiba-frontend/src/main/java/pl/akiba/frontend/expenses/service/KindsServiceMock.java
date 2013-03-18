@@ -55,7 +55,7 @@ public class KindsServiceMock implements KindsService {
     }
 
     @Override
-    public Kind get(Long kindId) {
+    public Kind get(Long userId, Long kindId) {
         // TODO Auto-generated method stub
         return null;
     }

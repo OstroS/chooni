@@ -11,6 +11,6 @@ public interface KindsService {
 
     public abstract void add(Kind kind, User user);
     
-    public abstract Kind get(Long kindId);
+    public abstract Kind get(Long userId, Long kindId);
 
 }

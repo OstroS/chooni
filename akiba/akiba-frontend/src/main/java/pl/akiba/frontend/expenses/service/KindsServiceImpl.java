@@ -51,7 +51,7 @@ public class KindsServiceImpl implements KindsService {
     }
 
     @Override
-    public Kind get(Long kindId) {
+    public Kind get(Long userId, Long kindId) {
         //TODO
         return null;
     }
