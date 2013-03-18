@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -24,6 +25,7 @@ import pl.akiba.model.entities.User;
 public class KindController {
 
     @Autowired
+    @Qualifier("kindsService")
     private KindsService kindsService;
 
     @Autowired
@@ -37,7 +39,7 @@ public class KindController {
         model.setViewName("/kinds/addKind");
         model.addObject("command", new Kind());
 
-        List<Kind> currentKinds = kindsService.prepareKindsforUser(userHelper.getCurrentUser(principal));
+        List<Kind> currentKinds = kindsService.getAll(userHelper.getCurrentUser(principal));
         model.addObject("currentKinds", currentKinds);
         return model;
     }
@@ -45,7 +47,7 @@ public class KindController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public ModelAndView handleAddKindRequest(@ModelAttribute("kind") Kind kind, BindingResult result,
             Principal principal) {
-        kindsService.addKind(kind, userHelper.getCurrentUser(principal));
+        kindsService.add(kind, userHelper.getCurrentUser(principal));
 
         ModelAndView model = new ModelAndView();
         model.setViewName("/kinds/addKind");
@@ -54,10 +56,4 @@ public class KindController {
         return model;
     }
 
-    private User getCurrentUser() {
-        User user = new User();
-        user.setId(0L);
-        //        user.setName("Użyszkodnik testowy");
-        return user;
-    }
 }

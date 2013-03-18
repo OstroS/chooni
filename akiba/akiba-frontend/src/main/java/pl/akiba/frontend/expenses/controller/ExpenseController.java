@@ -74,7 +74,7 @@ public class ExpenseController {
         ModelAndView model = new ModelAndView();
         model.setViewName("/expenses/addExpense");
 
-        model.addObject("kinds", kindsService.prepareKindsforUser(currentUser));
+        model.addObject("kinds", kindsService.getAll(currentUser));
         model.addObject("profiles", profilesService.prepareProfilesForUser(currentUser));
 
         model.addObject("command", new Expense());

@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.format.Formatter;
 import org.springframework.stereotype.Component;
 import pl.akiba.model.entities.Kind;
@@ -16,6 +17,7 @@ import pl.akiba.model.entities.Kind;
 public class KindFormatter implements Formatter<Kind> {
 
     @Autowired
+    @Qualifier("kindsService")
     KindsService kindsService;
 
     @Override
@@ -25,10 +27,10 @@ public class KindFormatter implements Formatter<Kind> {
 
     @Override
     public Kind parse(String kindId, Locale locale) throws ParseException {
-        return kindsService.getKind(Long.parseLong(kindId));
+        return kindsService.get(Long.parseLong(kindId));
     }
 
-    public void setKindsService(KindsService ks) {
+    public void setKindsService(KindsServiceImpl ks) {
         this.kindsService = ks;
     }
 }

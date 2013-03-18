@@ -122,5 +122,11 @@
     factory-bean="wsClientServiceLocator"
     factory-method="createDefaultExpenseClient"
     />
+    
+    <!--  creating default user client - to be injected in service layer -->
+    <beans:bean id="defaultKindClient" class="pl.akiba.wsclient.client.DefaultKindClient"
+    factory-bean="wsClientServiceLocator"
+    factory-method="createDefaultKindClient"
+    />
 
 </beans:beans>
