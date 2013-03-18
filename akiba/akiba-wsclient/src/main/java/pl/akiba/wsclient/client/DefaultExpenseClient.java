@@ -123,7 +123,7 @@ public class DefaultExpenseClient extends DefaultClient implements ExpenseServic
     }
 
     @Override
-    public Expense create(int userId, Expense expense) throws StatusException, IOException, InterruptedException {
+    public Expense create(long userId, Expense expense) throws StatusException, IOException, InterruptedException {
         StringBuilder urlBuilder = new StringBuilder(address);
         urlBuilder.append("/").append(userId).append("/expense");
 

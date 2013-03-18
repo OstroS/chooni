@@ -6,6 +6,7 @@ import org.eclipse.jetty.client.HttpClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import pl.akiba.wsclient.client.DefaultExpenseClient;
 import pl.akiba.wsclient.client.DefaultUserClient;
 import pl.akiba.wsclient.client.factory.JettyHttpClientFactory;
 import pl.akiba.wsclient.client.factory.JettyHttpClientConf.Builder;
@@ -46,6 +47,17 @@ public class WsClientFactory {
         JettyHttpClientFactory httpClientFactory = new JettyHttpClientFactory(httpClientConfBuilder.build());
         HttpClient httpClient = httpClientFactory.getHttpClient();
         return new DefaultUserClient(WS_ENDPOINT, httpClient);
+    }
+    
+    /**
+     * Creates new Default Expense Client with predefined parameters
+     * @return
+     */
+    public DefaultExpenseClient createDefaultExpenseClient() {
+        JettyHttpClientFactory httpClientFactory = new JettyHttpClientFactory(httpClientConfBuilder.build());
+        HttpClient httpClient = httpClientFactory.getHttpClient();
+        return new DefaultExpenseClient(WS_ENDPOINT, httpClient);
+        
     }
 
 }
