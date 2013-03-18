@@ -28,8 +28,6 @@ import pl.akiba.wsclient.client.DefaultExpenseClient;
 public class ExpensesServiceImpl implements ExpensesService {
 
     @Autowired
-    private WsClientFactory wsClientFactory;
-    
     private DefaultExpenseClient defaultExpensesClient;
     
     private static final Logger logger = Logger.getLogger(ExpensesServiceImpl.class.toString());
@@ -37,7 +35,7 @@ public class ExpensesServiceImpl implements ExpensesService {
     /**
      * Amount of last expenses of user which are apparent on main site
      */
-    private final Long amountOfLastExpenses = 10L;
+    private final Long AMOUNT_OF_DEFAULT_LAST_EXPENSES = 10L;
 
     /* (non-Javadoc)
      * @see pl.akiba.frontend.expenses.service.ExpensesService#addExpense(pl.akiba.model.entities.Expense, pl.akiba.model.entities.User)
@@ -50,7 +48,7 @@ public class ExpensesServiceImpl implements ExpensesService {
         
         int userId = (int)(long)user.getId();
         try {
-            wsClientFactory.createDefaultExpenseClient().create(userId, expense);
+            defaultExpensesClient.create(userId, expense);
         } catch (StatusException | IOException | InterruptedException e) {
             logger.severe(e.toString());
         }
@@ -63,7 +61,7 @@ public class ExpensesServiceImpl implements ExpensesService {
     public List<Expense> getAllExpenses(User user) {
         logger.info("Get all expenses, " + user);
         try {
-            return wsClientFactory.createDefaultExpenseClient().getAll((int)(long)user.getId(), new Filter());
+            return defaultExpensesClient.getAll((int)(long)user.getId(), new Filter());
         } catch (StatusException | IOException | InterruptedException e) {
             // TODO Auto-generated catch block
             logger.severe(e.toString());
@@ -78,9 +76,9 @@ public class ExpensesServiceImpl implements ExpensesService {
     public List<Expense> getLastExpenses(User user) {
         logger.info("Get last expenses");
         Filter filter = new Filter();
-        filter.setLimit((int)(long)amountOfLastExpenses);
+        filter.setLimit((int)(long)AMOUNT_OF_DEFAULT_LAST_EXPENSES);
         try {
-           return wsClientFactory.createDefaultExpenseClient().getAll((int)(long)user.getId(), filter);
+           return defaultExpensesClient.getAll((int)(long)user.getId(), filter);
         } catch (StatusException | IOException | InterruptedException e) {
             logger.severe(e.toString());
         }

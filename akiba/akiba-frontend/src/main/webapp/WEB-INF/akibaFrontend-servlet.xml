@@ -108,12 +108,19 @@
         <security:authentication-provider ref="FacebookAuthenticationProvider"/>
     </security:authentication-manager>
     
-    <!--  creating WS-API clients -->
+    <!--  creating WS-API service locator -->
     <beans:bean id="wsClientServiceLocator" class="pl.akiba.wsclient.api.impl.WsClientFactory" />
     
+    <!--  creating default user client - to be injected in service layer -->
     <beans:bean id="defaultUserClient" class="pl.akiba.wsclient.client.DefaultUserClient"
     factory-bean="wsClientServiceLocator"
     factory-method="createDefaultUserClient"
+    />
+    
+    <!--  creating default user client - to be injected in service layer -->
+    <beans:bean id="defaultExpenseClient" class="pl.akiba.wsclient.client.DefaultExpenseClient"
+    factory-bean="wsClientServiceLocator"
+    factory-method="createDefaultExpenseClient"
     />
 
 </beans:beans>
