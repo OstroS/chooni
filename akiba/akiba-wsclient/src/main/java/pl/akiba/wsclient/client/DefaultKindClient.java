@@ -19,7 +19,7 @@ import pl.akiba.model.service.KindService;
  */
 public class DefaultKindClient extends DefaultClient implements KindService {
 
-    protected DefaultKindClient(String address, HttpClient httpClient) {
+    public DefaultKindClient(String address, HttpClient httpClient) {
         super(address, httpClient);
     }
 
