@@ -25,15 +25,13 @@ import pl.akiba.wsclient.client.factory.JettyHttpClientFactory;
 public class UsersServiceImpl implements UsersService {
 
     @Autowired
-    private WsClientFactory wsClientFactory;
+    private DefaultUserClient userClient;
 
     private static Logger logger = Logger.getLogger(UsersServiceImpl.class.toString());
 
     @Override
     //FIXME logging & httpclient
     public FacebookUser getByFacebookId(Long facebookId) {
-        DefaultUserClient userClient = wsClientFactory.createDefaultUserClient();
-
         try {
             FacebookUser fUser = userClient.getFacebookUser(facebookId);
             logger.info("Returned facebook user: " + fUser);

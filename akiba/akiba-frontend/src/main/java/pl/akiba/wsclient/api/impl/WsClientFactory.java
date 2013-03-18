@@ -44,8 +44,7 @@ public class WsClientFactory {
      * @return
      */
     public DefaultUserClient createDefaultUserClient() {
-        JettyHttpClientFactory httpClientFactory = new JettyHttpClientFactory(httpClientConfBuilder.build());
-        HttpClient httpClient = httpClientFactory.getHttpClient();
+        HttpClient httpClient = prepareHttpClient();
         return new DefaultUserClient(WS_ENDPOINT, httpClient);
     }
     
@@ -54,10 +53,17 @@ public class WsClientFactory {
      * @return
      */
     public DefaultExpenseClient createDefaultExpenseClient() {
-        JettyHttpClientFactory httpClientFactory = new JettyHttpClientFactory(httpClientConfBuilder.build());
-        HttpClient httpClient = httpClientFactory.getHttpClient();
+        HttpClient httpClient = prepareHttpClient();
         return new DefaultExpenseClient(WS_ENDPOINT, httpClient);
         
     }
+
+    private HttpClient prepareHttpClient() {
+        JettyHttpClientFactory httpClientFactory = new JettyHttpClientFactory(httpClientConfBuilder.build());
+        HttpClient httpClient = httpClientFactory.getHttpClient();
+        return httpClient;
+    }
+    
+    
 
 }

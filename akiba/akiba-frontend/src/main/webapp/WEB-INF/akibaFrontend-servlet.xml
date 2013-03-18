@@ -107,4 +107,13 @@
     <security:authentication-manager  alias="authenticationManager">
         <security:authentication-provider ref="FacebookAuthenticationProvider"/>
     </security:authentication-manager>
+    
+    <!--  creating WS-API clients -->
+    <beans:bean id="wsClientServiceLocator" class="pl.akiba.wsclient.api.impl.WsClientFactory" />
+    
+    <beans:bean id="defaultUserClient" class="pl.akiba.wsclient.client.DefaultUserClient"
+    factory-bean="wsClientServiceLocator"
+    factory-method="createDefaultUserClient"
+    />
+
 </beans:beans>
