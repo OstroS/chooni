@@ -1,6 +1,7 @@
 package pl.akiba.frontend.expenses.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import pl.akiba.model.entities.Expense;
+import pl.akiba.model.entities.Filter;
 import pl.akiba.model.entities.User;
 import pl.akiba.model.exception.StatusException;
 import pl.akiba.wsclient.api.AkibaApi;
@@ -60,7 +62,13 @@ public class ExpensesServiceImpl implements ExpensesService {
     @Override
     public List<Expense> getAllExpenses(User user) {
         logger.info("Get all expenses, " + user);
-        return akibaApi.getExpenseApi().getAll(user);
+        try {
+            return wsClientFactory.createDefaultExpenseClient().getAll((int)(long)user.getId(), new Filter());
+        } catch (StatusException | IOException | InterruptedException e) {
+            // TODO Auto-generated catch block
+            logger.severe(e.toString());
+        }
+        return new ArrayList<Expense>();
     }
 
     /* (non-Javadoc)
@@ -69,11 +77,14 @@ public class ExpensesServiceImpl implements ExpensesService {
     @Override
     public List<Expense> getLastExpenses(User user) {
         logger.info("Get last expenses");
-        CriteriaBuilder cb = new CriteriaBuilder();
-        Criteria criteria = cb.create().withAmountOfResults(amountOfLastExpenses)
-                .withSortOrder(CriteriaBuilder.SORT_ASCENDING_ORDER).build();
-
-        return this.akibaApi.getExpenseApi().get(user, criteria);
+        Filter filter = new Filter();
+        filter.setLimit((int)(long)amountOfLastExpenses);
+        try {
+           return wsClientFactory.createDefaultExpenseClient().getAll((int)(long)user.getId(), filter);
+        } catch (StatusException | IOException | InterruptedException e) {
+            logger.severe(e.toString());
+        }
+        return new ArrayList<Expense>();
 
     }
 }
