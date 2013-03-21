@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -25,7 +26,8 @@ import pl.akiba.model.entities.Profile;
  */
 public class DefaultClient {
 
-    protected final HttpClient httpClient;
+    private static final String AUTH_CODE_HEADER_NAME = "x-akiba-auth-code";
+	protected final HttpClient httpClient;
     protected final String address;
     protected final ObjectMapper mapper;
 
@@ -39,39 +41,53 @@ public class DefaultClient {
         this.mapper = new ObjectMapper();
     }
 
-    @Deprecated
     protected StringBuilder prepareBasicUrl(long userId) {
         return new StringBuilder(address).append("/").append(userId);
     }
     
-    protected StringBuilder prepareBasicUrl(String authenticationCode) {
-    	return new StringBuilder(address).append("/").append(authenticationCode);
-    }
 
     protected String getExchangeStatusName(int state) {
         return HttpExchangeStatus.getName(state);
     }
 
+    protected ContentExchange sendExchange(HttpMethod method, String url, AkibaEntity entity) throws IOException , InterruptedException{
+        ContentExchange exchange = prepareContentExchange(method, url);
+        sendContentExchange(entity, exchange);
+
+        return exchange;
+    }
+
+	private ContentExchange prepareContentExchange(HttpMethod method, String url) {
+		ContentExchange exchange = new ContentExchange();
+        exchange.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        exchange.setMethod(method.name());
+        exchange.setURL(url);
+		return exchange;
+	}
     /**
      * 
      * @param method
      * @param url
      * @param entity
      */
-    protected ContentExchange sendExchange(HttpMethod method, String url, AkibaEntity entity) throws IOException,
+    protected ContentExchange sendExchange(HttpMethod method, String url, AkibaEntity entity, String authCode) throws IOException,
             InterruptedException {
-        ContentExchange exchange = new ContentExchange();
-        exchange.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-        exchange.setMethod(method.name());
-        exchange.setURL(url);
-        if (entity != null) {
+        ContentExchange exchange = prepareContentExchange(method, url);
+        exchange.setRequestHeader(AUTH_CODE_HEADER_NAME, authCode);
+        sendContentExchange(entity, exchange);
+
+        return exchange;
+    }
+
+	private void sendContentExchange(AkibaEntity entity,
+			ContentExchange exchange) throws UnsupportedEncodingException,
+			IOException, JsonGenerationException, JsonMappingException {
+		if (entity != null) {
             exchange.setRequestContent(new ByteArrayBuffer(mapper.writeValueAsString(entity).getBytes("UTF-8")));
         }
 
         httpClient.send(exchange);
-
-        return exchange;
-    }
+	}
 
     protected enum HttpMethod {
         GET,

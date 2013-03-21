@@ -25,10 +25,10 @@ public class DefaultProfileClient extends DefaultClient implements ProfileServic
     }
 
     @Override
-    public List<Profile> getAll(String authCode) throws StatusException, IOException, InterruptedException {
-        StringBuilder urlBuilder = prepareBasicUrl(authCode).append("/profile");
+    public List<Profile> getAll(long userId, String authCode) throws StatusException, IOException, InterruptedException {
+        StringBuilder urlBuilder = prepareBasicUrl(userId).append("/profile");
 
-        ContentExchange exchange = sendExchange(HttpMethod.GET, urlBuilder.toString(), null);
+        ContentExchange exchange = sendExchange(HttpMethod.GET, urlBuilder.toString(), null, authCode);
         int exchangeStatus = exchange.waitForDone();
 
         if (exchangeStatus == HttpExchange.STATUS_COMPLETED) {
@@ -49,10 +49,10 @@ public class DefaultProfileClient extends DefaultClient implements ProfileServic
     }
 
     @Override
-    public Profile getDefault(String authCode) throws StatusException, IOException, InterruptedException {
-        StringBuilder urlBuilder = prepareBasicUrl(authCode).append("/profile/default");
+    public Profile getDefault(long userId, String authCode) throws StatusException, IOException, InterruptedException {
+        StringBuilder urlBuilder = prepareBasicUrl(userId).append("/profile/default");
 
-        ContentExchange exchange = sendExchange(HttpMethod.GET, urlBuilder.toString(), null);
+        ContentExchange exchange = sendExchange(HttpMethod.GET, urlBuilder.toString(), null, authCode);
         int exchangeStatus = exchange.waitForDone();
 
         if (exchangeStatus == HttpExchange.STATUS_COMPLETED) {
@@ -73,10 +73,10 @@ public class DefaultProfileClient extends DefaultClient implements ProfileServic
     }
 
     @Override
-    public Profile create(String authCode, Profile profile) throws StatusException, IOException, InterruptedException {
-        StringBuilder urlBuilder = prepareBasicUrl(authCode).append("/profile");
+    public Profile create(long userId, String authCode, Profile profile) throws StatusException, IOException, InterruptedException {
+        StringBuilder urlBuilder = prepareBasicUrl(userId).append("/profile");
 
-        ContentExchange exchange = sendExchange(HttpMethod.POST, urlBuilder.toString(), profile);
+        ContentExchange exchange = sendExchange(HttpMethod.POST, urlBuilder.toString(), profile, authCode);
         int exchangeStatus = exchange.waitForDone();
 
         if (exchangeStatus == HttpExchange.STATUS_COMPLETED) {
@@ -95,10 +95,10 @@ public class DefaultProfileClient extends DefaultClient implements ProfileServic
     }
 
     @Override
-    public void update(String authCode, Profile profile) throws StatusException, IOException, InterruptedException {
-        StringBuilder urlBuilder = prepareBasicUrl(authCode).append("/profile");
+    public void update(long userId, String authCode, Profile profile) throws StatusException, IOException, InterruptedException {
+        StringBuilder urlBuilder = prepareBasicUrl(userId).append("/profile");
 
-        ContentExchange exchange = sendExchange(HttpMethod.PUT, urlBuilder.toString(), profile);
+        ContentExchange exchange = sendExchange(HttpMethod.PUT, urlBuilder.toString(), profile, authCode);
         int exchangeStatus = exchange.waitForDone();
 
         if (exchangeStatus == HttpExchange.STATUS_COMPLETED) {
@@ -115,10 +115,10 @@ public class DefaultProfileClient extends DefaultClient implements ProfileServic
     }
 
     @Override
-    public void delete(String authCode, int profileId) throws StatusException, IOException, InterruptedException {
-        StringBuilder urlBuilder = prepareBasicUrl(authCode).append("/profile/").append(profileId);
+    public void delete(long userId, String authCode, int profileId) throws StatusException, IOException, InterruptedException {
+        StringBuilder urlBuilder = prepareBasicUrl(userId).append("/profile/").append(profileId);
 
-        ContentExchange exchange = sendExchange(HttpMethod.DELETE, urlBuilder.toString(), null);
+        ContentExchange exchange = sendExchange(HttpMethod.DELETE, urlBuilder.toString(), null, authCode);
         int exchangeStatus = exchange.waitForDone();
 
         if (exchangeStatus == HttpExchange.STATUS_COMPLETED) {

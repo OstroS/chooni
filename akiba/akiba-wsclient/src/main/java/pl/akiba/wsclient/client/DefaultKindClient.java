@@ -24,10 +24,10 @@ public class DefaultKindClient extends DefaultClient implements KindService {
     }
 
     @Override
-    public Kind get(String authCode, int kindId) throws StatusException, IOException, InterruptedException {
-        StringBuilder urlBuilder = prepareBasicUrl(authCode).append("/kind/").append(kindId);
+    public Kind get(long userId, String authCode, int kindId) throws StatusException, IOException, InterruptedException {
+        StringBuilder urlBuilder = prepareBasicUrl(userId).append("/kind/").append(kindId);
 
-        ContentExchange exchange = sendExchange(HttpMethod.GET, urlBuilder.toString(), null);
+        ContentExchange exchange = sendExchange(HttpMethod.GET, urlBuilder.toString(), null, authCode);
         int exchangeStatus = exchange.waitForDone();
 
         if (exchangeStatus == HttpExchange.STATUS_COMPLETED) {
@@ -48,10 +48,10 @@ public class DefaultKindClient extends DefaultClient implements KindService {
     }
 
     @Override
-    public List<Kind> getAll(String authCode) throws StatusException, IOException, InterruptedException {
-        StringBuilder urlBuilder = prepareBasicUrl(authCode).append("/kind");
+    public List<Kind> getAll(long userId, String authCode) throws StatusException, IOException, InterruptedException {
+        StringBuilder urlBuilder = prepareBasicUrl(userId).append("/kind");
 
-        ContentExchange exchange = sendExchange(HttpMethod.GET, urlBuilder.toString(), null);
+        ContentExchange exchange = sendExchange(HttpMethod.GET, urlBuilder.toString(), null, authCode);
         int exchangeStatus = exchange.waitForDone();
 
         if (exchangeStatus == HttpExchange.STATUS_COMPLETED) {
@@ -72,10 +72,10 @@ public class DefaultKindClient extends DefaultClient implements KindService {
     }
 
     @Override
-    public Kind create(String authCode, Kind kind) throws StatusException, IOException, InterruptedException {
-        StringBuilder urlBuilder = prepareBasicUrl(authCode).append("/kind");
+    public Kind create(long userId, String authCode, Kind kind) throws StatusException, IOException, InterruptedException {
+        StringBuilder urlBuilder = prepareBasicUrl(userId).append("/kind");
 
-        ContentExchange exchange = sendExchange(HttpMethod.POST, urlBuilder.toString(), kind);
+        ContentExchange exchange = sendExchange(HttpMethod.POST, urlBuilder.toString(), kind, authCode);
         int exchangeStatus = exchange.waitForDone();
 
         if (exchangeStatus == HttpExchange.STATUS_COMPLETED) {
@@ -94,10 +94,10 @@ public class DefaultKindClient extends DefaultClient implements KindService {
     }
 
     @Override
-    public void update(String authCode, Kind kind) throws StatusException, IOException, InterruptedException {
-        StringBuilder urlBuilder = prepareBasicUrl(authCode).append("/kind");
+    public void update(long userId, String authCode, Kind kind) throws StatusException, IOException, InterruptedException {
+        StringBuilder urlBuilder = prepareBasicUrl(userId).append("/kind");
 
-        ContentExchange exchange = sendExchange(HttpMethod.PUT, urlBuilder.toString(), kind);
+        ContentExchange exchange = sendExchange(HttpMethod.PUT, urlBuilder.toString(), kind, authCode);
         int exchangeStatus = exchange.waitForDone();
 
         if (exchangeStatus == HttpExchange.STATUS_COMPLETED) {
@@ -114,10 +114,10 @@ public class DefaultKindClient extends DefaultClient implements KindService {
     }
 
     @Override
-    public void delete(String authCode, int kindId) throws StatusException, IOException, InterruptedException {
-        StringBuilder urlBuilder = prepareBasicUrl(authCode).append("/kind/").append(kindId);
+    public void delete(long userId, String authCode, int kindId) throws StatusException, IOException, InterruptedException {
+        StringBuilder urlBuilder = prepareBasicUrl(userId).append("/kind/").append(kindId);
 
-        ContentExchange exchange = sendExchange(HttpMethod.DELETE, urlBuilder.toString(), null);
+        ContentExchange exchange = sendExchange(HttpMethod.DELETE, urlBuilder.toString(), null, authCode);
         int exchangeStatus = exchange.waitForDone();
 
         if (exchangeStatus == HttpExchange.STATUS_COMPLETED) {
