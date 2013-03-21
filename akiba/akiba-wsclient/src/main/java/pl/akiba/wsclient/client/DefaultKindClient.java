@@ -8,7 +8,6 @@ import org.eclipse.jetty.client.HttpClient;
 import org.eclipse.jetty.client.HttpExchange;
 
 import pl.akiba.model.entities.Kind;
-import pl.akiba.model.entities.User;
 import pl.akiba.model.exception.MethodFailureStatusException;
 import pl.akiba.model.exception.NotFoundStatusException;
 import pl.akiba.model.exception.StatusException;
@@ -25,8 +24,8 @@ public class DefaultKindClient extends DefaultClient implements KindService {
     }
 
     @Override
-    public Kind get(pl.akiba.model.entities.User user, int kindId) throws StatusException, IOException, InterruptedException {
-        StringBuilder urlBuilder = prepareBasicUrl(user.getAuthenticationCode()).append("/kind/").append(kindId);
+    public Kind get(String authCode, int kindId) throws StatusException, IOException, InterruptedException {
+        StringBuilder urlBuilder = prepareBasicUrl(authCode).append("/kind/").append(kindId);
 
         ContentExchange exchange = sendExchange(HttpMethod.GET, urlBuilder.toString(), null);
         int exchangeStatus = exchange.waitForDone();
@@ -49,8 +48,8 @@ public class DefaultKindClient extends DefaultClient implements KindService {
     }
 
     @Override
-    public List<Kind> getAll(User user) throws StatusException, IOException, InterruptedException {
-        StringBuilder urlBuilder = prepareBasicUrl(user.getAuthenticationCode()).append("/kind");
+    public List<Kind> getAll(String authCode) throws StatusException, IOException, InterruptedException {
+        StringBuilder urlBuilder = prepareBasicUrl(authCode).append("/kind");
 
         ContentExchange exchange = sendExchange(HttpMethod.GET, urlBuilder.toString(), null);
         int exchangeStatus = exchange.waitForDone();
@@ -73,8 +72,8 @@ public class DefaultKindClient extends DefaultClient implements KindService {
     }
 
     @Override
-    public Kind create(User user, Kind kind) throws StatusException, IOException, InterruptedException {
-        StringBuilder urlBuilder = prepareBasicUrl(user.getAuthenticationCode()).append("/kind");
+    public Kind create(String authCode, Kind kind) throws StatusException, IOException, InterruptedException {
+        StringBuilder urlBuilder = prepareBasicUrl(authCode).append("/kind");
 
         ContentExchange exchange = sendExchange(HttpMethod.POST, urlBuilder.toString(), kind);
         int exchangeStatus = exchange.waitForDone();
@@ -95,8 +94,8 @@ public class DefaultKindClient extends DefaultClient implements KindService {
     }
 
     @Override
-    public void update(User user, Kind kind) throws StatusException, IOException, InterruptedException {
-        StringBuilder urlBuilder = prepareBasicUrl(user.getAuthenticationCode()).append("/kind");
+    public void update(String authCode, Kind kind) throws StatusException, IOException, InterruptedException {
+        StringBuilder urlBuilder = prepareBasicUrl(authCode).append("/kind");
 
         ContentExchange exchange = sendExchange(HttpMethod.PUT, urlBuilder.toString(), kind);
         int exchangeStatus = exchange.waitForDone();
@@ -115,8 +114,8 @@ public class DefaultKindClient extends DefaultClient implements KindService {
     }
 
     @Override
-    public void delete(User user, int kindId) throws StatusException, IOException, InterruptedException {
-        StringBuilder urlBuilder = prepareBasicUrl(user.getAuthenticationCode()).append("/kind/").append(kindId);
+    public void delete(String authCode, int kindId) throws StatusException, IOException, InterruptedException {
+        StringBuilder urlBuilder = prepareBasicUrl(authCode).append("/kind/").append(kindId);
 
         ContentExchange exchange = sendExchange(HttpMethod.DELETE, urlBuilder.toString(), null);
         int exchangeStatus = exchange.waitForDone();

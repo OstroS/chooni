@@ -27,8 +27,8 @@ public class DefaultExpenseClient extends DefaultClient implements ExpenseServic
     }
 
     @Override
-    public Expense get(User user, int expenseId) throws StatusException, IOException, InterruptedException {
-        StringBuilder urlBuilder = prepareBasicUrl(user.getAuthenticationCode()).append("/expense/").append(expenseId);
+    public Expense get(String authCode, int expenseId) throws StatusException, IOException, InterruptedException {
+        StringBuilder urlBuilder = prepareBasicUrl(authCode).append("/expense/").append(expenseId);
 
         ContentExchange exchange = sendExchange(HttpMethod.GET, urlBuilder.toString(), null);
         int exchangeStatus = exchange.waitForDone();
@@ -51,8 +51,8 @@ public class DefaultExpenseClient extends DefaultClient implements ExpenseServic
     }
 
     @Override
-    public List<Expense> getAll(User user, Filter filter) throws StatusException, IOException, InterruptedException {
-        StringBuilder urlBuilder = prepareBasicUrl(user.getAuthenticationCode()).append("/expense");
+    public List<Expense> getAll(String authCode, Filter filter) throws StatusException, IOException, InterruptedException {
+        StringBuilder urlBuilder = prepareBasicUrl(authCode).append("/expense");
         if (filter != null) {
             urlBuilder.append(filter.getFilterString());
         }
@@ -78,8 +78,8 @@ public class DefaultExpenseClient extends DefaultClient implements ExpenseServic
     }
 
     @Override
-    public double getTotal(User user, Filter filter) throws StatusException, IOException, InterruptedException {
-        StringBuilder urlBuilder = prepareBasicUrl(user.getAuthenticationCode()).append("/expense/total");
+    public double getTotal(String authCode, Filter filter) throws StatusException, IOException, InterruptedException {
+        StringBuilder urlBuilder = prepareBasicUrl(authCode).append("/expense/total");
         if (filter != null) {
             urlBuilder.append(filter.getFilterString());
         }
@@ -103,8 +103,8 @@ public class DefaultExpenseClient extends DefaultClient implements ExpenseServic
     }
 
     @Override
-    public Expense create(User user, Expense expense) throws StatusException, IOException, InterruptedException {
-        StringBuilder urlBuilder = prepareBasicUrl(user.getAuthenticationCode()).append("/expense");
+    public Expense create(String authCode, Expense expense) throws StatusException, IOException, InterruptedException {
+        StringBuilder urlBuilder = prepareBasicUrl(authCode).append("/expense");
 
         ContentExchange exchange = sendExchange(HttpMethod.POST, urlBuilder.toString(), expense);
         int exchangeStatus = exchange.waitForDone();
@@ -125,8 +125,8 @@ public class DefaultExpenseClient extends DefaultClient implements ExpenseServic
     }
 
     @Override
-    public Expense update(User user, Expense expense) throws StatusException, IOException, InterruptedException {
-        StringBuilder urlBuilder = prepareBasicUrl(user.getAuthenticationCode()).append("/expense");
+    public Expense update(String authCode, Expense expense) throws StatusException, IOException, InterruptedException {
+        StringBuilder urlBuilder = prepareBasicUrl(authCode).append("/expense");
 
         ContentExchange exchange = sendExchange(HttpMethod.PUT, urlBuilder.toString(), expense);
         int exchangeStatus = exchange.waitForDone();
@@ -147,8 +147,8 @@ public class DefaultExpenseClient extends DefaultClient implements ExpenseServic
     }
 
     @Override
-    public void delete(User user, int expenseId) throws StatusException, IOException, InterruptedException {
-        StringBuilder urlBuilder = prepareBasicUrl(user.getAuthenticationCode()).append("/expense/").append(expenseId);
+    public void delete(String authCode, int expenseId) throws StatusException, IOException, InterruptedException {
+        StringBuilder urlBuilder = prepareBasicUrl(authCode).append("/expense/").append(expenseId);
 
         ContentExchange exchange = sendExchange(HttpMethod.DELETE, urlBuilder.toString(), null);
         int exchangeStatus = exchange.waitForDone();

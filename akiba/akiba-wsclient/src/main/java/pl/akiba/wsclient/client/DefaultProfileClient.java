@@ -25,8 +25,8 @@ public class DefaultProfileClient extends DefaultClient implements ProfileServic
     }
 
     @Override
-    public List<Profile> getAll(User user) throws StatusException, IOException, InterruptedException {
-        StringBuilder urlBuilder = prepareBasicUrl(user.getAuthenticationCode()).append("/profile");
+    public List<Profile> getAll(String authCode) throws StatusException, IOException, InterruptedException {
+        StringBuilder urlBuilder = prepareBasicUrl(authCode).append("/profile");
 
         ContentExchange exchange = sendExchange(HttpMethod.GET, urlBuilder.toString(), null);
         int exchangeStatus = exchange.waitForDone();
@@ -49,8 +49,8 @@ public class DefaultProfileClient extends DefaultClient implements ProfileServic
     }
 
     @Override
-    public Profile getDefault(User user) throws StatusException, IOException, InterruptedException {
-        StringBuilder urlBuilder = prepareBasicUrl(user.getAuthenticationCode()).append("/profile/default");
+    public Profile getDefault(String authCode) throws StatusException, IOException, InterruptedException {
+        StringBuilder urlBuilder = prepareBasicUrl(authCode).append("/profile/default");
 
         ContentExchange exchange = sendExchange(HttpMethod.GET, urlBuilder.toString(), null);
         int exchangeStatus = exchange.waitForDone();
@@ -73,8 +73,8 @@ public class DefaultProfileClient extends DefaultClient implements ProfileServic
     }
 
     @Override
-    public Profile create(User user, Profile profile) throws StatusException, IOException, InterruptedException {
-        StringBuilder urlBuilder = prepareBasicUrl(user.getAuthenticationCode()).append("/profile");
+    public Profile create(String authCode, Profile profile) throws StatusException, IOException, InterruptedException {
+        StringBuilder urlBuilder = prepareBasicUrl(authCode).append("/profile");
 
         ContentExchange exchange = sendExchange(HttpMethod.POST, urlBuilder.toString(), profile);
         int exchangeStatus = exchange.waitForDone();
@@ -95,8 +95,8 @@ public class DefaultProfileClient extends DefaultClient implements ProfileServic
     }
 
     @Override
-    public void update(User user, Profile profile) throws StatusException, IOException, InterruptedException {
-        StringBuilder urlBuilder = prepareBasicUrl(user.getAuthenticationCode()).append("/profile");
+    public void update(String authCode, Profile profile) throws StatusException, IOException, InterruptedException {
+        StringBuilder urlBuilder = prepareBasicUrl(authCode).append("/profile");
 
         ContentExchange exchange = sendExchange(HttpMethod.PUT, urlBuilder.toString(), profile);
         int exchangeStatus = exchange.waitForDone();
@@ -115,8 +115,8 @@ public class DefaultProfileClient extends DefaultClient implements ProfileServic
     }
 
     @Override
-    public void delete(User user, int profileId) throws StatusException, IOException, InterruptedException {
-        StringBuilder urlBuilder = prepareBasicUrl(user.getAuthenticationCode()).append("/profile/").append(profileId);
+    public void delete(String authCode, int profileId) throws StatusException, IOException, InterruptedException {
+        StringBuilder urlBuilder = prepareBasicUrl(authCode).append("/profile/").append(profileId);
 
         ContentExchange exchange = sendExchange(HttpMethod.DELETE, urlBuilder.toString(), null);
         int exchangeStatus = exchange.waitForDone();
