@@ -15,7 +15,7 @@ import pl.akiba.model.exception.StatusException;
  */
 public interface ProfileService {
 
-    public List<Profile> getAll(long userId, String authCode,) throws StatusException, IOException, InterruptedException;
+    public List<Profile> getAll(long userId, String authCode) throws StatusException, IOException, InterruptedException;
 
     public Profile getDefault(long userId, String authCode) throws EmptyResultException, StatusException, IOException,
             InterruptedException;
