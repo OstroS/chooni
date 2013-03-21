@@ -13,6 +13,7 @@ public class User extends AkibaEntity {
     private static final long serialVersionUID = 956451699793082534L;
 
     protected Long id;
+    protected String authenticationCode;
     protected final List<ROLE> authorities = new ArrayList<ROLE>(0);
     protected Boolean disabled = Boolean.FALSE;
     protected Boolean locked = Boolean.FALSE;
@@ -51,9 +52,9 @@ public class User extends AkibaEntity {
     public Boolean isDisabled() {
         return Boolean.FALSE;
     }
-    
+
     public void setDisabled(Boolean disabled) {
-    	this.disabled = disabled;
+        this.disabled = disabled;
     }
 
     /**
@@ -65,9 +66,17 @@ public class User extends AkibaEntity {
     public Boolean isLocked() {
         return Boolean.FALSE;
     }
-    
+
     public void setLocked(Boolean locked) {
-    	this.locked  = locked;
+        this.locked = locked;
+    }
+
+    public String getAuthenticationCode() {
+        return authenticationCode;
+    }
+
+    public void setAuthenticationCode(String authenticationCode) {
+        this.authenticationCode = authenticationCode;
     }
 
     @Override
