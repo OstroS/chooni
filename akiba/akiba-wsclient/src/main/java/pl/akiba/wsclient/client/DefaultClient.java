@@ -39,8 +39,13 @@ public class DefaultClient {
         this.mapper = new ObjectMapper();
     }
 
+    @Deprecated
     protected StringBuilder prepareBasicUrl(long userId) {
         return new StringBuilder(address).append("/").append(userId);
+    }
+    
+    protected StringBuilder prepareBasicUrl(String authenticationCode) {
+    	return new StringBuilder(address).append("/").append(authenticationCode);
     }
 
     protected String getExchangeStatusName(int state) {
