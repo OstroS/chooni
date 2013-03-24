@@ -34,25 +34,26 @@ public class ExpenseServiceTest {
     private final long userId = 0;
     private final int kindId = 1;
     private final int profileId = 1;
+    private final String authCode = "AUTH_CODE";
 
     @Test
     public void testCRUD() throws EntityIsNotValidException, StatusException, IOException, InterruptedException {
-        final Expense createdExpense = expenseService.create(userId, prepareExpense());
+        final Expense createdExpense = expenseService.create(userId, authCode, prepareExpense());
 
         assertNotNull(createdExpense);
         assertTrue(createdExpense.getId() > 0);
 
         final double newAmount = 299.00;
         createdExpense.setAmount(newAmount);
-        expenseService.update(userId, createdExpense);
+        expenseService.update(userId, authCode, createdExpense);
 
-        final Expense updatedExpense = expenseService.get(userId, createdExpense.getId());
+        final Expense updatedExpense = expenseService.get(userId, authCode, createdExpense.getId());
         assertEquals(null, newAmount, updatedExpense.getAmount(), 1e-8);
 
-        expenseService.delete(userId, updatedExpense.getId());
+        expenseService.delete(userId, authCode, updatedExpense.getId());
         Expense expense = null;
         try {
-            expense = expenseService.get(userId, updatedExpense.getId());
+            expense = expenseService.get(userId,authCode,  updatedExpense.getId());
         } catch (EmptyResultException e) {
         }
 
@@ -61,7 +62,7 @@ public class ExpenseServiceTest {
 
     @Test
     public void testTotalCount() throws StatusException, IOException, InterruptedException {
-        double total = expenseService.getTotal(userId, prepareFilter());
+        double total = expenseService.getTotal(userId, authCode, prepareFilter());
         assertTrue(total > 0.0);
     }
 

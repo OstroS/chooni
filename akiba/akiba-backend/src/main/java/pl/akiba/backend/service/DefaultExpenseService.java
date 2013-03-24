@@ -25,7 +25,7 @@ public class DefaultExpenseService implements ExpenseService {
     private ExpenseDao expenseDao;
 
     @Override
-    public Expense get(long userId, int expenseId) throws EmptyResultException {
+    public Expense get(long userId, String authCode, int expenseId) throws EmptyResultException {
         Expense expense = null;
 
         try {
@@ -38,17 +38,17 @@ public class DefaultExpenseService implements ExpenseService {
     }
 
     @Override
-    public List<Expense> getAll(long userId, Filter filter) {
+    public List<Expense> getAll(long userId, String authCode, Filter filter) {
         return expenseDao.getAll(userId, filter);
     }
 
     @Override
-    public double getTotal(long userId, Filter filter) {
+    public double getTotal(long userId, String authCode, Filter filter) {
         return expenseDao.getTotal(userId, filter);
     }
 
     @Override
-    public Expense create(long userId, Expense expense) throws EntityIsNotValidException {
+    public Expense create(long userId, String authCode, Expense expense) throws EntityIsNotValidException {
         if (!expense.isValid(OperationType.CREATE)) {
             throw new EntityIsNotValidException("Expense entity is not valid!");
         }
@@ -57,7 +57,7 @@ public class DefaultExpenseService implements ExpenseService {
     }
 
     @Override
-    public Expense update(long userId, final Expense expense) throws EntityIsNotValidException {
+    public Expense update(long userId, String authCode, final Expense expense) throws EntityIsNotValidException {
         if (!expense.isValid(OperationType.UPDATE)) {
             throw new EntityIsNotValidException("Expense entity is not valid!");
         }
@@ -68,7 +68,7 @@ public class DefaultExpenseService implements ExpenseService {
     }
 
     @Override
-    public void delete(long userId, int expenseId) {
+    public void delete(long userId, String authCode, int expenseId) {
         expenseDao.delete(userId, expenseId);
     }
 

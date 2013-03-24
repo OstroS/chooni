@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -27,6 +28,11 @@ import pl.akiba.model.service.ProfileService;
 @Controller
 @RequestMapping("/{userId}/profile")
 public class ProfileController {
+    
+    /**
+     * Nazwa headera w jakim znajduje sie authCode
+     */
+    private static final String AUTH_CODE_HEADER = "x-akiba-auth-code";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ProfileController.class);
 
@@ -35,11 +41,13 @@ public class ProfileController {
 
     @RequestMapping(value = "/default", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<Profile> getDefault(@PathVariable final long userId) {
+    public ResponseEntity<Profile> getDefault(
+            @RequestHeader(value = AUTH_CODE_HEADER, required = true) final String authCode,
+            @PathVariable final long userId) {
         Profile profile = null;
 
         try {
-            profile = profileService.getDefault(userId);
+            profile = profileService.getDefault(userId, authCode);
         } catch (EmptyResultException e) {
             LOGGER.warn("Default profile [userId:" + userId + "] doesn't exist!");
             return new ResponseEntity<Profile>(HttpStatus.NOT_FOUND);
@@ -53,11 +61,13 @@ public class ProfileController {
 
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<List<Profile>> getAll(@PathVariable final long userId) {
+    public ResponseEntity<List<Profile>> getAll(
+            @RequestHeader(value = AUTH_CODE_HEADER, required = true) final String authCode,
+            @PathVariable final long userId) {
         List<Profile> profiles = null;
 
         try {
-            profiles = profileService.getAll(userId);
+            profiles = profileService.getAll(userId, authCode);
         } catch (Exception e) {
             LOGGER.error("Exception caught during getting user's all profiles: ", e);
             return new ResponseEntity<List<Profile>>(HttpStatus.METHOD_FAILURE);
@@ -72,11 +82,13 @@ public class ProfileController {
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<Profile> create(@PathVariable final long userId, @RequestBody final Profile profile) {
+    public ResponseEntity<Profile> create(
+            @RequestHeader(value = AUTH_CODE_HEADER, required = true) final String authCode,
+            @PathVariable final long userId, @RequestBody final Profile profile) {
         Profile createdProfile = null;
 
         try {
-            createdProfile = profileService.create(userId, profile);
+            createdProfile = profileService.create(userId, authCode, profile);
         } catch (EntityIsNotValidException e) {
             LOGGER.error("Exception caught during creating user's [id: " + userId + "] profile: ", e);
             return new ResponseEntity<Profile>(HttpStatus.METHOD_FAILURE);
@@ -89,9 +101,11 @@ public class ProfileController {
     }
 
     @RequestMapping(method = RequestMethod.PUT)
-    public ResponseEntity<Profile> update(@PathVariable final long userId, @RequestBody final Profile profile) {
+    public ResponseEntity<Profile> update(
+            @RequestHeader(value = AUTH_CODE_HEADER, required = true) final String authCode,
+            @PathVariable final long userId, @RequestBody final Profile profile) {
         try {
-            profileService.update(userId, profile);
+            profileService.update(userId, authCode, profile);
         } catch (EntityIsNotValidException e) {
             LOGGER.error("Exception caught during updating user's [id: " + userId + "] profile [id: " + profile.getId()
                     + "] ", e);
@@ -106,9 +120,11 @@ public class ProfileController {
     }
 
     @RequestMapping(value = "/{profileId}", method = RequestMethod.DELETE)
-    public ResponseEntity<HttpStatus> delete(@PathVariable final long userId, @PathVariable final int profileId) {
+    public ResponseEntity<HttpStatus> delete(
+            @RequestHeader(value = AUTH_CODE_HEADER, required = true) final String authCode,
+            @PathVariable final long userId, @PathVariable final int profileId) {
         try {
-            profileService.delete(userId, profileId);
+            profileService.delete(userId, authCode, profileId);
         } catch (Exception e) {
             LOGGER.error("Exception caught during deleting user's profile: ", e);
             return new ResponseEntity<HttpStatus>(HttpStatus.METHOD_FAILURE);

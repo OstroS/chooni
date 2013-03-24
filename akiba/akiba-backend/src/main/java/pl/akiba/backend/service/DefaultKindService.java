@@ -24,7 +24,7 @@ public class DefaultKindService implements KindService {
     private KindDao kindDao;
 
     @Override
-    public Kind get(long userId, int kindId) throws EmptyResultException {
+    public Kind get(long userId, String authCode, int kindId) throws EmptyResultException {
         Kind kind = null;
 
         try {
@@ -37,12 +37,12 @@ public class DefaultKindService implements KindService {
     }
 
     @Override
-    public List<Kind> getAll(long userId) {
+    public List<Kind> getAll(long userId, String authCode) {
         return kindDao.getAll(userId);
     }
 
     @Override
-    public Kind create(long userId, Kind kind) throws EntityIsNotValidException {
+    public Kind create(long userId, String authCode, Kind kind) throws EntityIsNotValidException {
         if (!kind.isValid(OperationType.CREATE)) {
             throw new EntityIsNotValidException("Kind entity is not valid!");
         }
@@ -51,7 +51,7 @@ public class DefaultKindService implements KindService {
     }
 
     @Override
-    public void update(long userId, Kind kind) throws EntityIsNotValidException {
+    public void update(long userId, String authCode, Kind kind) throws EntityIsNotValidException {
         if (!kind.isValid(OperationType.UPDATE)) {
             throw new EntityIsNotValidException("Kind entity is not valid!");
         }
@@ -60,7 +60,7 @@ public class DefaultKindService implements KindService {
     }
 
     @Override
-    public void delete(long userId, int kindId) {
+    public void delete(long userId, String authCode, int kindId) {
         kindDao.delete(userId, kindId);
     }
 

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -31,6 +32,11 @@ import pl.akiba.model.service.ExpenseService;
 @RequestMapping("/{userId}/expense")
 public class ExpenseController {
 
+    /**
+     * Nazwa headera w jakim znajduje sie authCode
+     */
+    private static final String AUTH_CODE_HEADER = "x-akiba-auth-code";
+    
     private static final Logger LOGGER = LoggerFactory.getLogger(ExpenseController.class);
 
     @Autowired
@@ -45,11 +51,14 @@ public class ExpenseController {
      */
     @RequestMapping(value = "/{expenseId}", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<Expense> get(@PathVariable final long userId, @PathVariable final int expenseId) {
+    public ResponseEntity<Expense> get(
+            @RequestHeader(value = AUTH_CODE_HEADER, required = true) final String authCode,
+            @PathVariable final long userId, @PathVariable final int expenseId) {
+
         Expense expense = null;
 
         try {
-            expense = expenseService.get(userId, expenseId);
+            expense = expenseService.get(userId, authCode, expenseId);
         } catch (EmptyResultException e) {
             LOGGER.warn("Expense [userId:" + userId + ", expenseId:" + expenseId + "] doesn't exist!");
             return new ResponseEntity<Expense>(HttpStatus.NOT_FOUND);
@@ -69,11 +78,13 @@ public class ExpenseController {
      */
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<List<Expense>> getAll(@PathVariable final long userId, @ModelAttribute Filter filter) {
+    public ResponseEntity<List<Expense>> getAll(
+            @RequestHeader(value = AUTH_CODE_HEADER, required = true) final String authCode,
+            @PathVariable final long userId, @ModelAttribute Filter filter) {
         List<Expense> expenses = null;
 
         try {
-            expenses = expenseService.getAll(userId, filter);
+            expenses = expenseService.getAll(userId, authCode, filter);
         } catch (Exception e) {
             LOGGER.error("Exception caught during getting user's all expenses: ", e);
             return new ResponseEntity<List<Expense>>(HttpStatus.METHOD_FAILURE);
@@ -91,11 +102,13 @@ public class ExpenseController {
      */
     @RequestMapping(value = "/total", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<Double> getTotal(@PathVariable final long userId, @ModelAttribute Filter filter) {
+    public ResponseEntity<Double> getTotal(
+            @RequestHeader(value = AUTH_CODE_HEADER, required = true) final String authCode,
+            @PathVariable final long userId, @ModelAttribute Filter filter) {
         double total = 0;
 
         try {
-            total = expenseService.getTotal(userId, filter);
+            total = expenseService.getTotal(userId, authCode, filter);
         } catch (Exception e) {
             LOGGER.error("Exception caught during getting user's total expense: ", e);
             return new ResponseEntity<Double>(HttpStatus.METHOD_FAILURE);
@@ -113,11 +126,13 @@ public class ExpenseController {
      */
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<Expense> create(@PathVariable final long userId, @RequestBody final Expense expense) {
+    public ResponseEntity<Expense> create(
+            @RequestHeader(value = AUTH_CODE_HEADER, required = true) final String authCode,
+            @PathVariable final long userId, @RequestBody final Expense expense) {
         Expense createdExpense = null;
 
         try {
-            createdExpense = expenseService.create(userId, expense);
+            createdExpense = expenseService.create(userId, authCode, expense);
         } catch (EntityIsNotValidException e) {
             LOGGER.error("Exception caught during creating user [id: " + userId + "] expense: ", e);
             return new ResponseEntity<Expense>(HttpStatus.METHOD_FAILURE);
@@ -137,9 +152,11 @@ public class ExpenseController {
      * @return updated expense
      */
     @RequestMapping(method = RequestMethod.PUT)
-    public ResponseEntity<Expense> update(@PathVariable final long userId, @RequestBody final Expense expense) {
+    public ResponseEntity<Expense> update(
+            @RequestHeader(value = AUTH_CODE_HEADER, required = true) final String authCode,
+            @PathVariable final long userId, @RequestBody final Expense expense) {
         try {
-            expenseService.update(userId, expense);
+            expenseService.update(userId, authCode, expense);
         } catch (EntityIsNotValidException e) {
             LOGGER.error("Exception caught during updating user [id: " + userId + "] expense [id: " + expense.getId()
                     + "] ", e);
@@ -161,9 +178,11 @@ public class ExpenseController {
      * @return deleted expense
      */
     @RequestMapping(value = "/{expenseId}", method = RequestMethod.DELETE)
-    public ResponseEntity<HttpStatus> delete(@PathVariable final long userId, @PathVariable final int expenseId) {
+    public ResponseEntity<HttpStatus> delete(
+            @RequestHeader(value = AUTH_CODE_HEADER, required = true) final String authCode,
+            @PathVariable final long userId, @PathVariable final int expenseId) {
         try {
-            expenseService.delete(userId, expenseId);
+            expenseService.delete(userId, authCode, expenseId);
         } catch (Exception e) {
             LOGGER.error("Exception caught during deleting user expense: ", e);
             return new ResponseEntity<HttpStatus>(HttpStatus.METHOD_FAILURE);

@@ -24,12 +24,12 @@ public class DefaultProfileService implements ProfileService {
     private ProfileDao profileDao;
 
     @Override
-    public List<Profile> getAll(long userId) {
+    public List<Profile> getAll(long userId, String authCode) {
         return profileDao.getAll(userId);
     }
 
     @Override
-    public Profile getDefault(long userId) throws EmptyResultException {
+    public Profile getDefault(long userId, String authCode) throws EmptyResultException {
         Profile profile = null;
 
         try {
@@ -42,7 +42,7 @@ public class DefaultProfileService implements ProfileService {
     }
 
     @Override
-    public Profile create(long userId, Profile profile) throws EntityIsNotValidException {
+    public Profile create(long userId, String authCode, Profile profile) throws EntityIsNotValidException {
         if (!profile.isValid(OperationType.CREATE)) {
             throw new EntityIsNotValidException("Profile entity is not valid!");
         }
@@ -51,7 +51,7 @@ public class DefaultProfileService implements ProfileService {
     }
 
     @Override
-    public void update(long userId, Profile profile) throws EntityIsNotValidException {
+    public void update(long userId, String authCode, Profile profile) throws EntityIsNotValidException {
         if (!profile.isValid(OperationType.UPDATE)) {
             throw new EntityIsNotValidException("Profile entity is not valid!");
         }
@@ -60,7 +60,7 @@ public class DefaultProfileService implements ProfileService {
     }
 
     @Override
-    public void delete(long userId, int profileId) {
+    public void delete(long userId, String authCode, int profileId) {
         profileDao.delete(userId, profileId);
     }
 

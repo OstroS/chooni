@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -30,6 +31,11 @@ import pl.akiba.model.service.KindService;
 @RequestMapping("/{userId}/kind")
 public class KindController {
 
+    /**
+     * Nazwa headera w jakim znajduje sie authCode
+     */
+    private static final String AUTH_CODE_HEADER = "x-akiba-auth-code";
+
     private static final Logger LOGGER = LoggerFactory.getLogger(KindController.class);
 
     @Autowired
@@ -40,11 +46,13 @@ public class KindController {
      */
     @RequestMapping(value = "/{kindId}", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<Kind> get(@PathVariable final long userId, @PathVariable final int kindId) {
+    public ResponseEntity<Kind> get(
+            @RequestHeader(value = AUTH_CODE_HEADER, required = true) final String authCode,
+            @PathVariable final long userId, @PathVariable final int kindId) {
         Kind kind = null;
 
         try {
-            kind = kindService.get(userId, kindId);
+            kind = kindService.get(userId, authCode, kindId);
         } catch (EmptyResultException e) {
             LOGGER.warn("Kind [userId:" + userId + ", kindId:" + kindId + "] doesn't exist!");
             return new ResponseEntity<Kind>(HttpStatus.NOT_FOUND);
@@ -61,11 +69,13 @@ public class KindController {
      */
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<List<Kind>> getAll(@PathVariable final long userId) {
+    public ResponseEntity<List<Kind>> getAll(
+            @RequestHeader(value = AUTH_CODE_HEADER, required = true) final String authCode,
+            @PathVariable final long userId) {
         List<Kind> kinds = null;
 
         try {
-            kinds = kindService.getAll(userId);
+            kinds = kindService.getAll(userId, authCode);
         } catch (Exception e) {
             LOGGER.error("Exception caught during getting user's all kinds: ", e);
             return new ResponseEntity<List<Kind>>(HttpStatus.METHOD_FAILURE);
@@ -83,11 +93,13 @@ public class KindController {
      */
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<Kind> create(@PathVariable final long userId, @RequestBody final Kind kind) {
+    public ResponseEntity<Kind> create(
+            @RequestHeader(value = AUTH_CODE_HEADER, required = true) final String authCode,
+            @PathVariable final long userId, @RequestBody final Kind kind) {
         Kind createdKind = null;
 
         try {
-            createdKind = kindService.create(userId, kind);
+            createdKind = kindService.create(userId, authCode, kind);
         } catch (EntityIsNotValidException e) {
             LOGGER.error("Exception caught during creating user's [id: " + userId + "] kind: ", e);
             return new ResponseEntity<Kind>(HttpStatus.METHOD_FAILURE);
@@ -103,9 +115,11 @@ public class KindController {
      * Updates kind's data.
      */
     @RequestMapping(method = RequestMethod.PUT)
-    public ResponseEntity<Kind> update(@PathVariable final long userId, @RequestBody final Kind kind) {
+    public ResponseEntity<Kind> update(
+            @RequestHeader(value = AUTH_CODE_HEADER, required = true) final String authCode,
+            @PathVariable final long userId, @RequestBody final Kind kind) {
         try {
-            kindService.update(userId, kind);
+            kindService.update(userId, authCode, kind);
         } catch (EntityIsNotValidException e) {
             LOGGER.error("Exception caught during updating user's [id: " + userId + "] kind [id: " + kind.getId()
                     + "] ", e);
@@ -123,9 +137,11 @@ public class KindController {
      * Deletes kind by id.
      */
     @RequestMapping(value = "/{kindId}", method = RequestMethod.DELETE)
-    public ResponseEntity<HttpStatus> delete(@PathVariable final long userId, @PathVariable final int kindId) {
+    public ResponseEntity<HttpStatus> delete(
+            @RequestHeader(value = AUTH_CODE_HEADER, required = true) final String authCode,
+            @PathVariable final long userId, @PathVariable final int kindId) {
         try {
-            kindService.delete(userId, kindId);
+            kindService.delete(userId, authCode, kindId);
         } catch (Exception e) {
             LOGGER.error("Exception caught during deleting user's kind: ", e);
             return new ResponseEntity<HttpStatus>(HttpStatus.METHOD_FAILURE);
