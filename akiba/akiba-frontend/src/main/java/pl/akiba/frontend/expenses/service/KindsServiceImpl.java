@@ -29,7 +29,7 @@ public class KindsServiceImpl implements KindsService {
     @Override
     public List<Kind> getAll(User user) {
         try {
-            return kindClient.getAll(user.getId());
+            return kindClient.getAll(user.getId(), user.getAuthenticationCode());
         } catch (StatusException | IOException | InterruptedException e) {
             // TODO Auto-generated catch block
             logger.severe(e.toString());
@@ -42,7 +42,7 @@ public class KindsServiceImpl implements KindsService {
     public void add(Kind kind, User user) {
         try {
             logger.info("Add kind: " + kind + ", " + user);
-            kindClient.create(user.getId(), kind);
+            kindClient.create(user.getId(), user.getAuthenticationCode(), kind);
         } catch (StatusException | IOException | InterruptedException e) {
             // TODO Auto-generated catch block
             logger.severe(e.toString());

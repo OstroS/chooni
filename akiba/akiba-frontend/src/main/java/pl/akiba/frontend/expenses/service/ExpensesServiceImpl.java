@@ -44,11 +44,8 @@ public class ExpensesServiceImpl implements ExpensesService {
     public void addExpense(Expense expense, User user) {
         logger.info("Expense add, " + expense + " , " + user);
         
-        // FIXME THATS F*** HORRIBLE :D:D:D
-        
-        long userId = (int)(long)user.getId();
         try {
-            defaultExpensesClient.create(userId, expense);
+            defaultExpensesClient.create(user.getId(), user.getAuthenticationCode(), expense);
         } catch (StatusException | IOException | InterruptedException e) {
             logger.severe(e.toString());
         }
@@ -61,7 +58,7 @@ public class ExpensesServiceImpl implements ExpensesService {
     public List<Expense> getAllExpenses(User user) {
         logger.info("Get all expenses, " + user);
         try {
-            return defaultExpensesClient.getAll((int)(long)user.getId(), new Filter());
+            return defaultExpensesClient.getAll(user.getId(), user.getAuthenticationCode(), new Filter());
         } catch (StatusException | IOException | InterruptedException e) {
             // TODO Auto-generated catch block
             logger.severe(e.toString());
@@ -78,7 +75,7 @@ public class ExpensesServiceImpl implements ExpensesService {
         Filter filter = new Filter();
         filter.setLimit((int)(long)AMOUNT_OF_DEFAULT_LAST_EXPENSES);
         try {
-           return defaultExpensesClient.getAll((int)(long)user.getId(), filter);
+           return defaultExpensesClient.getAll(user.getId(), user.getAuthenticationCode(), filter);
         } catch (StatusException | IOException | InterruptedException e) {
             logger.severe(e.toString());
         }
