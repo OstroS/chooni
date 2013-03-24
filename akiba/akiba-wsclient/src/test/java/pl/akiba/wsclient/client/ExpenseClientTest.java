@@ -34,7 +34,7 @@ public class ExpenseClientTest extends CommonClientTest {
     public void testGetAll() {
         List<Expense> expenses = null;
         try {
-            expenses = expenseClient.getAll(userId, null);
+            expenses = expenseClient.getAll(userId, authenticationCode, null);
         } catch (StatusException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -52,7 +52,7 @@ public class ExpenseClientTest extends CommonClientTest {
     public void testGetTotal() {
         double total = 0;
         try {
-            total = expenseClient.getTotal(userId, null);
+            total = expenseClient.getTotal(userId, authenticationCode, null);
         } catch (StatusException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -74,7 +74,7 @@ public class ExpenseClientTest extends CommonClientTest {
 
         Expense newExpense = null;
         try {
-            newExpense = expenseClient.create(userId, expense);
+            newExpense = expenseClient.create(userId, authenticationCode, expense);
             assertNotNull(newExpense);
             assertTrue(newExpense.getId() > 0);
 
@@ -82,13 +82,13 @@ public class ExpenseClientTest extends CommonClientTest {
 
             double newAmount = 5555.0;
             newExpense.setAmount(newAmount);
-            expenseClient.update(userId, newExpense);
+            expenseClient.update(userId, authenticationCode, newExpense);
 
-            Expense updatedExpense = expenseClient.get(userId, expenseId);
+            Expense updatedExpense = expenseClient.get(userId, authenticationCode, expenseId);
             assertEquals(newAmount, updatedExpense.getAmount(), 1e-8);
 
-            expenseClient.delete(userId, expenseId);
-            Expense deletedExpense = expenseClient.get(userId, expenseId);
+            expenseClient.delete(userId, authenticationCode, expenseId);
+            Expense deletedExpense = expenseClient.get(userId,authenticationCode,  expenseId);
             assertNull(deletedExpense);
         } catch (StatusException e) {
             e.printStackTrace();

@@ -12,6 +12,9 @@ public class CommonClientTest {
     protected final JettyHttpClientFactory httpClientFactory;
     protected final Random random = new Random();
     protected final long userId = 0;
+    
+    //FIXME
+    protected final String authenticationCode = "AUTH_CODE";
 
     public CommonClientTest() {
         //@formatter:off
