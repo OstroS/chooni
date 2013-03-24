@@ -61,10 +61,17 @@ public class JdbcUserDao implements UserDao, InitializingBean {
         MapSqlParameterSource parameterMap = new MapSqlParameterSource();
         parameterMap.addValue("facebookId", facebookId);
         parameterMap.addValue("role", userRole.name());
+        parameterMap.addValue("auth_code", generateAuthCode());
 
         jdbcTemplate.update(Sql.INSERT_FACEBOOK_USER, parameterMap, keyHolder);
 
         return new FacebookUser(facebookId, keyHolder.getKey().longValue(), userRole);
+    }
+
+    // TODO
+    // Wygenerowanie authcode dla danego uzytkownika - aktualnie jest to timestamp
+    private String generateAuthCode() {
+        return (new java.util.Date()).toString();
     }
 
 }
