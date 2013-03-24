@@ -3,6 +3,7 @@ package pl.akiba.wsclient.client;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -87,6 +88,11 @@ public class DefaultClient {
         }
 
         httpClient.send(exchange);
+        System.out.println(exchange.toString());
+        Collection<String> headers = exchange.getRequestFields().getFieldNamesCollection();
+        for(String h : headers) {
+            System.out.println(h +"=" + exchange.getRequestFields().getStringField(h));
+        }
 	}
 
     protected enum HttpMethod {

@@ -102,7 +102,10 @@ public class User extends AkibaEntity {
 
     @Override
     public String toString() {
-        return "User [id=" + id + ", authorities=" + authorities + "]";
+        return "User [id=" + id + ", authenticationCode=" + authenticationCode + ", authorities=" + authorities
+                + ", disabled=" + disabled + ", locked=" + locked + "]";
     }
+
+
 
 }

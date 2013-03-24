@@ -60,6 +60,6 @@ public class Sql {
 
     public static final String INSERT_FACEBOOK_USER = "insert into user (id_facebook, role, auth_code) values (:facebookId, :role, :auth_code)";
 
-    public static final String SELECT_FACEBOOK_USER = "select id, role from user where id_facebook = :facebookId";
+    public static final String SELECT_FACEBOOK_USER = "select id, role, auth_code from user where id_facebook = :facebookId";
 
 }

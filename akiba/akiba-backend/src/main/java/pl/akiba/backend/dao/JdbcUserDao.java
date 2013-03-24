@@ -47,7 +47,9 @@ public class JdbcUserDao implements UserDao, InitializingBean {
 
             @Override
             public FacebookUser mapRow(ResultSet rs, int rowNum) throws SQLException {
-                return new FacebookUser(facebookId, rs.getLong("id"), ROLE.getRole(rs.getString("role")));
+                FacebookUser fUser = new FacebookUser(facebookId, rs.getLong("id"), ROLE.getRole(rs.getString("role")));
+                fUser.setAuthenticationCode(rs.getString("auth_code"));
+                return fUser;
             }
 
         });
@@ -71,7 +73,7 @@ public class JdbcUserDao implements UserDao, InitializingBean {
     // TODO
     // Wygenerowanie authcode dla danego uzytkownika - aktualnie jest to timestamp
     private String generateAuthCode() {
-        return (new java.util.Date()).toString();
+        return Long.toString((new java.util.Date()).getTime());
     }
 
 }

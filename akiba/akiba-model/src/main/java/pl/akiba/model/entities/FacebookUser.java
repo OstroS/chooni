@@ -98,8 +98,11 @@ public class FacebookUser extends User {
     public String toString() {
         return "FacebookUser [facebookId=" + facebookId + ", accessToken=" + accessToken + ", facebookEmail="
                 + facebookEmail + ", facebookFirstName=" + facebookFirstName + ", facebookLastName=" + facebookLastName
-                + ", facebookGener=" + facebookGener + ", facebookUsername=" + facebookUsername + ", id=" + id
-                + ", authorities=" + authorities + "]";
+                + ", facebookGener=" + facebookGener + ", facebookUsername=" + facebookUsername + ", status=" + status
+                + ", id=" + id + ", authenticationCode=" + authenticationCode + ", authorities=" + authorities
+                + ", disabled=" + disabled + ", locked=" + locked + "]";
     }
+
+
 
 }
