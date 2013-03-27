@@ -72,7 +72,8 @@ public class DefaultKindClient extends DefaultClient implements KindService {
     }
 
     @Override
-    public Kind create(long userId, String authCode, Kind kind) throws StatusException, IOException, InterruptedException {
+    public Kind create(long userId, String authCode, Kind kind) throws StatusException, IOException,
+            InterruptedException {
         StringBuilder urlBuilder = prepareBasicUrl(userId).append("/kind");
 
         ContentExchange exchange = sendExchange(HttpMethod.POST, urlBuilder.toString(), kind, authCode);
@@ -94,7 +95,8 @@ public class DefaultKindClient extends DefaultClient implements KindService {
     }
 
     @Override
-    public void update(long userId, String authCode, Kind kind) throws StatusException, IOException, InterruptedException {
+    public void update(long userId, String authCode, Kind kind) throws StatusException, IOException,
+            InterruptedException {
         StringBuilder urlBuilder = prepareBasicUrl(userId).append("/kind");
 
         ContentExchange exchange = sendExchange(HttpMethod.PUT, urlBuilder.toString(), kind, authCode);
@@ -114,7 +116,8 @@ public class DefaultKindClient extends DefaultClient implements KindService {
     }
 
     @Override
-    public void delete(long userId, String authCode, int kindId) throws StatusException, IOException, InterruptedException {
+    public void delete(long userId, String authCode, int kindId) throws StatusException, IOException,
+            InterruptedException {
         StringBuilder urlBuilder = prepareBasicUrl(userId).append("/kind/").append(kindId);
 
         ContentExchange exchange = sendExchange(HttpMethod.DELETE, urlBuilder.toString(), null, authCode);

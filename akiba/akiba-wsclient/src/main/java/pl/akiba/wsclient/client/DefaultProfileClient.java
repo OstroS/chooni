@@ -8,7 +8,6 @@ import org.eclipse.jetty.client.HttpClient;
 import org.eclipse.jetty.client.HttpExchange;
 
 import pl.akiba.model.entities.Profile;
-import pl.akiba.model.entities.User;
 import pl.akiba.model.exception.MethodFailureStatusException;
 import pl.akiba.model.exception.NotFoundStatusException;
 import pl.akiba.model.exception.StatusException;
@@ -73,7 +72,8 @@ public class DefaultProfileClient extends DefaultClient implements ProfileServic
     }
 
     @Override
-    public Profile create(long userId, String authCode, Profile profile) throws StatusException, IOException, InterruptedException {
+    public Profile create(long userId, String authCode, Profile profile) throws StatusException, IOException,
+            InterruptedException {
         StringBuilder urlBuilder = prepareBasicUrl(userId).append("/profile");
 
         ContentExchange exchange = sendExchange(HttpMethod.POST, urlBuilder.toString(), profile, authCode);
@@ -95,7 +95,8 @@ public class DefaultProfileClient extends DefaultClient implements ProfileServic
     }
 
     @Override
-    public void update(long userId, String authCode, Profile profile) throws StatusException, IOException, InterruptedException {
+    public void update(long userId, String authCode, Profile profile) throws StatusException, IOException,
+            InterruptedException {
         StringBuilder urlBuilder = prepareBasicUrl(userId).append("/profile");
 
         ContentExchange exchange = sendExchange(HttpMethod.PUT, urlBuilder.toString(), profile, authCode);
@@ -115,7 +116,8 @@ public class DefaultProfileClient extends DefaultClient implements ProfileServic
     }
 
     @Override
-    public void delete(long userId, String authCode, int profileId) throws StatusException, IOException, InterruptedException {
+    public void delete(long userId, String authCode, int profileId) throws StatusException, IOException,
+            InterruptedException {
         StringBuilder urlBuilder = prepareBasicUrl(userId).append("/profile/").append(profileId);
 
         ContentExchange exchange = sendExchange(HttpMethod.DELETE, urlBuilder.toString(), null, authCode);

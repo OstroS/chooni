@@ -1,7 +1,5 @@
 package pl.akiba.wsclient.api.impl;
 
-import java.util.logging.Logger;
-
 import org.eclipse.jetty.client.HttpClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -9,8 +7,8 @@ import org.springframework.stereotype.Component;
 import pl.akiba.wsclient.client.DefaultExpenseClient;
 import pl.akiba.wsclient.client.DefaultKindClient;
 import pl.akiba.wsclient.client.DefaultUserClient;
-import pl.akiba.wsclient.client.factory.JettyHttpClientFactory;
 import pl.akiba.wsclient.client.factory.JettyHttpClientConf.Builder;
+import pl.akiba.wsclient.client.factory.JettyHttpClientFactory;
 
 @Component("wsClientFactory")
 public class WsClientFactory {
@@ -26,8 +24,6 @@ public class WsClientFactory {
     @Value("${webservice.endpoint.addr}")
     private String WS_ENDPOINT;
 
-    private static final Logger logger = Logger.getLogger(WsClientFactory.class.toString());
-    
     //@formatter:off
     private static final Builder httpClientConfBuilder = new Builder().
             withConnectorType(CONNECTOR_TYPE)
@@ -48,17 +44,18 @@ public class WsClientFactory {
         HttpClient httpClient = prepareHttpClient();
         return new DefaultUserClient(WS_ENDPOINT, httpClient);
     }
-    
+
     /**
      * Creates new Default Expense Client with predefined parameters
+     * 
      * @return
      */
     public DefaultExpenseClient createDefaultExpenseClient() {
         HttpClient httpClient = prepareHttpClient();
         return new DefaultExpenseClient(WS_ENDPOINT, httpClient);
-        
+
     }
-    
+
     public DefaultKindClient createDefaultKindClient() {
         HttpClient httpClient = prepareHttpClient();
         return new DefaultKindClient(WS_ENDPOINT, httpClient);
@@ -69,7 +66,5 @@ public class WsClientFactory {
         HttpClient httpClient = httpClientFactory.getHttpClient();
         return httpClient;
     }
-    
-    
 
 }

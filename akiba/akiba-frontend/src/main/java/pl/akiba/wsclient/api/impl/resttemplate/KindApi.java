@@ -1,17 +1,18 @@
 package pl.akiba.wsclient.api.impl.resttemplate;
 
-import com.google.common.collect.Lists;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import pl.akiba.model.entities.Expense;
 import pl.akiba.model.entities.Kind;
 import pl.akiba.model.entities.User;
 import pl.akiba.wsclient.api.Criteria;
 import pl.akiba.wsclient.api.CrudApi;
+
+import com.google.common.collect.Lists;
 
 /**
  * 

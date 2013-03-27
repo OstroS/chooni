@@ -4,6 +4,7 @@ import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -17,19 +18,22 @@ import pl.akiba.frontend.facebook.service.FacebookLoginService;
 
 /**
  * Filter that perform action pointed by j_spring_security
- *
+ * 
  * @author OstroS
  */
 public class FacebookAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final class AuthenticationExceptionExtension extends AuthenticationException {
+
+        private static final long serialVersionUID = -3934092171479241851L;
+
         private AuthenticationExceptionExtension(String msg) {
             super(msg);
         }
     }
 
     private FacebookLoginService facebookLoginService;
-    
+
     private static final Logger logger = Logger.getLogger(FacebookAuthenticationFilter.class.toString());
 
     public FacebookLoginService getFacebookLoginService() {
@@ -41,7 +45,8 @@ public class FacebookAuthenticationFilter extends UsernamePasswordAuthentication
     }
 
     @Override
-    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
+    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
+            throws AuthenticationException {
         logger.info("Attempting authentication");
 
         // user should be redirected here from facebook with *code* parameter

@@ -28,6 +28,7 @@ import pl.akiba.model.entities.Profile;
 public class DefaultClient {
 
     private static final String AUTH_CODE_HEADER_NAME = "x-akiba-auth-code";
+    
 	protected final HttpClient httpClient;
     protected final String address;
     protected final ObjectMapper mapper;

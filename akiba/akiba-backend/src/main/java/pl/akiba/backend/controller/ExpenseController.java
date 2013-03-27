@@ -30,13 +30,8 @@ import pl.akiba.model.service.ExpenseService;
  */
 @Controller
 @RequestMapping("/{userId}/expense")
-public class ExpenseController {
+public class ExpenseController extends AbstractController {
 
-    /**
-     * Nazwa headera w jakim znajduje sie authCode
-     */
-    private static final String AUTH_CODE_HEADER = "x-akiba-auth-code";
-    
     private static final Logger LOGGER = LoggerFactory.getLogger(ExpenseController.class);
 
     @Autowired
@@ -51,8 +46,7 @@ public class ExpenseController {
      */
     @RequestMapping(value = "/{expenseId}", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<Expense> get(
-            @RequestHeader(value = AUTH_CODE_HEADER, required = true) final String authCode,
+    public ResponseEntity<Expense> get(@RequestHeader(value = AUTH_CODE_HEADER, required = true) final String authCode,
             @PathVariable final long userId, @PathVariable final int expenseId) {
 
         Expense expense = null;

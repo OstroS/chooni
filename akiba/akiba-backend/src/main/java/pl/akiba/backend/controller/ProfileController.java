@@ -27,12 +27,7 @@ import pl.akiba.model.service.ProfileService;
  */
 @Controller
 @RequestMapping("/{userId}/profile")
-public class ProfileController {
-    
-    /**
-     * Nazwa headera w jakim znajduje sie authCode
-     */
-    private static final String AUTH_CODE_HEADER = "x-akiba-auth-code";
+public class ProfileController extends AbstractController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ProfileController.class);
 

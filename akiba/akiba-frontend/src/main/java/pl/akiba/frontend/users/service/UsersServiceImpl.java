@@ -5,9 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import org.eclipse.jetty.client.HttpClient;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
@@ -16,10 +14,7 @@ import pl.akiba.model.entities.FacebookUser;
 import pl.akiba.model.entities.User;
 import pl.akiba.model.entities.User.ROLE;
 import pl.akiba.model.exception.StatusException;
-import pl.akiba.wsclient.api.impl.WsClientFactory;
 import pl.akiba.wsclient.client.DefaultUserClient;
-import pl.akiba.wsclient.client.factory.JettyHttpClientConf.Builder;
-import pl.akiba.wsclient.client.factory.JettyHttpClientFactory;
 
 @Component("usersService")
 public class UsersServiceImpl implements UsersService {

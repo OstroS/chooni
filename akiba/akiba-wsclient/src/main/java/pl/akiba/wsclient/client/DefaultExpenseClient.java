@@ -9,7 +9,6 @@ import org.eclipse.jetty.client.HttpExchange;
 
 import pl.akiba.model.entities.Expense;
 import pl.akiba.model.entities.Filter;
-import pl.akiba.model.entities.User;
 import pl.akiba.model.exception.MethodFailureStatusException;
 import pl.akiba.model.exception.NotFoundStatusException;
 import pl.akiba.model.exception.StatusException;
@@ -23,11 +22,12 @@ import pl.akiba.model.service.ExpenseService;
 public class DefaultExpenseClient extends DefaultClient implements ExpenseService {
 
     public DefaultExpenseClient(String address, HttpClient httpClient) {
-        super(address, httpClient); 
+        super(address, httpClient);
     }
 
     @Override
-    public Expense get(long userId, String authCode, int expenseId) throws StatusException, IOException, InterruptedException {
+    public Expense get(long userId, String authCode, int expenseId) throws StatusException, IOException,
+            InterruptedException {
         StringBuilder urlBuilder = prepareBasicUrl(userId).append("/expense/").append(expenseId);
 
         ContentExchange exchange = sendExchange(HttpMethod.GET, urlBuilder.toString(), null, authCode);
@@ -51,7 +51,8 @@ public class DefaultExpenseClient extends DefaultClient implements ExpenseServic
     }
 
     @Override
-    public List<Expense> getAll(long userId, String authCode, Filter filter) throws StatusException, IOException, InterruptedException {
+    public List<Expense> getAll(long userId, String authCode, Filter filter) throws StatusException, IOException,
+            InterruptedException {
         StringBuilder urlBuilder = prepareBasicUrl(userId).append("/expense");
         if (filter != null) {
             urlBuilder.append(filter.getFilterString());
@@ -78,7 +79,8 @@ public class DefaultExpenseClient extends DefaultClient implements ExpenseServic
     }
 
     @Override
-    public double getTotal(long userId, String authCode, Filter filter) throws StatusException, IOException, InterruptedException {
+    public double getTotal(long userId, String authCode, Filter filter) throws StatusException, IOException,
+            InterruptedException {
         StringBuilder urlBuilder = prepareBasicUrl(userId).append("/expense/total");
         if (filter != null) {
             urlBuilder.append(filter.getFilterString());
@@ -103,7 +105,8 @@ public class DefaultExpenseClient extends DefaultClient implements ExpenseServic
     }
 
     @Override
-    public Expense create(long userId, String authCode, Expense expense) throws StatusException, IOException, InterruptedException {
+    public Expense create(long userId, String authCode, Expense expense) throws StatusException, IOException,
+            InterruptedException {
         StringBuilder urlBuilder = prepareBasicUrl(userId).append("/expense");
 
         ContentExchange exchange = sendExchange(HttpMethod.POST, urlBuilder.toString(), expense, authCode);
@@ -125,7 +128,8 @@ public class DefaultExpenseClient extends DefaultClient implements ExpenseServic
     }
 
     @Override
-    public Expense update(long userId, String authCode, Expense expense) throws StatusException, IOException, InterruptedException {
+    public Expense update(long userId, String authCode, Expense expense) throws StatusException, IOException,
+            InterruptedException {
         StringBuilder urlBuilder = prepareBasicUrl(userId).append("/expense");
 
         ContentExchange exchange = sendExchange(HttpMethod.PUT, urlBuilder.toString(), expense, authCode);
@@ -147,7 +151,8 @@ public class DefaultExpenseClient extends DefaultClient implements ExpenseServic
     }
 
     @Override
-    public void delete(long userId, String authCode, int expenseId) throws StatusException, IOException, InterruptedException {
+    public void delete(long userId, String authCode, int expenseId) throws StatusException, IOException,
+            InterruptedException {
         StringBuilder urlBuilder = prepareBasicUrl(userId).append("/expense/").append(expenseId);
 
         ContentExchange exchange = sendExchange(HttpMethod.DELETE, urlBuilder.toString(), null, authCode);

@@ -1,9 +1,5 @@
 package pl.akiba.frontend.facebook.service;
 
-import com.google.common.base.Charsets;
-import com.google.common.base.Splitter;
-import com.google.common.collect.Lists;
-import com.google.common.io.CharStreams;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -18,14 +14,17 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import pl.akiba.helper.StringHelper;
 import pl.akiba.model.entities.FacebookUser;
 
+import com.google.common.base.Charsets;
+import com.google.common.io.CharStreams;
+
 /**
  * Service class that should be used while performing login process based on facebook
+ * 
  * @author kostrows
  */
 @Component("FacebookLoginService")
@@ -38,25 +37,24 @@ public class FacebookLoginService {
 
     @Value("${conf.facebook.clientId}")
     private String CLIENT_ID;
-    
+
     @Value("${conf.facebook.clientSecret}")
     private String CLIENT_SECRET;
-    
+
     @Value("${conf.facebook.redirectUri}")
     private String REDIRECT_URI;
-    
+
     private static final Logger logger = Logger.getLogger(FacebookLoginService.class.toString());
-    
+
     /**
      * @TODO @FIXME
      */
     private final static String SOME_ARBITRARY_BUT_UNIQUE_STRING = "f2bf92067a9ed2a9ed0147aa9a467cab";
 
     /**
-     * Method should be called to begin login process based on facebook OAuth
-     * model. <br /> User should be redirected (using http 302 moved
-     * temporarily) to location given as a returned value.
-     *
+     * Method should be called to begin login process based on facebook OAuth model. <br />
+     * User should be redirected (using http 302 moved temporarily) to location given as a returned value.
+     * 
      * @return Location where user should be redirected
      * @throws URISyntaxException
      */
@@ -64,32 +62,27 @@ public class FacebookLoginService {
 
         // build uri to redirect user when he will be logged in
         URIBuilder uriBuilder = new URIBuilder();
-        uriBuilder.setScheme(FB_URI_SCHEME).
-                setHost("www.facebook.com").
-                setPath("/dialog/oauth").
-                addParameter(FB_PARAM_CLIENT_ID, CLIENT_ID).
-                addParameter(FB_PARAM_REDIRECT_URI, REDIRECT_URI).
-                addParameter(FB_PARAM_STATE(), SOME_ARBITRARY_BUT_UNIQUE_STRING);
+        uriBuilder.setScheme(FB_URI_SCHEME).setHost("www.facebook.com").setPath("/dialog/oauth")
+                .addParameter(FB_PARAM_CLIENT_ID, CLIENT_ID).addParameter(FB_PARAM_REDIRECT_URI, REDIRECT_URI)
+                .addParameter(FB_PARAM_STATE(), SOME_ARBITRARY_BUT_UNIQUE_STRING);
 
         return uriBuilder.build().toString();
     }
 
     /**
      * Method should be called to finalize login process.
-     * @param facebookCode Code obtained as a result value from method beginLoginProcess()
+     * 
+     * @param facebookCode
+     *            Code obtained as a result value from method beginLoginProcess()
      * @return Access Token that should be used in further facebook account operation
      */
     public String endLoginProcess(String facebookCode) {
 
         // build uri to verify *code*
         URIBuilder uriBuilder = new URIBuilder();
-        uriBuilder.setScheme(FB_URI_SCHEME).
-                setHost("graph.facebook.com").
-                setPath("/oauth/access_token").
-                addParameter(FB_PARAM_CLIENT_ID, CLIENT_ID).
-                addParameter(FB_PARAM_REDIRECT_URI, REDIRECT_URI).
-                addParameter(FB_PARAM_CLIENT_SECRET, CLIENT_SECRET).
-                addParameter(FB_PARAM_CODE, facebookCode);
+        uriBuilder.setScheme(FB_URI_SCHEME).setHost("graph.facebook.com").setPath("/oauth/access_token")
+                .addParameter(FB_PARAM_CLIENT_ID, CLIENT_ID).addParameter(FB_PARAM_REDIRECT_URI, REDIRECT_URI)
+                .addParameter(FB_PARAM_CLIENT_SECRET, CLIENT_SECRET).addParameter(FB_PARAM_CODE, facebookCode);
 
         try {
             // verify *code*
@@ -97,7 +90,7 @@ public class FacebookLoginService {
 
             HttpClient httpclient = new DefaultHttpClient();
             HttpResponse fbResponse = httpclient.execute(httpget);
-            
+
             String content = getContentString(fbResponse);
 
             return getAccessTokenFromKeyValueString(content);
@@ -109,7 +102,7 @@ public class FacebookLoginService {
         return "";
 
     }
-    
+
     /**
      * Method send logout requst directly to facebook <br />
      * hen using the server-side Login flow, this process will involve revoking Permissions for a user from that app and

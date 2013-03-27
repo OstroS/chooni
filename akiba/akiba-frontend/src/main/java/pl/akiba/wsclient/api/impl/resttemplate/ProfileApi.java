@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import pl.akiba.model.entities.Expense;
 import pl.akiba.model.entities.Profile;
 import pl.akiba.model.entities.User;
 import pl.akiba.wsclient.api.Criteria;

@@ -2,7 +2,6 @@ package pl.akiba.frontend.expenses.controller;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,8 +25,6 @@ public class DashboardController {
 
     @Autowired
     private UserHelper userHelper;
-
-    private static final Logger logger = Logger.getLogger(DashboardController.class.toString());
 
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView showExpenses(Principal principal) {

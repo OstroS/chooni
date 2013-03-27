@@ -3,21 +3,15 @@ package pl.akiba.frontend.expenses.service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import pl.akiba.model.entities.Expense;
 import pl.akiba.model.entities.Filter;
 import pl.akiba.model.entities.User;
 import pl.akiba.model.exception.StatusException;
-import pl.akiba.wsclient.api.AkibaApi;
-import pl.akiba.wsclient.api.Criteria;
-import pl.akiba.wsclient.api.CriteriaBuilder;
-import pl.akiba.wsclient.api.impl.WsClientFactory;
 import pl.akiba.wsclient.client.DefaultExpenseClient;
 
 /**
@@ -29,7 +23,7 @@ public class ExpensesServiceImpl implements ExpensesService {
 
     @Autowired
     private DefaultExpenseClient defaultExpensesClient;
-    
+
     private static final Logger logger = Logger.getLogger(ExpensesServiceImpl.class.toString());
 
     /**
@@ -37,13 +31,16 @@ public class ExpensesServiceImpl implements ExpensesService {
      */
     private final Long AMOUNT_OF_DEFAULT_LAST_EXPENSES = 10L;
 
-    /* (non-Javadoc)
-     * @see pl.akiba.frontend.expenses.service.ExpensesService#addExpense(pl.akiba.model.entities.Expense, pl.akiba.model.entities.User)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see pl.akiba.frontend.expenses.service.ExpensesService#addExpense(pl.akiba.model.entities.Expense,
+     * pl.akiba.model.entities.User)
      */
     @Override
     public void addExpense(Expense expense, User user) {
         logger.info("Expense add, " + expense + " , " + user);
-        
+
         try {
             defaultExpensesClient.create(user.getId(), user.getAuthenticationCode(), expense);
         } catch (StatusException | IOException | InterruptedException e) {
@@ -51,7 +48,9 @@ public class ExpensesServiceImpl implements ExpensesService {
         }
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see pl.akiba.frontend.expenses.service.ExpensesService#getAllExpenses(pl.akiba.model.entities.User)
      */
     @Override
@@ -66,16 +65,18 @@ public class ExpensesServiceImpl implements ExpensesService {
         return new ArrayList<Expense>();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see pl.akiba.frontend.expenses.service.ExpensesService#getLastExpenses(pl.akiba.model.entities.User)
      */
     @Override
     public List<Expense> getLastExpenses(User user) {
         logger.info("Get last expenses");
         Filter filter = new Filter();
-        filter.setLimit((int)(long)AMOUNT_OF_DEFAULT_LAST_EXPENSES);
+        filter.setLimit((int) (long) AMOUNT_OF_DEFAULT_LAST_EXPENSES);
         try {
-           return defaultExpensesClient.getAll(user.getId(), user.getAuthenticationCode(), filter);
+            return defaultExpensesClient.getAll(user.getId(), user.getAuthenticationCode(), filter);
         } catch (StatusException | IOException | InterruptedException e) {
             logger.severe(e.toString());
         }

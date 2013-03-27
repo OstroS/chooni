@@ -3,7 +3,6 @@ package pl.akiba.frontend.expenses.controller;
 import java.security.Principal;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -41,8 +40,6 @@ public class ExpenseController {
     @Autowired
     private UserHelper userHelper;
 
-    private static final Logger logger = Logger.getLogger(ExpenseController.class.toString());
-
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView showExpenses(Principal principal) {
         ModelAndView model = new ModelAndView();
@@ -59,9 +56,10 @@ public class ExpenseController {
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ModelAndView handleAddExpenseForm(@ModelAttribute("expense") Expense expense, BindingResult result, Principal principal) {
+    public ModelAndView handleAddExpenseForm(@ModelAttribute("expense") Expense expense, BindingResult result,
+            Principal principal) {
         User currentUser = userHelper.getCurrentUser(principal);
-        
+
         expense.setDate(new Date());
         es.addExpense(expense, currentUser);
 

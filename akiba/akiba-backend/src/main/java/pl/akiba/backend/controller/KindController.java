@@ -29,12 +29,7 @@ import pl.akiba.model.service.KindService;
  */
 @Controller
 @RequestMapping("/{userId}/kind")
-public class KindController {
-
-    /**
-     * Nazwa headera w jakim znajduje sie authCode
-     */
-    private static final String AUTH_CODE_HEADER = "x-akiba-auth-code";
+public class KindController extends AbstractController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(KindController.class);
 
@@ -46,8 +41,7 @@ public class KindController {
      */
     @RequestMapping(value = "/{kindId}", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<Kind> get(
-            @RequestHeader(value = AUTH_CODE_HEADER, required = true) final String authCode,
+    public ResponseEntity<Kind> get(@RequestHeader(value = AUTH_CODE_HEADER, required = true) final String authCode,
             @PathVariable final long userId, @PathVariable final int kindId) {
         Kind kind = null;
 
@@ -93,8 +87,7 @@ public class KindController {
      */
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<Kind> create(
-            @RequestHeader(value = AUTH_CODE_HEADER, required = true) final String authCode,
+    public ResponseEntity<Kind> create(@RequestHeader(value = AUTH_CODE_HEADER, required = true) final String authCode,
             @PathVariable final long userId, @RequestBody final Kind kind) {
         Kind createdKind = null;
 
@@ -115,8 +108,7 @@ public class KindController {
      * Updates kind's data.
      */
     @RequestMapping(method = RequestMethod.PUT)
-    public ResponseEntity<Kind> update(
-            @RequestHeader(value = AUTH_CODE_HEADER, required = true) final String authCode,
+    public ResponseEntity<Kind> update(@RequestHeader(value = AUTH_CODE_HEADER, required = true) final String authCode,
             @PathVariable final long userId, @RequestBody final Kind kind) {
         try {
             kindService.update(userId, authCode, kind);

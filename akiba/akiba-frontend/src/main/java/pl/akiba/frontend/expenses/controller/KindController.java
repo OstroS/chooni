@@ -2,7 +2,6 @@ package pl.akiba.frontend.expenses.controller;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -17,7 +16,6 @@ import org.springframework.web.servlet.ModelAndView;
 import pl.akiba.frontend.expenses.service.KindsService;
 import pl.akiba.frontend.expenses.service.UserHelper;
 import pl.akiba.model.entities.Kind;
-import pl.akiba.model.entities.User;
 
 @Controller
 @RequestMapping("/kind")
@@ -30,8 +28,6 @@ public class KindController {
 
     @Autowired
     private UserHelper userHelper;
-
-    private static final Logger logger = Logger.getLogger(KindController.class.toString());
 
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public ModelAndView addKind(Principal principal) {

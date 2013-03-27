@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import pl.akiba.frontend.expenses.controller.DashboardController;
 import pl.akiba.model.entities.Profile;
 import pl.akiba.model.entities.User;
 import pl.akiba.wsclient.api.AkibaApi;
@@ -20,9 +19,9 @@ import pl.akiba.wsclient.api.AkibaApi;
 public class ProfilesService {
 
     @Autowired
-    @Qualifier(value="akibaApiMock")
+    @Qualifier(value = "akibaApiMock")
     AkibaApi akibaApi;
-    
+
     private static final Logger logger = Logger.getLogger(ProfilesService.class.toString());
 
     /**
