@@ -11,22 +11,22 @@ import pl.akiba.model.entities.Filter;
  */
 public interface ExpenseDao {
 
-    public Expense get(long userId, int expenseId);
+    public Expense get(long userId, String authCode, int expenseId);
 
-    public List<Expense> getAll(long userId, Filter filter);
+    public List<Expense> getAll(long userId, String authCode, Filter filter);
 
     /**
      * 
      */
-    public double getTotal(long userId, Filter filter);
+    public double getTotal(long userId, String authCode, Filter filter);
 
     /**
      * @return created expense
      */
-    public Expense create(long userId, Expense expense);
+    public Expense create(long userId, String authCode, Expense expense);
 
-    public void update(long userId, Expense expense);
+    public void update(long userId, String authCode, Expense expense);
 
-    public void delete(long userId, int expenseId);
+    public void delete(long userId, String authCode, int expenseId);
 
 }

@@ -34,7 +34,7 @@ public class ExpenseServiceTest {
     private final long userId = 0;
     private final int kindId = 1;
     private final int profileId = 1;
-    private final String authCode = "AUTH_CODE";
+    private final String authCode = "787";
 
     @Test
     public void testCRUD() throws EntityIsNotValidException, StatusException, IOException, InterruptedException {
@@ -50,20 +50,17 @@ public class ExpenseServiceTest {
         final Expense updatedExpense = expenseService.get(userId, authCode, createdExpense.getId());
         assertEquals(null, newAmount, updatedExpense.getAmount(), 1e-8);
 
+        double total = expenseService.getTotal(userId, authCode, prepareFilter());
+        assertTrue(total > 0.0);
+
         expenseService.delete(userId, authCode, updatedExpense.getId());
         Expense expense = null;
         try {
-            expense = expenseService.get(userId,authCode,  updatedExpense.getId());
+            expense = expenseService.get(userId, authCode, updatedExpense.getId());
         } catch (EmptyResultException e) {
         }
 
         assertTrue(expense == null);
-    }
-
-    @Test
-    public void testTotalCount() throws StatusException, IOException, InterruptedException {
-        double total = expenseService.getTotal(userId, authCode, prepareFilter());
-        assertTrue(total > 0.0);
     }
 
     private Filter prepareFilter() {

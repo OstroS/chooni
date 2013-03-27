@@ -25,7 +25,7 @@ public class DefaultProfileService implements ProfileService {
 
     @Override
     public List<Profile> getAll(long userId, String authCode) {
-        return profileDao.getAll(userId);
+        return profileDao.getAll(userId, authCode);
     }
 
     @Override
@@ -33,7 +33,7 @@ public class DefaultProfileService implements ProfileService {
         Profile profile = null;
 
         try {
-            profile = profileDao.getDefault(userId);
+            profile = profileDao.getDefault(userId, authCode);
         } catch (EmptyResultDataAccessException e) { //spring forced this exception
             throw new EmptyResultException(e.getMessage());
         }
@@ -47,7 +47,7 @@ public class DefaultProfileService implements ProfileService {
             throw new EntityIsNotValidException("Profile entity is not valid!");
         }
 
-        return profileDao.create(userId, profile);
+        return profileDao.create(userId, authCode, profile);
     }
 
     @Override
@@ -56,12 +56,11 @@ public class DefaultProfileService implements ProfileService {
             throw new EntityIsNotValidException("Profile entity is not valid!");
         }
 
-        profileDao.update(userId, profile);
+        profileDao.update(userId, authCode, profile);
     }
 
     @Override
     public void delete(long userId, String authCode, int profileId) {
-        profileDao.delete(userId, profileId);
+        profileDao.delete(userId, authCode, profileId);
     }
-
 }

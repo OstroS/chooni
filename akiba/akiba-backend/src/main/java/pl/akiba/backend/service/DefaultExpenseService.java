@@ -29,7 +29,7 @@ public class DefaultExpenseService implements ExpenseService {
         Expense expense = null;
 
         try {
-            expense = expenseDao.get(userId, expenseId);
+            expense = expenseDao.get(userId, authCode, expenseId);
         } catch (EmptyResultDataAccessException e) { //spring forced this exception
             throw new EmptyResultException(e.getMessage());
         }
@@ -39,12 +39,12 @@ public class DefaultExpenseService implements ExpenseService {
 
     @Override
     public List<Expense> getAll(long userId, String authCode, Filter filter) {
-        return expenseDao.getAll(userId, filter);
+        return expenseDao.getAll(userId, authCode, filter);
     }
 
     @Override
     public double getTotal(long userId, String authCode, Filter filter) {
-        return expenseDao.getTotal(userId, filter);
+        return expenseDao.getTotal(userId, authCode, filter);
     }
 
     @Override
@@ -53,7 +53,7 @@ public class DefaultExpenseService implements ExpenseService {
             throw new EntityIsNotValidException("Expense entity is not valid!");
         }
 
-        return expenseDao.create(userId, expense);
+        return expenseDao.create(userId, authCode, expense);
     }
 
     @Override
@@ -62,14 +62,14 @@ public class DefaultExpenseService implements ExpenseService {
             throw new EntityIsNotValidException("Expense entity is not valid!");
         }
 
-        expenseDao.update(userId, expense);
+        expenseDao.update(userId, authCode, expense);
 
         return expense;
     }
 
     @Override
     public void delete(long userId, String authCode, int expenseId) {
-        expenseDao.delete(userId, expenseId);
+        expenseDao.delete(userId, authCode, expenseId);
     }
 
 }

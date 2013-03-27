@@ -38,10 +38,11 @@ public class JdbcKindDao implements KindDao, InitializingBean {
     }
 
     @Override
-    public Kind get(long userId, int kindId) {
+    public Kind get(long userId, String authCode, int kindId) {
         MapSqlParameterSource parameterMap = new MapSqlParameterSource();
         parameterMap.addValue("userId", userId);
         parameterMap.addValue("kindId", kindId);
+        parameterMap.addValue("authCode", authCode);
 
         return jdbcTemplate.queryForObject(Sql.SELECT_KIND, parameterMap, new RowMapper<Kind>() {
 
@@ -54,8 +55,12 @@ public class JdbcKindDao implements KindDao, InitializingBean {
     }
 
     @Override
-    public List<Kind> getAll(long userId) {
-        return jdbcTemplate.query(Sql.SELECT_KINDS, new MapSqlParameterSource("userId", userId), new RowMapper<Kind>() {
+    public List<Kind> getAll(long userId, String authCode) {
+        MapSqlParameterSource parameterMap = new MapSqlParameterSource();
+        parameterMap.addValue("userId", userId);
+        parameterMap.addValue("authCode", authCode);
+
+        return jdbcTemplate.query(Sql.SELECT_KINDS, parameterMap, new RowMapper<Kind>() {
 
             @Override
             public Kind mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -66,12 +71,13 @@ public class JdbcKindDao implements KindDao, InitializingBean {
     }
 
     @Override
-    public Kind create(long userId, Kind kind) {
+    public Kind create(long userId, String authCode, Kind kind) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         MapSqlParameterSource parameterMap = new MapSqlParameterSource();
         parameterMap.addValue("userId", userId);
         parameterMap.addValue("name", kind.getName());
+        parameterMap.addValue("authCode", authCode);
 
         jdbcTemplate.update(Sql.INSERT_KIND, parameterMap, keyHolder);
         kind.setId(keyHolder.getKey().intValue());
@@ -80,20 +86,22 @@ public class JdbcKindDao implements KindDao, InitializingBean {
     }
 
     @Override
-    public void update(long userId, Kind kind) {
+    public void update(long userId, String authCode, Kind kind) {
         MapSqlParameterSource parameterMap = new MapSqlParameterSource();
         parameterMap.addValue("userId", userId);
         parameterMap.addValue("kindId", kind.getId());
         parameterMap.addValue("name", kind.getName());
+        parameterMap.addValue("authCode", authCode);
 
         jdbcTemplate.update(Sql.UPDATE_KIND, parameterMap);
     }
 
     @Override
-    public void delete(long userId, int kindId) {
+    public void delete(long userId, String authCode, int kindId) {
         MapSqlParameterSource parameterMap = new MapSqlParameterSource();
         parameterMap.addValue("userId", userId);
         parameterMap.addValue("kindId", kindId);
+        parameterMap.addValue("authCode", authCode);
 
         jdbcTemplate.update(Sql.DELETE_KIND, parameterMap);
     }

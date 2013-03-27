@@ -42,10 +42,11 @@ public class JdbcExpenseDao implements ExpenseDao, InitializingBean {
     }
 
     @Override
-    public Expense get(long userId, int expenseId) {
+    public Expense get(long userId, String authCode, int expenseId) {
         MapSqlParameterSource parameterMap = new MapSqlParameterSource();
         parameterMap.addValue("userId", userId);
         parameterMap.addValue("expenseId", expenseId);
+        parameterMap.addValue("authCode", authCode);
 
         return jdbcTemplate.queryForObject(Sql.SELECT_EXPENSE, parameterMap, new RowMapper<Expense>() {
 
@@ -60,9 +61,11 @@ public class JdbcExpenseDao implements ExpenseDao, InitializingBean {
     }
 
     @Override
-    public List<Expense> getAll(long userId, Filter filter) {
+    public List<Expense> getAll(long userId, String authCode, Filter filter) {
         StringBuilder sqlBuilder = new StringBuilder(Sql.SELECT_EXPENSES);
-        MapSqlParameterSource parameterMap = new MapSqlParameterSource("userId", userId);
+        MapSqlParameterSource parameterMap = new MapSqlParameterSource();
+        parameterMap.addValue("userId", userId);
+        parameterMap.addValue("authCode", authCode);
 
         if (filter != null) {
             sqlBuilder.append(filter.getFilterSql());
@@ -82,9 +85,11 @@ public class JdbcExpenseDao implements ExpenseDao, InitializingBean {
     }
 
     @Override
-    public double getTotal(long userId, Filter filter) {
+    public double getTotal(long userId, String authCode, Filter filter) {
         StringBuilder sqlBuilder = new StringBuilder(Sql.SELECT_TOTAL_EXPENSE);
-        MapSqlParameterSource parameterMap = new MapSqlParameterSource("userId", userId);
+        MapSqlParameterSource parameterMap = new MapSqlParameterSource();
+        parameterMap.addValue("userId", userId);
+        parameterMap.addValue("authCode", authCode);
 
         if (filter != null) {
             sqlBuilder.append(filter.getFilterSql());
@@ -95,7 +100,7 @@ public class JdbcExpenseDao implements ExpenseDao, InitializingBean {
     }
 
     @Override
-    public Expense create(long userId, Expense expense) {
+    public Expense create(long userId, String authCode, Expense expense) {
         Date now = new Date();
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -105,6 +110,7 @@ public class JdbcExpenseDao implements ExpenseDao, InitializingBean {
         parameterMap.addValue("kindId", expense.getKind().getId());
         parameterMap.addValue("amount", expense.getAmount());
         parameterMap.addValue("addDate", now);
+        parameterMap.addValue("authCode", authCode);
 
         jdbcTemplate.update(Sql.INSERT_EXPENSE, parameterMap, keyHolder);
 
@@ -115,22 +121,24 @@ public class JdbcExpenseDao implements ExpenseDao, InitializingBean {
     }
 
     @Override
-    public void update(long userId, Expense expense) {
+    public void update(long userId, String authCode, Expense expense) {
         MapSqlParameterSource parameterMap = new MapSqlParameterSource();
         parameterMap.addValue("userId", userId);
         parameterMap.addValue("id", expense.getId());
         parameterMap.addValue("profileId", expense.getProfile().getId());
         parameterMap.addValue("kindId", expense.getKind().getId());
         parameterMap.addValue("amount", expense.getAmount());
+        parameterMap.addValue("authCode", authCode);
 
         jdbcTemplate.update(Sql.UPDATE_EXPENSE, parameterMap);
     }
 
     @Override
-    public void delete(long userId, int expenseId) {
+    public void delete(long userId, String authCode, int expenseId) {
         MapSqlParameterSource parameterMap = new MapSqlParameterSource();
         parameterMap.addValue("userId", userId);
         parameterMap.addValue("expenseId", expenseId);
+        parameterMap.addValue("authCode", authCode);
 
         jdbcTemplate.update(Sql.DELETE_EXPENSE, parameterMap);
     }

@@ -28,7 +28,7 @@ public class DefaultKindService implements KindService {
         Kind kind = null;
 
         try {
-            kind = kindDao.get(userId, kindId);
+            kind = kindDao.get(userId, authCode, kindId);
         } catch (EmptyResultDataAccessException e) { //spring forced this exception
             throw new EmptyResultException(e.getMessage());
         }
@@ -38,7 +38,7 @@ public class DefaultKindService implements KindService {
 
     @Override
     public List<Kind> getAll(long userId, String authCode) {
-        return kindDao.getAll(userId);
+        return kindDao.getAll(userId, authCode);
     }
 
     @Override
@@ -47,7 +47,7 @@ public class DefaultKindService implements KindService {
             throw new EntityIsNotValidException("Kind entity is not valid!");
         }
 
-        return kindDao.create(userId, kind);
+        return kindDao.create(userId, authCode, kind);
     }
 
     @Override
@@ -56,12 +56,12 @@ public class DefaultKindService implements KindService {
             throw new EntityIsNotValidException("Kind entity is not valid!");
         }
 
-        kindDao.update(userId, kind);
+        kindDao.update(userId, authCode, kind);
     }
 
     @Override
     public void delete(long userId, String authCode, int kindId) {
-        kindDao.delete(userId, kindId);
+        kindDao.delete(userId, authCode, kindId);
     }
 
 }

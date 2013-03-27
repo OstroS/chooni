@@ -34,23 +34,26 @@ public class JdbcProfileDao implements ProfileDao, InitializingBean {
     }
 
     @Override
-    public List<Profile> getAll(long userId) {
-        return jdbcTemplate.query(Sql.SELECT_PROFILES, new MapSqlParameterSource("userId", userId),
-                new RowMapper<Profile>() {
+    public List<Profile> getAll(long userId, String authCode) {
+        MapSqlParameterSource parameterMap = new MapSqlParameterSource();
+        parameterMap.addValue("userId", userId);
+        parameterMap.addValue("authCode", authCode);
 
-                    @Override
-                    public Profile mapRow(ResultSet rs, int rowNum) throws SQLException {
-                        return new Profile(rs.getInt("id"), rs.getString("name"), rs.getBoolean("def"), rs
-                                .getBoolean("active"));
-                    }
+        return jdbcTemplate.query(Sql.SELECT_PROFILES, parameterMap, new RowMapper<Profile>() {
 
-                });
+            @Override
+            public Profile mapRow(ResultSet rs, int rowNum) throws SQLException {
+                return new Profile(rs.getInt("id"), rs.getString("name"), rs.getBoolean("def"), rs.getBoolean("active"));
+            }
+
+        });
     }
 
     @Override
-    public Profile getDefault(long userId) {
+    public Profile getDefault(long userId, String authCode) {
         MapSqlParameterSource parameterMap = new MapSqlParameterSource();
         parameterMap.addValue("userId", userId);
+        parameterMap.addValue("authCode", authCode);
 
         return jdbcTemplate.queryForObject(Sql.SELECT_DEFAULT_PROFILE, parameterMap, new RowMapper<Profile>() {
 
@@ -63,12 +66,13 @@ public class JdbcProfileDao implements ProfileDao, InitializingBean {
     }
 
     @Override
-    public Profile create(long userId, Profile profile) {
+    public Profile create(long userId, String authCode, Profile profile) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         MapSqlParameterSource parameterMap = new MapSqlParameterSource();
         parameterMap.addValue("userId", userId);
         parameterMap.addValue("name", profile.getName());
+        parameterMap.addValue("authCode", authCode);
 
         jdbcTemplate.update(Sql.INSERT_PROFILE, parameterMap, keyHolder);
         profile.setId(keyHolder.getKey().intValue());
@@ -77,22 +81,24 @@ public class JdbcProfileDao implements ProfileDao, InitializingBean {
     }
 
     @Override
-    public void update(long userId, Profile profile) {
+    public void update(long userId, String authCode, Profile profile) {
         MapSqlParameterSource parameterMap = new MapSqlParameterSource();
         parameterMap.addValue("userId", userId);
         parameterMap.addValue("profileId", profile.getId());
         parameterMap.addValue("name", profile.getName());
         parameterMap.addValue("def", profile.isDef());
         parameterMap.addValue("active", profile.isActive());
+        parameterMap.addValue("authCode", authCode);
 
         jdbcTemplate.update(Sql.UPDATE_PROFILE, parameterMap);
     }
 
     @Override
-    public void delete(long userId, int profileId) {
+    public void delete(long userId, String authCode, int profileId) {
         MapSqlParameterSource parameterMap = new MapSqlParameterSource();
         parameterMap.addValue("userId", userId);
         parameterMap.addValue("profileId", profileId);
+        parameterMap.addValue("authCode", authCode);
 
         jdbcTemplate.update(Sql.DELETE_PROFILE, parameterMap);
         jdbcTemplate.update(Sql.DELETE_PROFILE_EXPENSES, parameterMap);

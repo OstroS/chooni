@@ -10,17 +10,17 @@ import pl.akiba.model.entities.Kind;
  */
 public interface KindDao {
 
-    public Kind get(long userId, int kindId);
+    public Kind get(long userId, String authCode, int kindId);
 
-    public List<Kind> getAll(long userId);
+    public List<Kind> getAll(long userId, String authCode);
 
     /**
      * @return created kind
      */
-    public Kind create(long userId, Kind kind);
+    public Kind create(long userId, String authCode, Kind kind);
 
-    public void update(long userId, Kind kind);
+    public void update(long userId, String authCode, Kind kind);
 
-    public void delete(long userId, int kindId);
+    public void delete(long userId, String authCode, int kindId);
 
 }
