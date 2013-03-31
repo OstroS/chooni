@@ -1,4 +1,4 @@
-package pl.akiba.frontend.expenses.service;
+package pl.akiba.frontend.kinds.service;
 
 import java.text.ParseException;
 import java.util.Locale;
@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.format.Formatter;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+
+import pl.akiba.frontend.expenses.service.UserHelper;
 import pl.akiba.model.entities.Kind;
 import pl.akiba.model.entities.User;
 

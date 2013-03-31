@@ -1,4 +1,4 @@
-package pl.akiba.frontend.expenses.service;
+package pl.akiba.frontend.profiles.service;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -33,11 +33,8 @@ public class ProfilesServiceMock implements ProfilesService {
         return akibaApi.getProfileApi().getAll(user);
     }
 
-    /* (non-Javadoc)
-     * @see pl.akiba.frontend.expenses.service.ProfilesService#getProfile(long)
-     */
     @Override
-    public Profile getProfile(long profileId) {
+    public Profile get(User user, long profileId) {
         logger.info("Get profile by id=" + profileId);
         return akibaApi.getProfileApi().get(profileId);
     }

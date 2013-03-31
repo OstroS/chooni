@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import pl.akiba.frontend.expenses.service.ExpensesService;
-import pl.akiba.frontend.expenses.service.KindsService;
-import pl.akiba.frontend.expenses.service.ProfilesService;
 import pl.akiba.frontend.expenses.service.UserHelper;
+import pl.akiba.frontend.kinds.service.KindsService;
+import pl.akiba.frontend.profiles.service.ProfilesService;
 import pl.akiba.model.entities.Expense;
 import pl.akiba.model.entities.User;
 

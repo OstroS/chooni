@@ -1,4 +1,4 @@
-package pl.akiba.frontend.expenses.service;
+package pl.akiba.frontend.profiles.service;
 
 import java.util.List;
 

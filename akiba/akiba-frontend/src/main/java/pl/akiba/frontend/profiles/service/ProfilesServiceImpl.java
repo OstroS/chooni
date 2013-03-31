@@ -1,7 +1,7 @@
 /**
  * 
  */
-package pl.akiba.frontend.expenses.service;
+package pl.akiba.frontend.profiles.service;
 
 import java.io.IOException;
 import java.util.List;

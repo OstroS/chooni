@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -11,9 +12,9 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import pl.akiba.frontend.expenses.service.ExpensesService;
-import pl.akiba.frontend.expenses.service.KindsService;
-import pl.akiba.frontend.expenses.service.ProfilesService;
 import pl.akiba.frontend.expenses.service.UserHelper;
+import pl.akiba.frontend.kinds.service.KindsService;
+import pl.akiba.frontend.profiles.service.ProfilesService;
 import pl.akiba.model.entities.Expense;
 import pl.akiba.model.entities.User;
 
@@ -26,9 +27,11 @@ public class DashboardController {
     private ExpensesService es;
     
     @Autowired
+    @Qualifier("kindsService")
     private KindsService ks;
     
     @Autowired
+    @Qualifier("profilesService")
     private ProfilesService ps;
     
 

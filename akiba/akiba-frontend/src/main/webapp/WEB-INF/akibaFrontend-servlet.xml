@@ -29,6 +29,8 @@
      
     <context:component-scan base-package="pl.akiba.frontend.expenses.controller" />
     <context:component-scan base-package="pl.akiba.frontend.expenses.service" />
+    <context:component-scan base-package="pl.akiba.frontend.kinds.service" />
+    <context:component-scan base-package="pl.akiba.frontend.profiles.service" />
     <context:component-scan base-package="pl.akiba.wsclient.api.impl" />
     <context:component-scan base-package="pl.akiba.wsclient.api.mock" />
     
