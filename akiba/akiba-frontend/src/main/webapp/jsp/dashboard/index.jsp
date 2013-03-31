@@ -76,8 +76,20 @@ body {
 				<p>${expense}</p>
 			</c:forEach>
 		</div>
+		
+		<div class="profiles-box">
+			<h3>Profiles list</h3>
+			<c:forEach items="${profiles}" var="profile">
+				<p>${profile}</p>
+			</c:forEach>
+		</div>
 
-
+		<div class="kinds-box">
+			<h3>Kinds list</h3>
+			<c:forEach items="${kinds}" var="kinds">
+				<p>${kind}</p>
+			</c:forEach>
+		</div>
 
 	</div>
 	<!-- /container -->
