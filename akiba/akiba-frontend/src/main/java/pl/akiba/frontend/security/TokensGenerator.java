@@ -9,34 +9,40 @@ import org.apache.commons.codec.binary.Base64;
 import org.springframework.social.InternalServerErrorException;
 import org.springframework.stereotype.Component;
 
+/**
+ * Generic tokens generator. Should be used as a Spring Component, as initialization might be a little lengthy
+ * 
+ * @author kostrows
+ * 
+ */
 @Component("tokensGenerator")
 public class TokensGenerator {
     private SecureRandom prng;
-    
+
     Logger logger = Logger.getLogger(TokensGenerator.class.toString());
-    
+
     public TokensGenerator() {
         try {
             //Initialize SecureRandom
             //This is a lengthy operation, to be done only upon
             //initialization of the application
-            
+
             prng = SecureRandom.getInstance("SHA1PRNG");
             logger.info("Secure Random instantiated");
-            
+
         } catch (NoSuchAlgorithmException e) {
             logger.severe(e.toString());
         }
     }
-    
+
     public String generateToken() {
-        String randomNum = new Integer( prng.nextInt() ).toString();
+        String randomNum = new Integer(prng.nextInt()).toString();
 
         //get its digest
         MessageDigest sha;
         try {
             sha = MessageDigest.getInstance("SHA-1");
-            byte[] result =  sha.digest( randomNum.getBytes() );
+            byte[] result = sha.digest(randomNum.getBytes());
 
             String token = Base64.encodeBase64String(result);
             logger.info("Generated token=" + token);
@@ -45,7 +51,7 @@ public class TokensGenerator {
             logger.severe(e.toString());
             throw new InternalServerErrorException(e.toString());
         }
- 
+
     }
 
 }

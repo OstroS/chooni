@@ -37,6 +37,7 @@
     <context:component-scan base-package="pl.akiba.frontend.facebook.controller" />
     <context:component-scan base-package="pl.akiba.frontend.facebook.service" />
     <context:component-scan base-package="pl.akiba.frontend.users.service" />
+    <context:component-scan base-package="pl.akiba.frontend.security" />
     
     <context:component-scan base-package="pl.akiba.wsclient.api.impl" />
     

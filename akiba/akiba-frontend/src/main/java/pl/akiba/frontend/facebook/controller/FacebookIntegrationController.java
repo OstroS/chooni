@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import pl.akiba.frontend.facebook.service.FacebookLoginService;
+import pl.akiba.frontend.security.TokensGenerator;
 
 /**
  * 
@@ -22,6 +23,9 @@ public class FacebookIntegrationController {
 
     @Autowired
     private FacebookLoginService fls;
+    
+    @Autowired 
+    private TokensGenerator tokensGenerator;
 
     /**
      * Method begins facebook login process. 
@@ -32,7 +36,12 @@ public class FacebookIntegrationController {
      */
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public void facebookLogin(HttpServletRequest request, HttpServletResponse response) throws IOException, URISyntaxException {
+
+        // Generate token for current user and keep it in his session
+        String uniqueTokenForCurrentUser = tokensGenerator.generateToken();
+        request.getSession().setAttribute("uniqueFacebookLoginToken", uniqueTokenForCurrentUser);
+        
         // redirect
-        response.sendRedirect(fls.beginLoginProcess());
+        response.sendRedirect(fls.beginLoginProcess(uniqueTokenForCurrentUser));
     }
 }

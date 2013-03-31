@@ -49,6 +49,17 @@ public class FacebookAuthenticationFilter extends UsernamePasswordAuthentication
             throws AuthenticationException {
         logger.info("Attempting authentication");
 
+        // check if token in session matches token achieved form facebook
+        String tokenFromFacebook = request.getParameter("state");
+        String tokenStoredInSession = (String)request.getSession().getAttribute("uniqueFacebookLoginToken");
+        logger.info("tokenFromFacebook=" + tokenFromFacebook + ", tokenStoredInSession=" + tokenStoredInSession);
+        if((tokenFromFacebook != null) && (tokenStoredInSession != null) && tokenStoredInSession.equals(tokenFromFacebook)) {
+            logger.info("Token matches; tokenFromFacebook=" + tokenFromFacebook + ", tokenStoredInSession=" + tokenStoredInSession);
+        }
+        else {
+            throw new AuthenticationExceptionExtension("Token stored in session doesn't match token from facebook");
+        }
+        
         // user should be redirected here from facebook with *code* parameter
         if (request.getParameter("code") != null) {
             String facebookCode = request.getParameter("code");

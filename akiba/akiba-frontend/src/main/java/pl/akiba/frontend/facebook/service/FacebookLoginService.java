@@ -47,24 +47,19 @@ public class FacebookLoginService {
     private static final Logger logger = Logger.getLogger(FacebookLoginService.class.toString());
 
     /**
-     * @TODO @FIXME
-     */
-    private final static String SOME_ARBITRARY_BUT_UNIQUE_STRING = "f2bf92067a9ed2a9ed0147aa9a467cab";
-
-    /**
      * Method should be called to begin login process based on facebook OAuth model. <br />
      * User should be redirected (using http 302 moved temporarily) to location given as a returned value.
      * 
      * @return Location where user should be redirected
      * @throws URISyntaxException
      */
-    public String beginLoginProcess() throws URISyntaxException {
+    public String beginLoginProcess(String uniqueTokenForCurrentUser) throws URISyntaxException {
 
         // build uri to redirect user when he will be logged in
         URIBuilder uriBuilder = new URIBuilder();
         uriBuilder.setScheme(FB_URI_SCHEME).setHost("www.facebook.com").setPath("/dialog/oauth")
                 .addParameter(FB_PARAM_CLIENT_ID, CLIENT_ID).addParameter(FB_PARAM_REDIRECT_URI, REDIRECT_URI)
-                .addParameter(FB_PARAM_STATE(), SOME_ARBITRARY_BUT_UNIQUE_STRING);
+                .addParameter(FB_PARAM_STATE(), uniqueTokenForCurrentUser);
 
         return uriBuilder.build().toString();
     }
