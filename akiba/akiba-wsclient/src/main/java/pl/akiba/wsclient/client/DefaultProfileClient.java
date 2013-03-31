@@ -19,7 +19,7 @@ import pl.akiba.model.service.ProfileService;
  */
 public class DefaultProfileClient extends DefaultClient implements ProfileService {
 
-    protected DefaultProfileClient(String address, HttpClient httpClient) {
+    public DefaultProfileClient(String address, HttpClient httpClient) {
         super(address, httpClient);
     }
 
@@ -134,6 +134,11 @@ public class DefaultProfileClient extends DefaultClient implements ProfileServic
         }
 
         throw new StatusException("Http exchange returns status: " + getExchangeStatusName(exchangeStatus));
+    }
+
+    public Profile get(Long id, String authenticationCode, long profileId) {
+        // TODO Auto-generated method stub
+        return new Profile((int)(long)id,"PROFIL_TESTOWY", Boolean.FALSE, Boolean.TRUE);
     }
 
 }
