@@ -51,8 +51,13 @@ public class KindsServiceImpl implements KindsService {
     }
 
     @Override
-    public Kind get(Long userId, Long kindId) {
-        //TODO
+    public Kind get(User user, Long kindId) {
+        try {
+            return kindClient.get(user.getId(), user.getAuthenticationCode(), (int)(long)kindId);
+        } catch (StatusException | IOException | InterruptedException e) {
+            // TODO Auto-generated catch block
+            logger.severe(e.toString());
+        }
         return null;
     }
    

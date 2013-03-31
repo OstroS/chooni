@@ -36,7 +36,7 @@ public class KindFormatter implements Formatter<Kind> {
         // FIXME Possibly may cause error in multithreding enviroment
         User currentUser = userHelper.getCurrentUser(SecurityContextHolder.getContext().getAuthentication());
         Logger.getLogger(KindFormatter.class.toString()).info("Current user: " + currentUser + ", kindId=" + kindId);
-        return kindsService.get(currentUser.getId(), Long.parseLong(kindId));
+        return kindsService.get(currentUser, Long.parseLong(kindId));
  
     }
 

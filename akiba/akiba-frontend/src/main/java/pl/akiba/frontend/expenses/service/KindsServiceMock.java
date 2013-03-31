@@ -54,10 +54,15 @@ public class KindsServiceMock implements KindsService {
         this.akibaApi = akibaApi;
     }
 
-    @Override
     public Kind get(Long userId, Long kindId) {
-        // TODO Auto-generated method stub
-        return null;
+        logger.info("Get kind by id=" + kindId);
+        return akibaApi.getKindApi().get(kindId);
+    }
+
+    @Override
+    public Kind get(User user, Long kindId) {
+        logger.info("Get kind by id=" + kindId);
+        return akibaApi.getKindApi().get(kindId);
     }
 
 }
