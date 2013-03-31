@@ -16,6 +16,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import pl.akiba.frontend.facebook.FacebookConsts;
 import pl.akiba.helper.StringHelper;
 import pl.akiba.model.entities.FacebookUser;
 
@@ -29,11 +30,6 @@ import com.google.common.io.CharStreams;
  */
 @Component("FacebookLoginService")
 public class FacebookLoginService {
-    public static final String FB_URI_SCHEME = "https";
-    public static final String FB_PARAM_CLIENT_ID = "client_id";
-    public static final String FB_PARAM_REDIRECT_URI = "redirect_uri";
-    public static final String FB_PARAM_CLIENT_SECRET = "client_secret";
-    public static final String FB_PARAM_CODE = "code";
 
     @Value("${conf.facebook.clientId}")
     private String CLIENT_ID;
@@ -57,8 +53,9 @@ public class FacebookLoginService {
 
         // build uri to redirect user when he will be logged in
         URIBuilder uriBuilder = new URIBuilder();
-        uriBuilder.setScheme(FB_URI_SCHEME).setHost("www.facebook.com").setPath("/dialog/oauth")
-                .addParameter(FB_PARAM_CLIENT_ID, CLIENT_ID).addParameter(FB_PARAM_REDIRECT_URI, REDIRECT_URI)
+        uriBuilder.setScheme(FacebookConsts.URI_SCHEME).setHost("www.facebook.com").setPath("/dialog/oauth")
+                .addParameter(FacebookConsts.PARAM_CLIENT_ID, CLIENT_ID)
+                .addParameter(FacebookConsts.PARAM_REDIRECT_URI, REDIRECT_URI)
                 .addParameter(FB_PARAM_STATE(), uniqueTokenForCurrentUser);
 
         return uriBuilder.build().toString();
@@ -75,9 +72,11 @@ public class FacebookLoginService {
 
         // build uri to verify *code*
         URIBuilder uriBuilder = new URIBuilder();
-        uriBuilder.setScheme(FB_URI_SCHEME).setHost("graph.facebook.com").setPath("/oauth/access_token")
-                .addParameter(FB_PARAM_CLIENT_ID, CLIENT_ID).addParameter(FB_PARAM_REDIRECT_URI, REDIRECT_URI)
-                .addParameter(FB_PARAM_CLIENT_SECRET, CLIENT_SECRET).addParameter(FB_PARAM_CODE, facebookCode);
+        uriBuilder.setScheme(FacebookConsts.URI_SCHEME).setHost(FacebookConsts.GRAPH_HOST)
+                .setPath("/oauth/access_token").addParameter(FacebookConsts.PARAM_CLIENT_ID, CLIENT_ID)
+                .addParameter(FacebookConsts.PARAM_REDIRECT_URI, REDIRECT_URI)
+                .addParameter(FacebookConsts.PARAM_CLIENT_SECRET, CLIENT_SECRET)
+                .addParameter(FacebookConsts.PARAM_CODE, facebookCode);
 
         try {
             // verify *code*
@@ -112,8 +111,9 @@ public class FacebookLoginService {
     public int logoutFacebookUser(FacebookUser user) {
         logger.info("Logout facebook user: " + user);
         URIBuilder uriBuilder = new URIBuilder();
-        uriBuilder.setScheme(FB_URI_SCHEME).setHost("graph.facebook.com").setPath("/me/permissions")
-                .setParameter("method", "delete").setParameter("access_token", user.getAccessToken());
+        uriBuilder.setScheme(FacebookConsts.URI_SCHEME).setHost(FacebookConsts.GRAPH_HOST)
+                .setPath(FacebookConsts.LOGOUT_PATH).setParameter("method", "delete")
+                .setParameter(FacebookConsts.PARAM_ACCESS_TOKEN, user.getAccessToken());
 
         try {
             URI uri = uriBuilder.build();
@@ -135,7 +135,7 @@ public class FacebookLoginService {
 
     private String getAccessTokenFromKeyValueString(String content) {
         StringHelper stringHelper = new StringHelper();
-        return stringHelper.getValue(content, "access_token");
+        return stringHelper.getValue(content, FacebookConsts.PARAM_ACCESS_TOKEN);
     }
 
     private String FB_PARAM_STATE() {

@@ -13,6 +13,7 @@ import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.api.FacebookProfile;
 import org.springframework.social.facebook.api.impl.FacebookTemplate;
 
+import pl.akiba.frontend.facebook.FacebookConsts;
 import pl.akiba.frontend.facebook.FacebookUserDTO;
 import pl.akiba.frontend.facebook.service.FacebookLoginService;
 
@@ -50,8 +51,9 @@ public class FacebookAuthenticationFilter extends UsernamePasswordAuthentication
         logger.info("Attempting authentication");
 
         // check if token in session matches token achieved form facebook
-        String tokenFromFacebook = request.getParameter("state");
-        String tokenStoredInSession = (String)request.getSession().getAttribute("uniqueFacebookLoginToken");
+        String tokenFromFacebook = request.getParameter(FacebookConsts.PARAM_STATE);
+        String tokenStoredInSession = (String)request.getSession().getAttribute(FacebookConsts.TOKEN_STORED_IN_SESSION_ATTR_NAME);
+        
         logger.info("tokenFromFacebook=" + tokenFromFacebook + ", tokenStoredInSession=" + tokenStoredInSession);
         if((tokenFromFacebook != null) && (tokenStoredInSession != null) && tokenStoredInSession.equals(tokenFromFacebook)) {
             logger.info("Token matches; tokenFromFacebook=" + tokenFromFacebook + ", tokenStoredInSession=" + tokenStoredInSession);
@@ -62,7 +64,7 @@ public class FacebookAuthenticationFilter extends UsernamePasswordAuthentication
         
         // user should be redirected here from facebook with *code* parameter
         if (request.getParameter("code") != null) {
-            String facebookCode = request.getParameter("code");
+            String facebookCode = request.getParameter(FacebookConsts.PARAM_CODE);
             String facebookAccessToken = facebookLoginService.endLoginProcess(facebookCode);
 
             // connect to facebook using current access token
