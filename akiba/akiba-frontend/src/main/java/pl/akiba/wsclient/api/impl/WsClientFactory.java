@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import pl.akiba.wsclient.client.DefaultExpenseClient;
 import pl.akiba.wsclient.client.DefaultKindClient;
+import pl.akiba.wsclient.client.DefaultProfileClient;
 import pl.akiba.wsclient.client.DefaultUserClient;
 import pl.akiba.wsclient.client.factory.JettyHttpClientConf.Builder;
 import pl.akiba.wsclient.client.factory.JettyHttpClientFactory;
@@ -59,6 +60,11 @@ public class WsClientFactory {
     public DefaultKindClient createDefaultKindClient() {
         HttpClient httpClient = prepareHttpClient();
         return new DefaultKindClient(WS_ENDPOINT, httpClient);
+    }
+    
+    public DefaultProfileClient createDefaultProfileClient() {
+        HttpClient httpClient = prepareHttpClient();
+        return new DefaultProfileClient(WS_ENDPOINT, httpClient);
     }
 
     private HttpClient prepareHttpClient() {

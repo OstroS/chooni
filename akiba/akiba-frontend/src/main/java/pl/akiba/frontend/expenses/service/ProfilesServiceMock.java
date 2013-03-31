@@ -15,28 +15,29 @@ import pl.akiba.wsclient.api.AkibaApi;
  * 
  * @author OstroS
  */
-@Component("profilesService")
-public class ProfilesService {
+@Component("profilesServiceMock")
+public class ProfilesServiceMock implements ProfilesService {
 
     @Autowired
     @Qualifier(value = "akibaApiMock")
     AkibaApi akibaApi;
 
-    private static final Logger logger = Logger.getLogger(ProfilesService.class.toString());
+    private static final Logger logger = Logger.getLogger(ProfilesServiceMock.class.toString());
 
-    /**
-     * TODO Mock method
-     * 
-     * @param user
-     *            Current user
-     * @return List of profiles for given user
+    /* (non-Javadoc)
+     * @see pl.akiba.frontend.expenses.service.ProfilesService#getAll(pl.akiba.model.entities.User)
      */
-    public List<Profile> prepareProfilesForUser(User user) {
+    @Override
+    public List<Profile> getAll(User user) {
         logger.info("Prepare profiles for user, " + user);
         return akibaApi.getProfileApi().getAll(user);
     }
 
-    Profile getProfile(long profileId) {
+    /* (non-Javadoc)
+     * @see pl.akiba.frontend.expenses.service.ProfilesService#getProfile(long)
+     */
+    @Override
+    public Profile getProfile(long profileId) {
         logger.info("Get profile by id=" + profileId);
         return akibaApi.getProfileApi().get(profileId);
     }
