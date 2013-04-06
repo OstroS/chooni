@@ -38,4 +38,10 @@ public class ProfilesServiceMock implements ProfilesService {
         logger.info("Get profile by id=" + profileId);
         return akibaApi.getProfileApi().get(profileId);
     }
+
+    @Override
+    public void add(User user, Profile profile) {
+        // TODO Auto-generated method stub
+        
+    }
 }

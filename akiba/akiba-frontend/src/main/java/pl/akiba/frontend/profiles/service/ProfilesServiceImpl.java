@@ -50,4 +50,15 @@ public class ProfilesServiceImpl implements ProfilesService {
         return profileClient.get(user.getId(), user.getAuthenticationCode(), profileId);
     }
 
+    @Override
+    public void add(User user, Profile profile) {
+        try {
+            profileClient.create(user.getId(), user.getAuthenticationCode(), profile);
+        } catch (StatusException | IOException | InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+    }
+
 }

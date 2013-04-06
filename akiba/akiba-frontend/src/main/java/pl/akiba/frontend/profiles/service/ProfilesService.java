@@ -21,4 +21,11 @@ public interface ProfilesService {
      */
     public abstract Profile get(User user, long profileId);
 
+    /**
+     * Add profile for given user
+     * @param user
+     * @param profile
+     */
+    public abstract void add(User user, Profile profile);
+    
 }
